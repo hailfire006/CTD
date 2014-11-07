@@ -1,11 +1,13 @@
 
+/*
+ * Helper functions for loading and caching images.
+ *  Access with getImage(imageCategory, imageName) -> returns Image
+ *  Ex: getImage('enemy', 'glarefish.png')
+ */
 // create variable to hold variables - avoid naming collisions
 var Images = {
 	IMAGE_BASE_PATH: 'images',
 	imageCache: [], // map String -> Image
-	getImage: function(entity) {
-		return getImage(entity.imageCategory, entity.imageName);
-	},
 	getImage: function(imageCategory, imageName) {
 		if (imageCategory && imageName) { // if both parameters defined
 			var imagePath = Images.IMAGE_BASE_PATH + '/' + imageCategory + '/' + imageName;
