@@ -8,7 +8,7 @@
  */
  
 ///// constants
-var RUN_INTERVAL = 100; // # ms between game frames
+var RUN_INTERVAL = 50; // # ms between game frames
 var BACKGROUND_COLOR = '#55A85B';
 
 ///// globals

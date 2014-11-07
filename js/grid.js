@@ -1,5 +1,5 @@
 
-// Depends on: entity.js, tile.js
+// Depends on: entity.js, tile.js, terrain.js
 
 /*
  * Grids are 2D arrays of Tiles
@@ -10,13 +10,18 @@ function makeGrid(width, height) {
 	// Avoid issues with non-positive widths & heights
 	width = Math.max(width, 1);
 	height = Math.max(height, 1);
+	// TODO tileWidth tileHeight
+	var tileWidth = 50;
+	var tileHeight = 50;
 	// Initialize grid as 2d array
 	var grid = new Array(width);
 	for (var i = 0; i < width; i++) {
 		grid[i] = new Array(height);
 		// initialize tiles
 		for (var j = 0; j < height; j++) {
-			grid[i][j] = makeTile(true);
+			var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
+			var tile = makeTile(true, grassTerrain);
+			grid[i][j] = tile;
 		}
 	}
 	// adding functions (fake OOP)

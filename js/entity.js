@@ -7,15 +7,16 @@
  *  draw(ctx): draws image specified by setImage(String,String)
  *  update(): does nothing, 'subclasses' can override to do something every game frame
  */
-function makeEntity(x, y, imageCategory, imageName) {
+// TODO consider making entities have free motion, but able to collide with tiles
+function makeEntity(gx, gy, imageCategory, imageName) {
 	var entity = {
-		// x & y are position within grid, used for physics
-		x: x,
-		y: y,
-		// TODO gx & gy are graphical position, where to actually draw on screen
+		// TODO x & y are position within grid, used for physics? possibly not needed here
+		// gx & gy are graphical position, where to draw on screen
+		gx: gx,
+		gy: gy,
 		image: Images.getImage(imageCategory, imageName),
 		draw: function (ctx) {
-			ctx.drawImage(this.image, this.x, this.y, this.sx, this.sy);
+			ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);
 		},
 		update: function (mod) {
 			// no-op, 'subclasses' can override

@@ -1,14 +1,17 @@
 
-// Depends on: entity.js
+// Depends on: entity.js, terrain.js
 
 /*
  * Tiles contain up to 1 Entity and may or may not be built on
- *  draw(ctx): calls draw(ctx) on contained Entity, if present
+ *  draw(ctx): calls draw(ctx) on contained Entity, if present, also draws terrain
  *  update(): calls update() on contained Entity, if present
  */
-function makeTile(buildable) {
+ // TODO actually use tiles in game logic
+function makeTile(buildable, terrain) {
 	var tile = {
 		buildable: buildable, // can towers be build on this tile?
+		terrain: terrain, // purely graphical, displays below contained entity
+		// TODO add terrain
 		setEntity: function(entity) {
 			this.entity = entity;
 		},
@@ -24,6 +27,9 @@ function makeTile(buildable) {
 		},
 		// draw & update just delegate draw & update to contained entity
 		draw: function(ctx) {
+			if (this.terrain) {
+				this.terrain.draw(ctx);
+			}
 			if (this.entity) {
 				this.entity.draw(ctx);
 			}

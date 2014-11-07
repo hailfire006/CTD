@@ -13,7 +13,8 @@ function makeTestEnemy(x, y) {
 	enemy.sx = 50;
 	enemy.sy = 50;
 	enemy.update = function (mod) {
-		enemy.x++;
+		enemy.gx += mod * 30;
+		// TODO use speed instead
 	}
 	// TODO auto set size from image? probably not
 	return enemy;
