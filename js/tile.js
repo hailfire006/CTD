@@ -11,35 +11,31 @@ function makeTile(buildable, terrain) {
 	var tile = {
 		buildable: buildable, // can towers be build on this tile?
 		terrain: terrain, // purely graphical, displays below contained entity
-		// TODO add terrain
-		setEntity: function(entity) {
-			this.entity = entity;
+		occupants: [],
+		// contained entities/occupant manipulation
+		addEntity: function(entity) {
+			this.occupants.push(entity);
 		},
-		// TODO will getEntity and hasEntity be useless?
-		getEntity: function() {
-			return this.entity;
+		getEntities: function() {
+			return this.occupants;
 		},
-		hasEntity: function() {
-			if (this.entity) {
-				return true;
-			}
-			return false;
+		removeEntity: function(targetEntity) {
+			return Utility.removeElementFromArray(this.occupants, targetEntity);
 		},
 		// draw & update just delegate draw & update to contained entity
 		draw: function(ctx) {
 			if (this.terrain) {
 				this.terrain.draw(ctx);
 			}
-			if (this.entity) {
-				this.entity.draw(ctx);
-			}
+			this.occupants.forEach(function(entity) {
+				entity.draw(ctx);
+			});
 		},
 		update: function(mod) {
-			if (this.entity) {
-				this.entity.update(mod);
-			}
+			this.occupants.forEach(function(entity) {
+				entity.update(mod);
+			});
 		}
-		// TODO deleteEntity?
 	};
 	return tile;
 }

@@ -8,7 +8,10 @@
  */
  
 ///// constants
+// PERFORMANCE
 var RUN_INTERVAL = 50; // # ms between game frames
+var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
+// AESTHETIC
 var BACKGROUND_COLOR = '#55A85B';
 
 ///// globals
@@ -21,10 +24,17 @@ var canvas = document.getElementById('gameCanvas');
 //functions
 function run() {
 	// update game state, draw game state, repeat
+	if (isPaused()) {
+		time = Date.now(); // avoid queueing up update
+		return;
+	}
     var secondsElapsed = (Date.now() - time) / 1000;
     update(secondsElapsed);
     draw();
     time = Date.now();
+}
+function isPaused() {
+	return !document.hasFocus();
 }
 function update(mod) {
 	grid.update(mod);
@@ -39,7 +49,7 @@ function clearScreen(ctx) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 function initGrid() {
-	grid.setEntity(makeTestEnemy(50,50), 5, 3);
+	grid.addEntity(makeTestEnemy(50,50));
 }
 function startGame() {
     setInterval(run, RUN_INTERVAL);
