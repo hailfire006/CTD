@@ -65,3 +65,14 @@ Image loading/caching code.
 Game constants
 ####utility.js
 Utility functions
+
+Grid Coordinates vs Graphical Coordinates
+=========================================
+
+The code references both **(gx, gy)** and **(tx, ty)** as coordinates. **(gx, gy)** refer to graphical coordinates, where on the canvas an entity is drawn. **(tx, ty)** refer to tile coordinates within a grid, where logically an entity exists in a grid.
+
+**(gx, gy)** is updated by **individual entities** as they move.
+
+**(tx, ty)** is updated **automatically by grids** as contained entities move. It is used to determine whether an entity is on-screen and whether an enemy is in attack range of a tower.
+
+The **(gx, gy)** ==> **(tx, ty)** conversion is done automatically by a grid with the **grid.graphicalToTileCoords(gx, gy)** function, and is used by the **grid.inBounds(tileCoords)** and **grid.getTileAtCoords(tileCoords)** functions.
