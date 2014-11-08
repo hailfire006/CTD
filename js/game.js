@@ -1,18 +1,11 @@
 
-// Depends on: grid.js
+// Depends on: grid.js, settings.js
 
 /*
  * Entrance point for the game application.
  *  draw(ctx): calls draw(ctx) on game grid, also draws HUD on top
  *  update(): calls update() on game grid
  */
- 
-///// constants
-// PERFORMANCE
-var RUN_INTERVAL = 50; // # ms between game frames
-var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
-// AESTHETIC
-var BACKGROUND_COLOR = '#55A85B';
 
 ///// globals
 var time = Date.now(); // last time run() was called

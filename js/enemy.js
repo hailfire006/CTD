@@ -1,6 +1,10 @@
 
 // Depends on: entity.js
 
+/*
+ * Enemy entities go here.
+ */
+
 function makeEnemy(x, y, imageName) {
 	var imageCategory = 'enemy';
 	var enemy = makeEntity(x, y, imageCategory, imageName);
