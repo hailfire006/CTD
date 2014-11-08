@@ -22,14 +22,16 @@ function makeTile(buildable, terrain) {
 		removeEntity: function(targetEntity) {
 			return Utility.removeElementFromArray(this.occupants, targetEntity);
 		},
-		// draw & update just delegate draw & update to contained entity
-		draw: function(ctx) {
-			if (this.terrain) {
-				this.terrain.draw(ctx);
-			}
+		// drawEntities & update just delegate draw & update to contained entity
+		drawEntities: function(ctx) {
 			this.occupants.forEach(function(entity) {
 				entity.draw(ctx);
 			});
+		},
+		drawTerrain: function(ctx) {
+			if (this.terrain) {
+				this.terrain.draw(ctx);
+			}
 		},
 		update: function(mod) {
 			this.occupants.forEach(function(entity) {

@@ -44,7 +44,14 @@ function makeGrid(width, height) {
 		for (var i = 0; i < grid.length; i++) {
 			for (var j = 0; j < grid[i].length; j++) {
 				var curTile = grid[i][j];
-				curTile.draw(ctx);
+				curTile.drawTerrain(ctx);
+			}
+		}
+		// ensure entities on multiple tiles are drawn ABOVE terrain
+		for (var i = 0; i < grid.length; i++) {
+			for (var j = 0; j < grid[i].length; j++) {
+				var curTile = grid[i][j];
+				curTile.drawEntities(ctx);
 			}
 		}
 	};
