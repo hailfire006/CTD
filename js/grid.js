@@ -71,7 +71,7 @@ function makeGrid(width, height) {
 			}
 		}
 	};
-	// TODO move entities
+	// move all entities in a tile
 	grid.updateEntitiesCoordinates = function(tile) {
 		var entities = tile.getEntities();
 		entities.forEach(function(entity) {
@@ -109,8 +109,4 @@ function makeGrid(width, height) {
 	};
 	return grid;
 }
-// TODO tile size?
 // TODO Sheng - flip width & height for iteration performance
-
-// TODO grid convert graphical point to grid tile
-// TODO grid convert grid tile to graphical point

@@ -28,10 +28,10 @@ function run() {
 		time = Date.now(); // avoid queueing up update
 		return;
 	}
-    var secondsElapsed = (Date.now() - time) / 1000;
-    update(secondsElapsed);
-    draw();
-    time = Date.now();
+	var secondsElapsed = (Date.now() - time) / 1000;
+	update(secondsElapsed);
+	draw();
+	time = Date.now();
 }
 function isPaused() {
 	return !document.hasFocus();
@@ -45,14 +45,14 @@ function draw() {
 	grid.draw(ctx);
 }
 function clearScreen(ctx) {
-    ctx.fillStyle = BACKGROUND_COLOR;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = BACKGROUND_COLOR;
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 function initGrid() {
 	grid.addEntity(makeTestEnemy(50,50));
 }
 function startGame() {
-    setInterval(run, RUN_INTERVAL);
+	setInterval(run, RUN_INTERVAL);
 	initGrid();
 }
 startGame();
