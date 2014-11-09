@@ -76,3 +76,15 @@ The code references both **(gx, gy)** and **(tx, ty)** as coordinates. **(gx, gy
 **(tx, ty)** is updated **automatically by grids** as contained entities move. It is used to determine whether an entity is on-screen and whether an enemy is in attack range of a tower.
 
 The **(gx, gy)** ==> **(tx, ty)** conversion is done automatically by a grid with the **grid.graphicalToTileCoords(gx, gy)** function, and is used by the **grid.inBounds(tileCoords)** and **grid.getTileAtCoords(tileCoords)** functions.
+
+Screenshot Explanation
+======================
+![Image of a 800x600 green rectangle, representing the canvas](/readme-images/game.png?raw=true)
+The game draws onto the canvas.
+
+![Image of a 800x600 green rectangle, with grass tiles and grid outline](/readme-images/grid.png?raw=true)
+The game contains a grid, which contain tiles with terrain. Each tile is at a particular set of coordinates (tx, ty) and all are the same width and height.
+
+![Image of a 800x600 green rectangle, with grass tiles and grid outline](/readme-images/enemy.png?raw=true)
+The tiles also contain entities, such as this glarefish enemy. Entities have their own coordinates (gx, gy) representing their top-left corner.  
+An entity's (gx, gy) coordinates are mapped to a (tx, ty) by the grid, in this case, the red border indicates the tile the entity belongs to.
