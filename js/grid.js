@@ -25,11 +25,6 @@ function makeGrid(width, height) {
 		}
 	}
 	// adding functions (fake OOP)
-	grid.inBounds = function(tileCoords) {
-		var tx = tileCoords.tx;
-		var ty = tileCoords.ty;
-		return tx >= 0 && tx < grid.length && ty >= 0 && ty < grid[0].length;
-	};
 	grid.addEntity = function(entity) {
 		var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
 		if (this.inBounds(tileCoords)) {
@@ -80,7 +75,7 @@ function makeGrid(width, height) {
 	};
 	// change the tile an entity belongs to based on its current (gx, gy)
 	grid.updateEntityCoordinates = function(oldTile, entity) {
-		// TODO determine tile by center
+		// TODO determine tile by center of entity, not top-left corner
 		var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
 		if (this.inBounds(tileCoords)) {
 			var newTile = this.getTileAtCoords(tileCoords);
@@ -95,12 +90,17 @@ function makeGrid(width, height) {
 	};
 	// graphical coordinates & tile coordinates conversions
 	grid.graphicalToTileCoords = function(gx, gy) {
-		var tx = Math.trunc(gx / tileWidth);
-		var ty = Math.trunc(gy / tileHeight);
+		var tx = Math.floor(gx / tileWidth);
+		var ty = Math.floor(gy / tileHeight);
 		return {
 			tx: tx,
 			ty: ty
 		};
+	};
+	grid.inBounds = function(tileCoords) {
+		var tx = tileCoords.tx;
+		var ty = tileCoords.ty;
+		return tx >= 0 && tx < grid.length && ty >= 0 && ty < grid[0].length;
 	};
 	grid.getTileAtCoords = function(tileCoords) {
 		var tx = tileCoords.tx;
