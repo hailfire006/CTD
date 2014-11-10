@@ -43,6 +43,9 @@ function clearScreen(ctx) {
 }
 function initGrid() {
 	grid.addEntity(makeTestEnemy(50,50));
+	var tower = makeTestTower();
+	grid.addEntity(tower);
+	tower.upgrade();
 }
 function startGame() {
 	setInterval(run, RUN_INTERVAL);
