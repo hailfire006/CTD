@@ -1,5 +1,5 @@
 
-// Depends on: entity.js, tile.js, terrain.js
+// Depends on: entity.js, tile.js, terrain.js, settings.js
 
 /*
  * Grids are 2D arrays of Tiles
@@ -40,6 +40,12 @@ function makeGrid(width, height) {
 			for (var j = 0; j < grid[i].length; j++) {
 				var curTile = grid[i][j];
 				curTile.drawTerrain(ctx);
+				if (SHOW_GRID) {
+					ctx.beginPath();
+					ctx.strokeStyle = "black";
+					ctx.rect(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
+					ctx.stroke();
+				}
 			}
 		}
 		// ensure entities on multiple tiles are drawn ABOVE terrain
@@ -47,6 +53,12 @@ function makeGrid(width, height) {
 			for (var j = 0; j < grid[i].length; j++) {
 				var curTile = grid[i][j];
 				curTile.drawEntities(ctx);
+				if (HIGHLIGHT_TILES_WITH_ENTITIES && curTile.occupants.length > 0) {
+					ctx.beginPath();
+					ctx.strokeStyle = "red";
+					ctx.rect(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
+					ctx.stroke();
+				}
 			}
 		}
 	};

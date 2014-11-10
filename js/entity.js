@@ -1,5 +1,5 @@
 
-// Depends on: images.js
+// Depends on: images.js, settings.js
 
 /*
  * Entities are contained inside tiles, they are enemies, towers and trees
@@ -17,6 +17,12 @@ function makeEntity(gx, gy, imageCategory, imageName) {
 		image: Images.getImage(imageCategory, imageName),
 		draw: function (ctx) {
 			ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);
+			if (HIGHLIGHT_ENTITY_HITBOXES) {
+				ctx.beginPath();
+				ctx.strokeStyle = "white";
+				ctx.rect(this.gx, this.gy, this.sx, this.sy);
+				ctx.stroke();
+			}
 		},
 		update: function (mod) {
 			// no-op, 'subclasses' can override
