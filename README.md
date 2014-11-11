@@ -44,7 +44,7 @@ Main methods: update(), draw()
 
 ####tile.js
 Tiles contain entities, have terrain, and may/may not be built upon.  
-Main methods: update(), drawTerrain() + drawEntities()
+Main methods: drawTerrain() + drawEntities()
 
 ####entity.js
 Base entity code, game entities act and are redrawn with update() and draw() every game frame.  

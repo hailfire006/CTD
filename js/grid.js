@@ -24,12 +24,14 @@ function makeGrid(width, height) {
             grid[i][j] = tile;
         }
     }
+    grid.entities = [], // used for drawing
     // adding functions (fake OOP)
     grid.addEntity = function(entity) {
         var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
         if (this.inBounds(tileCoords)) {
             var tile = grid.getTileAtCoords(tileCoords);
             tile.addEntity(entity);
+            grid.entities.push(entity);
             return true;
         }
         return false;
@@ -48,28 +50,31 @@ function makeGrid(width, height) {
                 }
             }
         }
-        // ensure entities on multiple tiles are drawn ABOVE terrain
-        for (var i = 0; i < grid.length; i++) {
-            for (var j = 0; j < grid[i].length; j++) {
-                var curTile = grid[i][j];
-                curTile.drawEntities(ctx);
-                if (HIGHLIGHT_TILES_WITH_ENTITIES && curTile.occupants.length > 0) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = "red";
-                    ctx.rect(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
-                    ctx.stroke();
+        if (HIGHLIGHT_TILES_WITH_ENTITIES) {
+            for (var i = 0; i < grid.length; i++) {
+                for (var j = 0; j < grid[i].length; j++) {
+                    var curTile = grid[i][j];
+                    if (curTile.occupants.length > 0) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = "red";
+                        ctx.rect(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
+                        ctx.stroke();
+                    }
                 }
             }
         }
+        // ensure entities on multiple tiles are drawn ABOVE terrain
+        for (var i = 0; i < grid.entities.length; i++) {
+            grid.entities[i].draw(ctx);
+        }
     };
     grid.update = function(mod) {
+        // TODO use grid's array of entities
         // update each tile's entities
-        for (var i = 0; i < grid.length; i++) {
-            for (var j = 0; j < grid[i].length; j++) {
-                var curTile = grid[i][j];
-                curTile.update(mod);
-            }
+        for (var i = 0; i < grid.entities.length; i++) {
+            grid.entities[i].update(mod);
         }
+        // TODO handle multiple tiles?
         // now update which tile the entities belong to
         for (var i = 0; i < grid.length; i++) {
             for (var j = 0; j < grid[i].length; j++) {
