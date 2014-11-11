@@ -10,9 +10,9 @@ function makeGrid(width, height) {
     // Avoid issues with non-positive widths & heights
     width = Math.max(width, 1);
     height = Math.max(height, 1);
-    // TODO tileWidth tileHeight
-    var tileWidth = 50;
-    var tileHeight = 50;
+    // square dimensions recommended
+    var tileWidth = TILE_WIDTH;
+    var tileHeight = TILE_HEIGHT;
     // Initialize grid as 2d array
     var grid = new Array(width);
     for (var i = 0; i < width; i++) {

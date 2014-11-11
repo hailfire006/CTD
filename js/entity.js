@@ -14,6 +14,8 @@ function makeEntity(gx, gy, imageCategory, imageName) {
         // gx & gy are graphical position, where to draw on screen
         gx: gx,
         gy: gy,
+        sx: TILE_WIDTH,
+        sy: TILE_HEIGHT,
         image: Images.getImage(imageCategory, imageName),
         draw: function (ctx) {
             ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);
