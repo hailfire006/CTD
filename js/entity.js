@@ -9,24 +9,24 @@
  */
 // TODO consider making entities have free motion, but able to collide with tiles
 function makeEntity(gx, gy, imageCategory, imageName) {
-	var entity = {
-		// TODO x & y are position within grid, used for physics? possibly not needed here
-		// gx & gy are graphical position, where to draw on screen
-		gx: gx,
-		gy: gy,
-		image: Images.getImage(imageCategory, imageName),
-		draw: function (ctx) {
-			ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);
-			if (HIGHLIGHT_ENTITY_HITBOXES) {
-				ctx.beginPath();
-				ctx.strokeStyle = "white";
-				ctx.rect(this.gx, this.gy, this.sx, this.sy);
-				ctx.stroke();
-			}
-		},
-		update: function (mod) {
-			// no-op, 'subclasses' can override
-		}
-	};
-	return entity;
+    var entity = {
+        // TODO x & y are position within grid, used for physics? possibly not needed here
+        // gx & gy are graphical position, where to draw on screen
+        gx: gx,
+        gy: gy,
+        image: Images.getImage(imageCategory, imageName),
+        draw: function (ctx) {
+            ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);
+            if (HIGHLIGHT_ENTITY_HITBOXES) {
+                ctx.beginPath();
+                ctx.strokeStyle = "white";
+                ctx.rect(this.gx, this.gy, this.sx, this.sy);
+                ctx.stroke();
+            }
+        },
+        update: function (mod) {
+            // no-op, 'subclasses' can override
+        }
+    };
+    return entity;
 }

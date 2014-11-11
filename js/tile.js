@@ -8,36 +8,36 @@
  */
  // TODO actually use tiles in game logic
 function makeTile(buildable, terrain) {
-	var tile = {
-		buildable: buildable, // can towers be build on this tile?
-		terrain: terrain, // purely graphical, displays below contained entity
-		occupants: [],
-		// contained entities/occupant manipulation
-		addEntity: function(entity) {
-			this.occupants.push(entity);
-		},
-		getEntities: function() {
-			return this.occupants;
-		},
-		removeEntity: function(targetEntity) {
-			return Utility.removeElementFromArray(this.occupants, targetEntity);
-		},
-		// drawEntities & update just delegate draw & update to contained entity
-		drawEntities: function(ctx) {
-			this.occupants.forEach(function(entity) {
-				entity.draw(ctx);
-			});
-		},
-		drawTerrain: function(ctx) {
-			if (this.terrain) {
-				this.terrain.draw(ctx);
-			}
-		},
-		update: function(mod) {
-			this.occupants.forEach(function(entity) {
-				entity.update(mod);
-			});
-		}
-	};
-	return tile;
+    var tile = {
+        buildable: buildable, // can towers be build on this tile?
+        terrain: terrain, // purely graphical, displays below contained entity
+        occupants: [],
+        // contained entities/occupant manipulation
+        addEntity: function(entity) {
+            this.occupants.push(entity);
+        },
+        getEntities: function() {
+            return this.occupants;
+        },
+        removeEntity: function(targetEntity) {
+            return Utility.removeElementFromArray(this.occupants, targetEntity);
+        },
+        // drawEntities & update just delegate draw & update to contained entity
+        drawEntities: function(ctx) {
+            this.occupants.forEach(function(entity) {
+                entity.draw(ctx);
+            });
+        },
+        drawTerrain: function(ctx) {
+            if (this.terrain) {
+                this.terrain.draw(ctx);
+            }
+        },
+        update: function(mod) {
+            this.occupants.forEach(function(entity) {
+                entity.update(mod);
+            });
+        }
+    };
+    return tile;
 }

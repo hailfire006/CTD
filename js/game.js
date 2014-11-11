@@ -16,39 +16,39 @@ var canvas = document.getElementById('gameCanvas');
 
 //functions
 function run() {
-	// update game state, draw game state, repeat
-	if (isPaused()) {
-		time = Date.now(); // avoid queueing up update
-		return;
-	}
-	var secondsElapsed = (Date.now() - time) / 1000;
-	update(secondsElapsed);
-	draw();
-	time = Date.now();
+    // update game state, draw game state, repeat
+    if (isPaused()) {
+        time = Date.now(); // avoid queueing up update
+        return;
+    }
+    var secondsElapsed = (Date.now() - time) / 1000;
+    update(secondsElapsed);
+    draw();
+    time = Date.now();
 }
 function isPaused() {
-	return !document.hasFocus();
+    return !document.hasFocus();
 }
 function update(mod) {
-	grid.update(mod);
+    grid.update(mod);
 }
 function draw() {
-	var ctx = canvas.getContext("2d");
-	clearScreen(ctx);
-	grid.draw(ctx);
+    var ctx = canvas.getContext("2d");
+    clearScreen(ctx);
+    grid.draw(ctx);
 }
 function clearScreen(ctx) {
-	ctx.fillStyle = BACKGROUND_COLOR;
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = BACKGROUND_COLOR;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 function initGrid() {
-	grid.addEntity(makeTestEnemy(50,50));
-	var tower = makeTestTower();
-	grid.addEntity(tower);
-	tower.upgrade();
+    grid.addEntity(makeTestEnemy(50,50));
+    var tower = makeTestTower();
+    grid.addEntity(tower);
+    tower.upgrade();
 }
 function startGame() {
-	setInterval(run, RUN_INTERVAL);
-	initGrid();
+    setInterval(run, RUN_INTERVAL);
+    initGrid();
 }
 startGame();
