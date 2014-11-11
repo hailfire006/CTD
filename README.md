@@ -52,8 +52,11 @@ Main methods: update(), draw()
 ####enemy.js
 Special entities that are enemies. Enemies run along the path.  
 Main methods: update(), draw()
+####projectile.js
+Special entities that are projectiles. Projectiles are fired by towers and have special collision handling.  
+Main methods: update(), draw()
 ####tower.js
-Special entities that are towers. Towers attack enemies.  
+Special entities that are towers. Towers attack enemies by firing projectiles.  
 Main methods: update(), draw()
 ####terrain.js
 Not quite entities, terrain are purely graphical flavor shown at the bottom of tiles.  
