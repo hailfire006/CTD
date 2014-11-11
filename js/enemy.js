@@ -5,15 +5,15 @@
  * Enemy entities go here.
  */
 
-function makeEnemy(x, y, imageName) {
+function makeEnemy(gx, gy, imageName) {
     var imageCategory = 'enemy';
-    var enemy = makeEntity(x, y, imageCategory, imageName);
+    var enemy = makeEntity(gx, gy, imageCategory, imageName);
     return enemy;
 }
 
 // TODO remove testing code when real enemies are done
-function makeTestEnemy(x, y) {
-    var enemy = makeEnemy(x, y, 'glarefish.png');
+function makeTestEnemy(gx, gy) {
+    var enemy = makeEnemy(gx, gy, 'glarefish.png');
     enemy.update = function (mod) {
         enemy.gx += mod * 30;
         // TODO use speed instead

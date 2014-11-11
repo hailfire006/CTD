@@ -88,16 +88,21 @@ function makeGrid(width, height) {
     // change the tile an entity belongs to based on its current (gx, gy)
     grid.updateEntityCoordinates = function(oldTile, entity) {
         // TODO determine tile by center of entity, not top-left corner
-        var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
+        var entityCenterX = entity.gx + entity.sx / 2;
+        var entityCenterY = entity.gy + entity.sy / 2;
+        var tileCoords = this.graphicalToTileCoords(entityCenterX, entityCenterY);
         if (this.inBounds(tileCoords)) {
             var newTile = this.getTileAtCoords(tileCoords);
             if (oldTile !== newTile) {
-                oldTile.removeEntity(entity);
-                newTile.addEntity(entity);
+                // TODO this handles enemies moving offscreen, not enemies moving onscreen
+                if (newTile) { // if not moving offscreen
+                    oldTile.removeEntity(entity);
+                    newTile.addEntity(entity);
+                }
             }
-        } else {
-            // TODO is this right? code internally w/ offscreen tiles?
+        } else { // go offscreen = delete
             oldTile.removeEntity(entity);
+            Utility.removeElementFromArray(this.entities, entity);
         }
     };
     // graphical coordinates & tile coordinates conversions
