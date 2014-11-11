@@ -12,6 +12,7 @@ function makeEntity(gx, gy, imageCategory, imageName) {
     var entity = {
         // TODO x & y are position within grid, used for physics? possibly not needed here
         // gx & gy are graphical position, where to draw on screen
+        //container: undefined,
         gx: gx,
         gy: gy,
         sx: TILE_WIDTH,

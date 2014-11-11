@@ -32,6 +32,7 @@ function makeGrid(width, height) {
             var tile = grid.getTileAtCoords(tileCoords);
             tile.addEntity(entity);
             grid.entities.push(entity);
+            entity.grid = this;
             return true;
         }
         return false;
