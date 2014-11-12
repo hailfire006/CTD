@@ -34,8 +34,8 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     // TODO add tower.update check if there are enemies within the tiles in range, then tower.fire()
     return tower;
 }
-function makeTestTower() {
-    var tower = makeTower(50,200,"glarefish.png", 2, 1.5);
+function makeTestTower(gx,gy) {
+    var tower = makeTower(gx,gy,"glarefish.png", 2, 1.5);
     return tower;
 }
 
