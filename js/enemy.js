@@ -8,6 +8,7 @@
 function makeEnemy(gx, gy, imageName) {
     var imageCategory = 'enemy';
     var enemy = makeEntity(gx, gy, imageCategory, imageName);
+    enemy.health = 1;
     return enemy;
 }
 

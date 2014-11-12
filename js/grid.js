@@ -37,6 +37,29 @@ function makeGrid(width, height) {
         }
         return false;
     };
+    grid.removeEntity = function(entity) {
+        Utility.removeElementFromArray(this.entities, entity);
+        // remove from tile
+        for (var i = 0; i < grid.length; i++) {
+            for (var j = 0; j < grid[i].length; j++) {
+                var curTile = grid[i][j];
+                var curOccupants = curTile.getEntities();
+                Utility.removeElementFromArray(curOccupants, entity);
+            }
+        }
+    };
+    grid.getFirstEnemy = function(gx, gy) {
+        var tileCoords = this.graphicalToTileCoords(gx, gy);
+        if (this.inBounds(tileCoords)) {
+            var tile = grid.getTileAtCoords(tileCoords);
+            var entities = tile.getEntities();
+            for (var i = 0; i < entities.length; i++) {
+                if (entities[i].health) { // has health = is enemy
+                    return entities[i];
+                }
+            }
+        }
+    };
     // draw & update just send draw & update function calls to every contained tile
     grid.draw = function(ctx) {
         for (var i = 0; i < grid.length; i++) {
