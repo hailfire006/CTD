@@ -18,6 +18,10 @@ function makeTestEnemy(gx, gy) {
     enemy.update = function (mod) {
         enemy.gx += mod * 30;
         // TODO use speed instead
+        if (enemy.health <= 0) {
+            // TODO move into generic
+            grid.removeEntity(this);
+        }
     }
     return enemy;
 }
