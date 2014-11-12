@@ -5,22 +5,37 @@
  * Tower entities go here.
  */
 
-function makeTower(gx, gy, imageName) {
+function makeTower(gx, gy, imageName, range, coolDown) {
     var imageCategory = 'tower';
+    // TODO add tower.range fire within tower.range
     var tower = makeEntity(gx, gy, imageCategory, imageName);
+    tower.coolDown = coolDown;
+    tower.coolDownTimer = 0;
     tower.upgrade = function () {
-        tower.imageName = "grass.png";
+        // TODO upgrade stats, change image
     };
+    tower.fire = function () {
+        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
+        // fire to the right
+        var targetTilex = towerTile.tx + 6;
+        var targetTiley = towerTile.ty + 7;
+        var targetx = targetTilex * TILE_WIDTH; 
+        var targety = targetTiley * TILE_HEIGHT;
+        var projectile = makeTestProjectile(this,targetx,targety);
+        grid.addEntity(projectile);
+    }
+    tower.update = function (mod) {
+        tower.coolDownTimer -= mod;
+        if (tower.coolDownTimer <= 0) {
+            tower.fire();
+            tower.coolDownTimer += tower.coolDown;
+        }
+    };
+    // TODO add tower.update check if there are enemies within the tiles in range, then tower.fire()
     return tower;
 }
 function makeTestTower() {
-    var tower = makeTower(50,200,"glarefish.png");
-    tower.update = function (mod) {
-        //this.gx += 40 * mod;
-        //this.gy += 20 * mod;
-    };
-    tower.sx = 60;
-    tower.sy = 60;
+    var tower = makeTower(50,200,"glarefish.png", 2, 1.5);
     return tower;
 }
 
