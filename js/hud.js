@@ -10,10 +10,15 @@ var Ui = {
 
 // TODO get HUD working
 
+// TODO allow clicking on grid - don't deselect menu if click on grid
+// TODO don't collision check if not in hud area
+
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     var button = {
         x: x,
         y: y,
+        width: 50,
+        height: 50,
         image: Images.getImage(imageCategory, imageName),
         hovered: false, // whether mouse is hovering over this
         selected: false, // whether mouse clicked this
@@ -49,8 +54,6 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
             }
         }
     };
-    button.width = button.image.width;
-    button.height = button.image.height;
     return button;
 }
 
