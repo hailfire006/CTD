@@ -1,5 +1,5 @@
 
-// Depends on: grid.js, settings.js
+// Depends on: hud.js, grid.js, settings.js
 
 /*
  * Entrance point for the game application.
@@ -36,6 +36,7 @@ function draw() {
     var ctx = canvas.getContext("2d");
     clearScreen(ctx);
     grid.draw(ctx);
+    drawHud(ctx);
 }
 function clearScreen(ctx) {
     ctx.fillStyle = BACKGROUND_COLOR;

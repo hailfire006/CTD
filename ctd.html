@@ -6,24 +6,28 @@
     <title>CTD: Countdown Tower Defense</title>
 </head>
 <body>
+	<span>
     <canvas id="gameCanvas" width="800" height="600"
         style="border:1px solid #000000;">
     </canvas>
+	</span>
 
     <!-- Various javascript utility functions always included first -->
-    <script src="js/utility.js"></script>
+    <script src="js/core/utility.js"></script>
     <!-- Configuration -->
-    <script src="js/settings.js"></script>
-    <script src="js/images.js"></script>
+    <script src="js/core/settings.js"></script>
+    <script src="js/core/images.js"></script>
     <!-- Entities & Terrain -->
-    <script src="js/entity.js"></script>
+    <script src="js/core/entity.js"></script>
     <script src="js/enemy.js"></script>
     <script src="js/projectile.js"></script>
     <script src="js/tower.js"></script>
     <script src="js/terrain.js"></script>
     <!-- Entity Containers -->
-    <script src="js/tile.js"></script>
-    <script src="js/grid.js"></script>
+    <script src="js/core/tile.js"></script>
+    <script src="js/core/grid.js"></script>
+	<!-- HUD right before game -->
+    <script src="js/hud.js"></script>
     <!-- Game always included last, entrance point -->
     <script src="js/game.js"></script>
 </body>
