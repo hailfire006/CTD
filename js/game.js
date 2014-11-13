@@ -9,7 +9,7 @@
 
 ///// globals
 var time = Date.now(); // last time run() was called
-var grid = makeGrid(16, 12);
+var grid = makeGrid(16 - 2, 12);
 
 //canvas - this might be used by other js files
 var canvas = document.getElementById('gameCanvas');
@@ -55,5 +55,6 @@ function initGrid() {
 function startGame() {
     setInterval(run, RUN_INTERVAL);
     initGrid();
+    initHud();
 }
 startGame();

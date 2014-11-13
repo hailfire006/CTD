@@ -35,7 +35,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     return tower;
 }
 function makeTestTower(gx,gy) {
-    var tower = makeTower(gx,gy,"glarefish.png", 2, 1.5);
+    var tower = makeTower(gx,gy,"fireball.png", 2, 1.5);
     return tower;
 }
 
