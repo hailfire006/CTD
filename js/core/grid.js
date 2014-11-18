@@ -20,7 +20,14 @@ function makeGrid(width, height) {
         // initialize tiles
         for (var j = 0; j < height; j++) {
             var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
-            var tile = makeTile(true, grassTerrain);
+            var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
+	    var random = Math.random()
+	    if (random > 0.5) {
+		var tile = makeTile(true, grassTerrain);
+	    } else {
+		var tile = makeTile(true, rockTerrain);
+	    }
+	    
             grid[i][j] = tile;
         }
     }
