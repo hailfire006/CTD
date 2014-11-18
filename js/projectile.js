@@ -36,7 +36,7 @@ function makeSprayProjectile(tower,targetx,targety) {
     return projectile;
 }
 function makeLightningProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",200, 10);
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",500, 10);
     return projectile;
 }
 // TODO projectiles

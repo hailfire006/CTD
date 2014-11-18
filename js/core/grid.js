@@ -22,7 +22,7 @@ function makeGrid(width, height) {
             var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
             var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
             var random = Math.random();
-            if (random > 0.5) {
+            if (random > 0.1) {
                 var tile = makeTile(true, grassTerrain);
             } else {
                 var tile = makeTile(true, rockTerrain);
