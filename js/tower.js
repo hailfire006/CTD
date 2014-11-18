@@ -74,12 +74,12 @@ function makeTower(gx, gy, imageName, range, coolDown) {
         return targetCoords;
     };
     tower.makeProjectile = function (gx, gy) {
-        return makeTestProjectile(this, gx, gy);
+        return makeTestFireProjectile(this, gx, gy);
     };
     // TODO add tower.update check if there are enemies within the tiles in range, then tower.fire()
     return tower;
 }
-function makeTestTower(gx,gy) {
+function makeTestFireTower(gx,gy) {
     var tower = makeTower(gx,gy,"fireball.png", 2, 1.5);
     return tower;
 }
@@ -90,9 +90,12 @@ function makeTestSprayTower(gx,gy) {
         var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
         return randomTarget;
     };
+    tower.makeProjectile = function (gx, gy) {
+        return makeSprayProjectile(tower, gx, gy)
+    }
     return tower;
 }
-function makeTestRocketTower(gx,gy) {
+function makeTestLightningTower(gx,gy) {
     var tower = makeTower(gx,gy,"glarefish.png",2,1.5)
     tower.getTargetTile = function() {
         var possibleTargets = this.getAllCoordsInSquareRange(1);
@@ -100,7 +103,7 @@ function makeTestRocketTower(gx,gy) {
         return randomTarget;
     };
     tower.makeProjectile = function (gx, gy) {
-        return makeFishProjectile(tower, gx, gy)
+        return makeLightningProjectile(tower, gx, gy)
     }
     return tower;
 }

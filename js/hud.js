@@ -98,7 +98,7 @@ function clickOnGrid(mouseX, mouseY) {
     gy = graphicalCoords.gy;
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'fireball') {
-            grid.addEntity(makeTestTower(gx, gy));
+            grid.addEntity(makeTestFireTower(gx, gy));
         } else if (Ui.currentChoice === 'bluefire') {
             grid.addEntity(makeTestSprayTower(gx, gy));
         } else if (Ui.currentChoice === 'glarefish') {

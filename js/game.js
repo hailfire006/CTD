@@ -49,8 +49,8 @@ function initGrid() {
     grid.addEntity(makeTestEnemy(350,250));
     
     
-    grid.addEntity(makeTestTower(50,100));
-    grid.addEntity(makeTestTower(50,200));
+    grid.addEntity(makeTestFireTower(50,100));
+    grid.addEntity(makeTestFireTower(50,200));
 }
 function startGame() {
     setInterval(run, RUN_INTERVAL);
