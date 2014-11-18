@@ -107,7 +107,7 @@ function clickOnGrid(mouseX, mouseY) {
         } else if (Ui.currentChoice === 'lightningbolt') {
             grid.addEntity(makeTestLightningTower(gx, gy));        
         } else if (Ui.currentChoice === 'glarefish') {
-            grid.addEntity(makeTestEnemy(gx, gy));
+            grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
             // TODO delete tower

@@ -43,10 +43,10 @@ function clearScreen(ctx) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 function initGrid() {
-    grid.addEntity(makeTestEnemy(300,450));
-    grid.addEntity(makeTestEnemy(150,150));
-    grid.addEntity(makeTestEnemy(350,50));
-    grid.addEntity(makeTestEnemy(350,250));
+    grid.addEntity(makeGlarefish(300,450));
+    grid.addEntity(makeGlarefish(150,150));
+    grid.addEntity(makeGlarefish(350,50));
+    grid.addEntity(makeGlarefish(350,250));
     
     
     grid.addEntity(makeTestFireTower(50,100));
