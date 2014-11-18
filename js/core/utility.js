@@ -14,6 +14,14 @@ var Utility = {
         }
         return false;
     },
+    // Removes an element at an index in an array, returns removed element
+    removeElementAtIndexInArray: function (array, index) {
+        if (array) {
+            var removed = array[index];
+            array.splice(index, 1);
+            return removed;
+        }
+    },
     // Finds the index of an element in an array, or returns -1 if not found
     getIndexInArray: function (array, target) {
         if (array) {
