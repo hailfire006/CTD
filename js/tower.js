@@ -83,5 +83,15 @@ function makeTestTower(gx,gy) {
     var tower = makeTower(gx,gy,"fireball.png", 2, 1.5);
     return tower;
 }
+function makeTestSprayTower(gx,gy) {
+    var tower = makeTower(gx,gy,"bluefire.png", 2, 1.5);
+    tower.getTargetTile = function() {
+        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
+        var possibleTargets = this.getAllCoordsInSquareRange(1);
+        var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
+        return randomTarget;
+    };
+    return tower;
+}
 
 // TODO towers
