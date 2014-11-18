@@ -21,13 +21,12 @@ function makeGrid(width, height) {
         for (var j = 0; j < height; j++) {
             var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
             var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
-	    var random = Math.random()
-	    if (random > 0.5) {
-		var tile = makeTile(true, grassTerrain);
-	    } else {
-		var tile = makeTile(true, rockTerrain);
-	    }
-	    
+            var random = Math.random();
+            if (random > 0.5) {
+                var tile = makeTile(true, grassTerrain);
+            } else {
+                var tile = makeTile(true, rockTerrain);
+            }
             grid[i][j] = tile;
         }
     }
@@ -45,6 +44,18 @@ function makeGrid(width, height) {
             return true;
         }
         return false;
+    };
+    grid.removeEntityAt = function(tileCoords) {
+        if (this.inBounds(tileCoords)) {
+            var tile = grid.getTileAtCoords(tileCoords);
+            var occupants = tile.getEntities();
+            console.log(occupants);
+            if (occupants.length > 0) {
+                var entity = Utility.removeElementAtIndexInArray(occupants, 0);
+                Utility.removeElementFromArray(this.entities, entity);
+                return entity;
+            }
+        }
     };
     grid.removeEntity = function(entity) {
         Utility.removeElementFromArray(this.entities, entity);
@@ -152,15 +163,15 @@ function makeGrid(width, height) {
             ty: ty
         };
     };
-	// gives (gx, gy) for TOP-LEFT corner
-	grid.tileToGraphicalCoords = function(tx, ty) {
+    // gives (gx, gy) for TOP-LEFT corner
+    grid.tileToGraphicalCoords = function(tx, ty) {
         var gx = tx * TILE_WIDTH; 
         var gy = ty * TILE_HEIGHT;
-		return {
-			gx: gx,
-			gy: gy
-		};
-	};
+        return {
+            gx: gx,
+            gy: gy
+        };
+    };
     grid.inBounds = function(tileCoords) {
         var tx = tileCoords.tx;
         var ty = tileCoords.ty;

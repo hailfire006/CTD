@@ -64,19 +64,28 @@ function drawHud(ctx) {
     });
 }
 
+function addMenuButton(hudTileX, hudTileY, imageCategory, imageName, callback) {
+    var hudGraphicalX = (grid.width + hudTileX) * TILE_WIDTH;
+    var hudGraphicalY = hudTileY * TILE_WIDTH;
+    var button = makeButton(hudGraphicalX, hudGraphicalY, imageCategory, imageName, callback);
+    Ui.buttons.push(button);
+}
+
 function addMenuButtons() {
     var hudX = grid.width * TILE_WIDTH;
     // TODO less hardcoding
-    var placeFireballTower = makeButton(hudX, 0, 'tower', 'fireball.png',
-        function() {
-            Ui.currentChoice = 'fireball';
-        });
-    Ui.buttons.push(placeFireballTower);
-    var placeBlueFireTower = makeButton(hudX + TILE_WIDTH, 0, 'tower', 'bluefire.png',
-        function() {
-            Ui.currentChoice = 'bluefire'; // TODO constants...
-        });
-    Ui.buttons.push(placeBlueFireTower);
+    addMenuButton(0, 0, 'tower', 'fireball.png',function() {
+        Ui.currentChoice = 'fireball';
+    });
+    addMenuButton(1, 0, 'tower', 'bluefire.png',function() {
+        Ui.currentChoice = 'bluefire';
+    });
+    addMenuButton(0, 3, 'enemy', 'glarefish.png',function() {
+        Ui.currentChoice = 'glarefish';
+    });
+    addMenuButton(0, 5, 'interface', 'axehammer.png',function() {
+        Ui.currentChoice = 'delete';
+    });
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -92,6 +101,11 @@ function clickOnGrid(mouseX, mouseY) {
             grid.addEntity(makeTestTower(gx, gy));
         } else if (Ui.currentChoice === 'bluefire') {
             grid.addEntity(makeTestSprayTower(gx, gy));
+        } else if (Ui.currentChoice === 'glarefish') {
+            grid.addEntity(makeTestEnemy(gx, gy));
+        } else if (Ui.currentChoice === 'delete') {
+            grid.removeEntityAt(tileCoords);
+            // TODO delete tower
         }
     }
 }
@@ -102,6 +116,7 @@ function addEventListeners(canvas) {
         var mouseX = event.pageX - canvas.offsetLeft;
         var mouseY = event.pageY - canvas.offsetTop;
         if (mouseX > grid.width * TILE_WIDTH) {
+            delete Ui.currentChoice;
             Ui.buttons.forEach(function(button) {
                 button.tryClick(mouseX, mouseY);
             });
