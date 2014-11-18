@@ -6,6 +6,7 @@
 // Variables inside Ui variable to avoid name collisions
 var Ui = {
     buttons: []
+    // currentChoice:
 };
 
 // TODO get HUD working
@@ -65,13 +66,37 @@ function drawHud(ctx) {
 
 function addMenuButtons() {
     var hudX = grid.width * TILE_WIDTH;
+    // TODO less hardcoding
     var placeFireballTower = makeButton(hudX, 0, 'tower', 'fireball.png',
         function() {
-            console.log('fireball selected!');
+            Ui.currentChoice = 'fireball';
         });
     Ui.buttons.push(placeFireballTower);
+    var placeBlueFireTower = makeButton(hudX + TILE_WIDTH, 0, 'tower', 'bluefire.png',
+        function() {
+            Ui.currentChoice = 'bluefire'; // TODO constants...
+        });
+    Ui.buttons.push(placeBlueFireTower);
 }
 
+function clickOnGrid(mouseX, mouseY) {
+    // place tower at top-left corner
+    var gx = mouseX;
+    var gy = mouseY;
+    var tileCoords = grid.graphicalToTileCoords(gx, gy);
+    var graphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
+    gx = graphicalCoords.gx;
+    gy = graphicalCoords.gy;
+    if (Ui.currentChoice) {
+        if (Ui.currentChoice === 'fireball') {
+            grid.addEntity(makeTestTower(gx, gy));
+        } else if (Ui.currentChoice === 'bluefire') {
+            grid.addEntity(makeTestSprayTower(gx, gy));
+        }
+    }
+}
+
+// TODO prevent multiselect/multiclick
 function addEventListeners(canvas) {
     canvas.addEventListener('click', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;
@@ -80,6 +105,8 @@ function addEventListeners(canvas) {
             Ui.buttons.forEach(function(button) {
                 button.tryClick(mouseX, mouseY);
             });
+        } else {
+            clickOnGrid(mouseX, mouseY);
         }
     });
     canvas.addEventListener('mousemove', function(event) {
@@ -88,6 +115,7 @@ function addEventListeners(canvas) {
         Ui.buttons.forEach(function(button) {
             button.tryMouseOver(mouseX, mouseY);
         });
+        // TODO highlight current tile in grid if tower selected
     });
 }
 
