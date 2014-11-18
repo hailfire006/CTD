@@ -55,10 +55,8 @@ function makeTower(gx, gy, imageName, range, coolDown) {
         // TODO upgrade stats, change image
     };
     tower.fire = function () {
-        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
-        // fire to the right
-		var targetCoords = this.getRelativeTileCoords(6, 7);
-        var projectile = makeTestProjectile(this, targetCoords.gx, targetCoords.gy);
+        var targetTile = this.getTargetTile();
+        var projectile = this.makeProjectile(targetTile.gx, targetTile.gy);
         grid.addEntity(projectile);
     };
     tower.update = function (mod) {
@@ -67,6 +65,16 @@ function makeTower(gx, gy, imageName, range, coolDown) {
             tower.fire();
             tower.coolDownTimer += tower.coolDown;
         }
+    };
+    // Should be overwritten by towers
+    tower.getTargetTile = function() {
+        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
+        // fire to the right
+        var targetCoords = this.getRelativeTileCoords(6, 7);
+        return targetCoords;
+    };
+    tower.makeProjectile = function (gx, gy) {
+        return makeTestProjectile(this, gx, gy);
     };
     // TODO add tower.update check if there are enemies within the tiles in range, then tower.fire()
     return tower;

@@ -64,7 +64,8 @@ function drawHud(ctx) {
 }
 
 function addMenuButtons() {
-    var placeFireballTower = makeButton(14 * TILE_WIDTH, 0, 'tower', 'fireball.png',
+    var hudX = grid.width * TILE_WIDTH;
+    var placeFireballTower = makeButton(hudX, 0, 'tower', 'fireball.png',
         function() {
             console.log('fireball selected!');
         });
@@ -75,9 +76,11 @@ function addEventListeners(canvas) {
     canvas.addEventListener('click', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;
         var mouseY = event.pageY - canvas.offsetTop;
-        Ui.buttons.forEach(function(button) {
-            button.tryClick(mouseX, mouseY);
-        });
+        if (mouseX > grid.width * TILE_WIDTH) {
+            Ui.buttons.forEach(function(button) {
+                button.tryClick(mouseX, mouseY);
+            });
+        }
     });
     canvas.addEventListener('mousemove', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;

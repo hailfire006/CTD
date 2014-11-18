@@ -24,8 +24,8 @@ function makeGrid(width, height) {
             grid[i][j] = tile;
         }
     }
-	grid.width = width;
-	grid.height = height;
+    grid.width = width;
+    grid.height = height;
     grid.entities = [], // used for drawing
     // adding functions (fake OOP)
     grid.addEntity = function(entity) {
