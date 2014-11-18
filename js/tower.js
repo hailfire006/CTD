@@ -96,7 +96,7 @@ function makeTestSprayTower(gx,gy) {
     return tower;
 }
 function makeTestLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"glarefish.png",2,1.5)
+    var tower = makeTower(gx,gy,"lightningbolt.png",2,1.5)
     tower.getTargetTile = function() {
         var possibleTargets = this.getAllCoordsInSquareRange(1);
         var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];

@@ -80,6 +80,9 @@ function addMenuButtons() {
     addMenuButton(1, 0, 'tower', 'bluefire.png',function() {
         Ui.currentChoice = 'bluefire';
     });
+    addMenuButton(0, 1, 'tower', 'lightningbolt.png', function() {
+        Ui.currentChoice = 'lightningbolt'; 
+    });
     addMenuButton(0, 3, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });
@@ -101,6 +104,8 @@ function clickOnGrid(mouseX, mouseY) {
             grid.addEntity(makeTestFireTower(gx, gy));
         } else if (Ui.currentChoice === 'bluefire') {
             grid.addEntity(makeTestSprayTower(gx, gy));
+        } else if (Ui.currentChoice === 'lightningbolt') {
+            grid.addEntity(makeTestLightningTower(gx, gy));        
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeTestEnemy(gx, gy));
         } else if (Ui.currentChoice === 'delete') {
