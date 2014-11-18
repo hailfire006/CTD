@@ -86,11 +86,22 @@ function makeTestTower(gx,gy) {
 function makeTestSprayTower(gx,gy) {
     var tower = makeTower(gx,gy,"bluefire.png", 2, 1.5);
     tower.getTargetTile = function() {
-        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
         var possibleTargets = this.getAllCoordsInSquareRange(1);
         var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
         return randomTarget;
     };
+    return tower;
+}
+function makeTestRocketTower(gx,gy) {
+    var tower = makeTower(gx,gy,"glarefish.png",2,1.5)
+    tower.getTargetTile = function() {
+        var possibleTargets = this.getAllCoordsInSquareRange(1);
+        var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
+        return randomTarget;
+    };
+    tower.makeProjectile = function (gx, gy) {
+        return makeFishProjectile(tower, gx, gy)
+    }
     return tower;
 }
 
