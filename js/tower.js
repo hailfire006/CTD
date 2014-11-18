@@ -14,12 +14,41 @@ function makeTower(gx, gy, imageName, range, coolDown) {
 	// tower helper functions
 	// Returns (gx, gy) for the tile offset relative to tower's tile
 	tower.getRelativeTileCoords = function(tileOffsetX, tileOffsetY) {
-        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
-        var targetTilex = towerTile.tx + tileOffsetX;
-        var targetTiley = towerTile.ty + tileOffsetY;
-        var targetX = targetTilex * TILE_WIDTH; 
-        var targetY = targetTiley * TILE_HEIGHT;
-		return {gx: targetX, gy: targetY};
+        var towerTile = grid.graphicalToTileCoords(tower.gx, tower.gy);
+        var targetTileX = towerTile.tx + tileOffsetX;
+        var targetTileY = towerTile.ty + tileOffsetY;
+        var graphicalCoords = grid.tileToGraphicalCoords(targetTileX, targetTileY);
+		return graphicalCoords;
+	};
+	// Returns array of (gx, gy) for every tile in a given range, AND are in grid bounds
+	tower.getAllCoordsInSquareRange = function(range) {
+        var towerTile = grid.graphicalToTileCoords(tower.gx, tower.gy);
+		var towerTileX = towerTile.tx;
+		var towerTileY = towerTile.ty;
+		var coordsInRange = []; // graphical coords
+		// Look in a square around tower tile
+		if (range >= 0) {
+			// top-left corner = (towerTileX - range, towerTileY - range)
+			var startTileX = Math.max(0, towerTileX - range);
+			var startTileY = Math.max(0, towerTileY - range);
+			// bottom-right corner = (towerTileX + range, towerTileY + range)
+			var endTileX = Math.min(grid.width, towerTileX + range);
+			var endTileY = Math.min(grid.height, towerTileY + range);
+			// TODO add each tile in range ONLY if in grid bounds
+			for (var tileX = startTileX; tileX <= endTileX; tileX++) {
+				for (var tileY = startTileY; tileY <= endTileY; tileY++) {
+					var curTileCoords = {
+						tx: tileX,
+						ty: tileY
+					};
+					if (grid.inBounds(curTileCoords)) {
+						var curGraphicalCoords = grid.tileToGraphicalCoords(tileX, tileY);
+						coordsInRange.push(curGraphicalCoords);
+					}
+				}
+			}
+		}
+		return coordsInRange;
 	};
 	// tower functions
     tower.upgrade = function () {

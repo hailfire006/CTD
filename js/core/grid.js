@@ -24,6 +24,8 @@ function makeGrid(width, height) {
             grid[i][j] = tile;
         }
     }
+	grid.width = width;
+	grid.height = height;
     grid.entities = [], // used for drawing
     // adding functions (fake OOP)
     grid.addEntity = function(entity) {
@@ -143,6 +145,15 @@ function makeGrid(width, height) {
             ty: ty
         };
     };
+	// gives (gx, gy) for TOP-LEFT corner
+	grid.tileToGraphicalCoords = function(tx, ty) {
+        var gx = tx * TILE_WIDTH; 
+        var gy = ty * TILE_HEIGHT;
+		return {
+			gx: gx,
+			gy: gy
+		};
+	};
     grid.inBounds = function(tileCoords) {
         var tx = tileCoords.tx;
         var ty = tileCoords.ty;
