@@ -136,19 +136,19 @@ function clickOnGrid(mouseX, mouseY) {
             }   
         } else if (Ui.currentChoice === 'spiky') {
             if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeLightningTower(gx, gy));     
+                grid.addEntity(makeSpikyGemTower(gx, gy));     
             }   
         } else if (Ui.currentChoice === 'spooky') {
             if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeLightningTower(gx, gy));     
+                grid.addEntity(makeSpookyTower(gx, gy));     
             }   
         } else if (Ui.currentChoice === 'king') {
             if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeLightningTower(gx, gy));     
+                grid.addEntity(makeKingTower(gx, gy));     
             }   
         } else if (Ui.currentChoice === 'magic') {
             if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeLightningTower(gx, gy));     
+                grid.addEntity(makeMagicTower(gx, gy));     
             }   
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
