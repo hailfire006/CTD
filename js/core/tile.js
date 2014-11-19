@@ -9,7 +9,7 @@ function makeTile(buildable, terrain) {
     var tile = {
         buildable: buildable, // can towers be build on this tile?
         terrain: terrain, // purely graphical, displays below contained entity
-		//direction: 
+        //direction: 
         occupants: [],
         // contained entities/occupant manipulation
         addEntity: function(entity) {

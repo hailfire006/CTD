@@ -9,7 +9,8 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     var imageCategory = 'tower';
     // TODO add tower.range fire within tower.range
     var tower = makeEntity(gx, gy, imageCategory, imageName);
-	tower.building = true;
+    tower.building = true;
+    tower.range = range;
     tower.coolDown = coolDown;
     tower.coolDownTimer = 0;
     // tower helper functions
@@ -51,14 +52,19 @@ function makeTower(gx, gy, imageName, range, coolDown) {
         }
         return coordsInRange;
     };
+    tower.getAllCoordsInRange = function() {
+        return this.getAllCoordsInSquareRange(this.range);
+    };
     // tower functions
     tower.upgrade = function () {
         // TODO upgrade stats, change image
     };
     tower.fire = function () {
-        var targetTile = this.getTargetTile();
-        var projectile = this.makeProjectile(targetTile.gx, targetTile.gy);
-        grid.addEntity(projectile);
+        var targetCoords = this.getTargetCoords();
+        if (targetCoords) {
+            var projectile = this.makeProjectile(targetCoords.gx, targetCoords.gy);
+            grid.addEntity(projectile);
+        }
     };
     tower.update = function (mod) {
         tower.coolDownTimer -= mod;
@@ -67,43 +73,67 @@ function makeTower(gx, gy, imageName, range, coolDown) {
             tower.coolDownTimer += tower.coolDown;
         }
     };
-    // Should be overwritten by towers
-    tower.getTargetTile = function() {
-        // fire to the right
-        var targetCoords = this.getRelativeTileCoords(6, 7);
-        return targetCoords;
+    // Fire on enemy in range
+    tower.getTargetCoords = function() {
+        var coordsInRange = this.getAllCoordsInRange();
+        for (var i = 0; i < coordsInRange.length; i++) {
+            var curCoords = coordsInRange[i];
+            if (grid.hasEnemy(curCoords.gx, curCoords.gy)) {
+                return curCoords;
+            }
+        }
     };
     tower.makeProjectile = function (gx, gy) {
         return makeTestFireProjectile(this, gx, gy);
     };
-    // TODO add tower.update check if there are enemies within the tiles in range, then tower.fire()
     return tower;
 }
 function makeFireTower(gx,gy) {
-    var tower = makeTower(gx,gy,"fireball.png", 2, 1.5);
+    var tower = makeTower(gx,gy,"fireball.png", 3, 1);
+    tower.makeProjectile = function (gx, gy) {
+        return makeFireProjectile(tower, gx, gy);
+    };
     return tower;
 }
 function makeWaterTower(gx,gy) {
-    var tower = makeTower(gx,gy,"bluefire.png", 2, 1.5);
-    tower.getTargetTile = function() {
-        var possibleTargets = this.getAllCoordsInSquareRange(1);
-        var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
-        return randomTarget;
-    };
+    var tower = makeTower(gx,gy,"bluefire.png", 1, .15);
     tower.makeProjectile = function (gx, gy) {
-        return makeSprayProjectile(tower, gx, gy)
-    }
+        return makeSprayProjectile(tower, gx, gy);
+    };
     return tower;
 }
 function makeLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"lightningbolt.png",2,1.5)
-    tower.getTargetTile = function() {
-        var possibleTargets = this.getAllCoordsInSquareRange(1);
-        var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
-        return randomTarget;
-    };
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
     tower.makeProjectile = function (gx, gy) {
         return makeLightningProjectile(tower, gx, gy)
-    }
+    };
+    return tower;
+}
+function makeMagicTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
+function makeSpikyGemTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
+function makeSpookyTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
+function makeKingTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
     return tower;
 }

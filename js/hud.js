@@ -54,14 +54,14 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
 }
 
 function clearHud(ctx) {
-	var hudGraphicalX = grid.width * TILE_WIDTH;
+    var hudGraphicalX = grid.width * TILE_WIDTH;
     var hudGraphicalY = 0;
     ctx.fillStyle = HUD_BACKGROUND_COLOR;
-	ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
+    ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
 }
 
 function drawHud(ctx) {
-	clearHud(ctx);
+    clearHud(ctx);
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
@@ -87,7 +87,19 @@ function addMenuButtons() {
     addMenuButton(0, 1, 'tower', 'lightningbolt.png', function() {
         Ui.currentChoice = 'lightningbolt'; 
     });
-    addMenuButton(0, 3, 'enemy', 'glarefish.png',function() {
+    addMenuButton(1, 1, 'tower', 'magicTower.png', function() {
+        Ui.currentChoice = 'magic'; 
+    });
+    addMenuButton(0, 2, 'tower', 'kingTower.png', function() {
+        Ui.currentChoice = 'king'; 
+    });
+    addMenuButton(1, 2, 'tower', 'spikyGemTower.png', function() {
+        Ui.currentChoice = 'spiky'; 
+    });
+    addMenuButton(0, 3, 'tower', 'spookyTower.png', function() {
+        Ui.currentChoice = 'spooky'; 
+    });
+    addMenuButton(1, 3, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });
     addMenuButton(1, 3, 'enemy', 'chomper.png',function() {
@@ -111,17 +123,33 @@ function clickOnGrid(mouseX, mouseY) {
     gy = graphicalCoords.gy;
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'fireball') {
-			if (grid.canBuildTowerAt(tileCoords)) {
-				grid.addEntity(makeFireTower(gx, gy));
-			}
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeFireTower(gx, gy));
+            }
         } else if (Ui.currentChoice === 'bluefire') {
-			if (grid.canBuildTowerAt(tileCoords)) {
-				grid.addEntity(makeWaterTower(gx, gy));
-			}
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeWaterTower(gx, gy));
+            }
         } else if (Ui.currentChoice === 'lightningbolt') {
-			if (grid.canBuildTowerAt(tileCoords)) {
-				grid.addEntity(makeLightningTower(gx, gy));     
-			}   
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'spiky') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'spooky') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'king') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'magic') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'chomper') {
@@ -129,7 +157,7 @@ function clickOnGrid(mouseX, mouseY) {
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {
-			grid = makeGrid(grid.width, grid.height);
+            grid = makeGrid(grid.width, grid.height);
         }
     }
 }
