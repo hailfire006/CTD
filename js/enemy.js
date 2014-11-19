@@ -8,6 +8,7 @@
 function makeEnemy(gx, gy, imageName) {
     var imageCategory = 'enemy';
     var enemy = makeEntity(gx, gy, imageCategory, imageName);
+	enemy.hostile = true;
     enemy.health = 1;
     enemy.speed = 30;
     enemy.direction = {
@@ -18,22 +19,6 @@ function makeEnemy(gx, gy, imageName) {
     enemy.preUpdate = function(mod) {
     };
     enemy.postUpdate = function(mod) {
-    };
-    enemy.faceUp = function() {
-        this.direction.multiplierX = 0;
-        this.direction.multiplierY = -1;
-    };
-    enemy.faceDown = function() {
-        this.direction.multiplierX = 0;
-        this.direction.multiplierY = 1;
-    };
-    enemy.faceLeft = function() {
-        this.direction.multiplierX = -1;
-        this.direction.multiplierY = 0;
-    };
-    enemy.faceRight = function() {
-        this.direction.multiplierX = 1;
-        this.direction.multiplierY = 0;
     };
     enemy.update = function (mod) {
         enemy.preUpdate(mod);
@@ -48,7 +33,19 @@ function makeEnemy(gx, gy, imageName) {
         var dy = this.speed * this.direction.multiplierY;
         enemy.gx += mod * dx;
         enemy.gy += mod * dy;
+		// change direction on certain tiles
+		var currentTileCoords = this.getCurrentTileCoords();
+		var currentTile = grid.getTileAtCoords(currentTileCoords);
+		if (currentTile) {
+			this.faceDirection(currentTile.direction);
+		}
     };
+	enemy.faceDirection = function(direction) {
+		if (direction) {
+			this.direction.multiplierX = direction.x;
+			this.direction.multiplierY = direction.y;
+		}
+	};
     return enemy;
 }
 

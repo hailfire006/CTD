@@ -22,7 +22,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     };
     // Returns array of (gx, gy) for every tile in a given range, AND are in grid bounds
     tower.getAllCoordsInSquareRange = function(range) {
-        var towerTile = grid.graphicalToTileCoords(tower.gx, tower.gy);
+        var towerTile = this.getCurrentTileCoords();
         var towerTileX = towerTile.tx;
         var towerTileY = towerTile.ty;
         var coordsInRange = []; // graphical coords
@@ -68,7 +68,6 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     };
     // Should be overwritten by towers
     tower.getTargetTile = function() {
-        var towerTile = grid.graphicalToTileCoords(tower.gx,tower.gy);
         // fire to the right
         var targetCoords = this.getRelativeTileCoords(6, 7);
         return targetCoords;
@@ -79,11 +78,11 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     // TODO add tower.update check if there are enemies within the tiles in range, then tower.fire()
     return tower;
 }
-function makeTestFireTower(gx,gy) {
+function makeFireTower(gx,gy) {
     var tower = makeTower(gx,gy,"fireball.png", 2, 1.5);
     return tower;
 }
-function makeTestSprayTower(gx,gy) {
+function makeWaterTower(gx,gy) {
     var tower = makeTower(gx,gy,"bluefire.png", 2, 1.5);
     tower.getTargetTile = function() {
         var possibleTargets = this.getAllCoordsInSquareRange(1);
@@ -95,7 +94,7 @@ function makeTestSprayTower(gx,gy) {
     }
     return tower;
 }
-function makeTestLightningTower(gx,gy) {
+function makeLightningTower(gx,gy) {
     var tower = makeTower(gx,gy,"lightningbolt.png",2,1.5)
     tower.getTargetTile = function() {
         var possibleTargets = this.getAllCoordsInSquareRange(1);

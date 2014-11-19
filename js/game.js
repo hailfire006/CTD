@@ -47,10 +47,6 @@ function initGrid() {
     grid.addEntity(makeGlarefish(150,150));
     grid.addEntity(makeGlarefish(350,50));
     grid.addEntity(makeGlarefish(350,250));
-    
-    
-    grid.addEntity(makeTestFireTower(50,100));
-    grid.addEntity(makeTestFireTower(50,200));
 }
 function startGame() {
     setInterval(run, RUN_INTERVAL);

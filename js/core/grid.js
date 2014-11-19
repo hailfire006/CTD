@@ -19,14 +19,39 @@ function makeGrid(width, height) {
         grid[i] = new Array(height);
         // initialize tiles
         for (var j = 0; j < height; j++) {
+			// terrain test
             var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
             var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
             var random = Math.random();
+			var terrain = rockTerrain;
             if (random > 0.1) {
-                var tile = makeTile(true, grassTerrain);
+				terrain = grassTerrain;
             } else {
-                var tile = makeTile(true, rockTerrain);
+				terrain = rockTerrain;
             }
+            var tile = makeTile(true, grassTerrain);
+			// directional test
+			if (random < .25) {
+				random = Math.random();
+				var directionNum = Math.floor(random / .24);
+				var direction;
+				switch (directionNum) {
+					case 0:
+					direction = {x: 0, y: 1};
+					break;
+					case 1:
+					direction = {x: 0, y: -1};
+					break;
+					case 2:
+					direction = {x: 1, y: 0};
+					break;
+					case 3:
+					direction = {x: -1, y: 0};
+					break;
+				}
+				tile.direction = direction;
+			}
+			//console.log(tile);
             grid[i][j] = tile;
         }
     }
@@ -36,8 +61,8 @@ function makeGrid(width, height) {
     // adding functions (fake OOP)
     grid.addEntity = function(entity) {
         var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
-        if (this.inBounds(tileCoords)) {
-            var tile = grid.getTileAtCoords(tileCoords);
+        var tile = grid.getTileAtCoords(tileCoords);
+        if (tile) {
             tile.addEntity(entity);
             grid.entities.push(entity);
             entity.grid = this;
@@ -74,7 +99,7 @@ function makeGrid(width, height) {
             var tile = grid.getTileAtCoords(tileCoords);
             var entities = tile.getEntities();
             for (var i = 0; i < entities.length; i++) {
-                if (entities[i].health) { // has health = is enemy
+                if (entities[i].hostile) { // is hostile = is enemy
                     return entities[i];
                 }
             }
@@ -86,6 +111,20 @@ function makeGrid(width, height) {
             for (var j = 0; j < grid[i].length; j++) {
                 var curTile = grid[i][j];
                 curTile.drawTerrain(ctx);
+				if (SHOW_ENEMY_DIRECTION) {
+					if (curTile.direction) {
+						var arrowImage = Images.getImage('interface', 'arrow_right.png');						
+						var translateX = i * tileWidth + tileWidth / 2;
+						var translateY = j * tileHeight + tileHeight / 2;
+						var angle = Math.atan2(curTile.direction.y, curTile.direction.x);
+						ctx.save();
+						ctx.translate(translateX, translateY);
+						ctx.rotate(angle);
+						ctx.translate(-translateX, -translateY);
+						ctx.drawImage(arrowImage, i * tileWidth, j * tileHeight, tileWidth, tileHeight);
+						ctx.restore();
+					}
+				}
                 if (SHOW_GRID) {
                     ctx.beginPath();
                     ctx.strokeStyle = "black";
@@ -113,7 +152,6 @@ function makeGrid(width, height) {
         }
     };
     grid.update = function(mod) {
-        // TODO use grid's array of entities
         // update each tile's entities
         for (var i = 0; i < grid.entities.length; i++) {
             grid.entities[i].update(mod);
@@ -178,9 +216,11 @@ function makeGrid(width, height) {
         return tx >= 0 && tx < grid.length && ty >= 0 && ty < grid[0].length;
     };
     grid.getTileAtCoords = function(tileCoords) {
-        var tx = tileCoords.tx;
-        var ty = tileCoords.ty;
-        return grid[tx][ty];
+		if (this.inBounds(tileCoords)) {
+			var tx = tileCoords.tx;
+			var ty = tileCoords.ty;
+			return grid[tx][ty];
+		}
     };
     return grid;
 }

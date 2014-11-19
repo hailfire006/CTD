@@ -19,3 +19,4 @@ var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen
 var HIGHLIGHT_ENTITY_HITBOXES = true; // entity hitboxes shown in white
 var HIGHLIGHT_TILES_WITH_ENTITIES = true; // tiles with entities colored red
 var SHOW_GRID = true; // whether to show grid lines around each tile
+var SHOW_ENEMY_DIRECTION = true; // whether to show enemy path directions on tiles

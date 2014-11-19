@@ -29,7 +29,11 @@ function makeEntity(gx, gy, imageCategory, imageName) {
         },
         update: function (mod) {
             // no-op, 'subclasses' can override
-        }
+        },
+		// helper functions
+		getCurrentTileCoords: function() {
+			return this.grid.graphicalToTileCoords(this.gx + this.sx / 2, this.gy + this.sy / 2);
+		}
     };
     return entity;
 }

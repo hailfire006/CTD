@@ -5,11 +5,11 @@
  * Tiles contain up to 1 Entity and may or may not be built on
  *  draw(ctx): calls draw(ctx) on contained Entity, if present, also draws terrain
  */
- // TODO actually use tiles in game logic
 function makeTile(buildable, terrain) {
     var tile = {
         buildable: buildable, // can towers be build on this tile?
         terrain: terrain, // purely graphical, displays below contained entity
+		//direction: 
         occupants: [],
         // contained entities/occupant manipulation
         addEntity: function(entity) {
