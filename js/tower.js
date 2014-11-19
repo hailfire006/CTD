@@ -96,7 +96,7 @@ function makeFireTower(gx,gy) {
     return tower;
 }
 function makeWaterTower(gx,gy) {
-    var tower = makeTower(gx,gy,"bluefire.png", 1, .5);
+    var tower = makeTower(gx,gy,"bluefire.png", 1, .15);
     tower.makeProjectile = function (gx, gy) {
         return makeSprayProjectile(tower, gx, gy);
     };

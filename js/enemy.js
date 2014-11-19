@@ -5,12 +5,12 @@
  * Enemy entities go here.
  */
 
-function makeEnemy(gx, gy, imageName) {
+function makeEnemy(gx, gy, imageName, health, speed) {
     var imageCategory = 'enemy';
     var enemy = makeEntity(gx, gy, imageCategory, imageName);
     enemy.hostile = true;
-    enemy.health = 1;
-    enemy.speed = 30;
+    enemy.health = health;
+    enemy.speed = speed;
     enemy.direction = {
         multiplierX: 1,
         multiplierY: 0
@@ -53,7 +53,6 @@ function makeEnemy(gx, gy, imageName) {
 }
 
 function makeGlarefish(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'glarefish.png');
-    enemy.speed = 30;
+    var enemy = makeEnemy(gx, gy, 'glarefish.png', 100, 30);
     return enemy;
 }

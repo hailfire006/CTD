@@ -28,14 +28,17 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
 }
 
 function makeFireProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",400, 10);
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "fireball.png", 400, 50);
     return projectile;
 }
 function makeSprayProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",400, 10);
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "bluefire.png", 400, 10);
     return projectile;
 }
 function makeLightningProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",800, 10);
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "lightningbolt.png", 800, 100);
     return projectile;
 }
