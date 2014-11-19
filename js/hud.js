@@ -83,11 +83,15 @@ function addMenuButtons() {
     addMenuButton(1, 0, 'tower', 'bluefire.png',function() {
         Ui.currentChoice = 'bluefire';
     });
+
     addMenuButton(0, 1, 'tower', 'lightningbolt.png', function() {
         Ui.currentChoice = 'lightningbolt'; 
     });
     addMenuButton(0, 3, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
+    });
+    addMenuButton(1, 3, 'enemy', 'chomper.png',function() {
+        Ui.currentChoice = 'chomper';
     });
     addMenuButton(0, 5, 'interface', 'axehammer.png',function() {
         Ui.currentChoice = 'delete';
@@ -120,6 +124,8 @@ function clickOnGrid(mouseX, mouseY) {
 			}   
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
+        } else if (Ui.currentChoice === 'chomper') {
+            grid.addEntity(makeChomper(gx, gy));    
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {

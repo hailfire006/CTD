@@ -84,3 +84,9 @@ function makeGlarefish(gx, gy) {
     enemy.speed = 30;
     return enemy;
 }
+
+function makeChomper(gx, gy) {
+    var enemy = makeEnemy(gx, gy, 'chomper.png');
+    enemy.speed = 100;
+    return enemy;
+}
