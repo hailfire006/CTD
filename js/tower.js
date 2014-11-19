@@ -109,3 +109,31 @@ function makeLightningTower(gx,gy) {
     };
     return tower;
 }
+function makeMagicTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
+function makeSpikyGemTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
+function makeSpookyTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
+function makeKingTower(gx,gy) {
+    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    tower.makeProjectile = function (gx, gy) {
+        return makeLightningProjectile(tower, gx, gy)
+    };
+    return tower;
+}
