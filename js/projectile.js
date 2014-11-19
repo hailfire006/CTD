@@ -16,8 +16,9 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
         projectile.gy += mod * Math.sin(angle) * projectile.speed;
         var firstEnemy = grid.getFirstEnemy(targetx,targety);
         var projectileTile = grid.graphicalToTileCoords(projectile.gx,projectile.gy);
-        var targetTile = grid.graphicalToTileCoords(targetx,targety);
-        if (projectileTile.tx == targetTile.tx && projectileTile.ty == targetTile.ty) {
+        var targetTileCoords = grid.graphicalToTileCoords(targetx,targety);
+        //if (projectileTile.tx == targetTile.tx && projectileTile.ty == targetTile.ty) {
+        if (this.fullyInsideTile(targetTileCoords, Math.cos(angle), Math.sin(angle))) {
             grid.removeEntity(projectile)
             if (firstEnemy) {
                 firstEnemy.health -= projectile.damage;

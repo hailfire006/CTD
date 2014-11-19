@@ -54,14 +54,14 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
 }
 
 function clearHud(ctx) {
-	var hudGraphicalX = grid.width * TILE_WIDTH;
+    var hudGraphicalX = grid.width * TILE_WIDTH;
     var hudGraphicalY = 0;
     ctx.fillStyle = HUD_BACKGROUND_COLOR;
-	ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
+    ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
 }
 
 function drawHud(ctx) {
-	clearHud(ctx);
+    clearHud(ctx);
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
@@ -107,23 +107,23 @@ function clickOnGrid(mouseX, mouseY) {
     gy = graphicalCoords.gy;
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'fireball') {
-			if (grid.canBuildTowerAt(tileCoords)) {
-				grid.addEntity(makeFireTower(gx, gy));
-			}
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeFireTower(gx, gy));
+            }
         } else if (Ui.currentChoice === 'bluefire') {
-			if (grid.canBuildTowerAt(tileCoords)) {
-				grid.addEntity(makeWaterTower(gx, gy));
-			}
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeWaterTower(gx, gy));
+            }
         } else if (Ui.currentChoice === 'lightningbolt') {
-			if (grid.canBuildTowerAt(tileCoords)) {
-				grid.addEntity(makeLightningTower(gx, gy));     
-			}   
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {
-			grid = makeGrid(grid.width, grid.height);
+            grid = makeGrid(grid.width, grid.height);
         }
     }
 }

@@ -19,41 +19,41 @@ function makeGrid(width, height) {
         grid[i] = new Array(height);
         // initialize tiles
         for (var j = 0; j < height; j++) {
-			// terrain test
+            // terrain test
             var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
             var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
             var random = Math.random();
-			var terrain = rockTerrain;
-			var buildable = true;
+            var terrain = rockTerrain;
+            var buildable = true;
             if (random > 0.1) {
-				terrain = grassTerrain;
-				buildable = true;
+                terrain = grassTerrain;
+                buildable = true;
             } else {
-				terrain = rockTerrain;
-				buildable = false;
+                terrain = rockTerrain;
+                buildable = false;
             }
             var tile = makeTile(buildable, terrain);
-			// directional test
-			if (random < .25) {
-				random = Math.random();
-				var directionNum = Math.floor(random / .24);
-				var direction;
-				switch (directionNum) {
-					case 0:
-					direction = {x: 0, y: 1};
-					break;
-					case 1:
-					direction = {x: 0, y: -1};
-					break;
-					case 2:
-					direction = {x: 1, y: 0};
-					break;
-					case 3:
-					direction = {x: -1, y: 0};
-					break;
-				}
-				tile.direction = direction;
-			}
+            // directional test
+            if (random < .25) {
+                random = Math.random();
+                var directionNum = Math.floor(random / .24);
+                var direction;
+                switch (directionNum) {
+                    case 0:
+                    direction = {x: 0, y: 1};
+                    break;
+                    case 1:
+                    direction = {x: 0, y: -1};
+                    break;
+                    case 2:
+                    direction = {x: 1, y: 0};
+                    break;
+                    case 3:
+                    direction = {x: -1, y: 0};
+                    break;
+                }
+                tile.direction = direction;
+            }
             grid[i][j] = tile;
         }
     }
@@ -95,22 +95,22 @@ function makeGrid(width, height) {
             }
         }
     };
-	grid.canBuildTowerAt = function(tileCoords) {
+    grid.canBuildTowerAt = function(tileCoords) {
         if (this.inBounds(tileCoords)) {
             var tile = grid.getTileAtCoords(tileCoords);
-			if (!tile.buildable) {
-				return false;
-			}
+            if (!tile.buildable) {
+                return false;
+            }
             var entities = tile.getEntities();
             for (var i = 0; i < entities.length; i++) {
                 if (entities[i].building) { // is building = is tower
                     return false;
                 }
             }
-			return true;
+            return true;
         }
-		return false;
-	};
+        return false;
+    };
     grid.getFirstEnemy = function(gx, gy) {
         var tileCoords = this.graphicalToTileCoords(gx, gy);
         if (this.inBounds(tileCoords)) {
@@ -129,20 +129,20 @@ function makeGrid(width, height) {
             for (var j = 0; j < grid[i].length; j++) {
                 var curTile = grid[i][j];
                 curTile.drawTerrain(ctx);
-				if (SHOW_ENEMY_DIRECTION) {
-					if (curTile.direction) {
-						var arrowImage = Images.getImage('interface', 'arrow_right.png');						
-						var translateX = i * tileWidth + tileWidth / 2;
-						var translateY = j * tileHeight + tileHeight / 2;
-						var angle = Math.atan2(curTile.direction.y, curTile.direction.x);
-						ctx.save();
-						ctx.translate(translateX, translateY);
-						ctx.rotate(angle);
-						ctx.translate(-translateX, -translateY);
-						ctx.drawImage(arrowImage, i * tileWidth, j * tileHeight, tileWidth, tileHeight);
-						ctx.restore();
-					}
-				}
+                if (SHOW_ENEMY_DIRECTION) {
+                    if (curTile.direction) {
+                        var arrowImage = Images.getImage('interface', 'arrow_right.png');                        
+                        var translateX = i * tileWidth + tileWidth / 2;
+                        var translateY = j * tileHeight + tileHeight / 2;
+                        var angle = Math.atan2(curTile.direction.y, curTile.direction.x);
+                        ctx.save();
+                        ctx.translate(translateX, translateY);
+                        ctx.rotate(angle);
+                        ctx.translate(-translateX, -translateY);
+                        ctx.drawImage(arrowImage, i * tileWidth, j * tileHeight, tileWidth, tileHeight);
+                        ctx.restore();
+                    }
+                }
                 if (SHOW_GRID) {
                     ctx.beginPath();
                     ctx.strokeStyle = "black";
@@ -234,11 +234,11 @@ function makeGrid(width, height) {
         return tx >= 0 && tx < grid.length && ty >= 0 && ty < grid[0].length;
     };
     grid.getTileAtCoords = function(tileCoords) {
-		if (this.inBounds(tileCoords)) {
-			var tx = tileCoords.tx;
-			var ty = tileCoords.ty;
-			return grid[tx][ty];
-		}
+        if (this.inBounds(tileCoords)) {
+            var tx = tileCoords.tx;
+            var ty = tileCoords.ty;
+            return grid[tx][ty];
+        }
     };
     return grid;
 }

@@ -28,10 +28,40 @@ function makeEntity(gx, gy, imageCategory, imageName) {
         update: function (mod) {
             // no-op, 'subclasses' can override
         },
-		// helper functions
-		getCurrentTileCoords: function() {
-			return this.grid.graphicalToTileCoords(this.gx + this.sx / 2, this.gy + this.sy / 2);
-		}
+        // helper functions
+        getCurrentTileCoords: function() {
+            return this.grid.graphicalToTileCoords(this.gx + this.sx / 2, this.gy + this.sy / 2);
+        },
+        fullyInsideTile: function(tileCoords, vx, vy) {
+            // check if 100% inside tile
+            var minGraphicalX = tileCoords.tx * TILE_WIDTH;
+            var minGraphicalY = tileCoords.ty * TILE_HEIGHT;
+            var maxGraphicalX = (tileCoords.tx + 1) * TILE_WIDTH;
+            var maxGraphicalY = (tileCoords.ty + 1) * TILE_HEIGHT;
+            var movingLeft = vx < 0;
+            var movingRight = vx > 0;
+            var movingUp = vy < 0;
+            var movingDown = vy > 0;
+            if (movingLeft) {
+                if (this.gx > minGraphicalX) {
+                    return false;
+                }
+            } else if (movingRight) {
+                if (this.gx + this.sx < maxGraphicalX) {
+                    return false;
+                }
+            }
+            if (movingUp) {
+                if (this.gy > minGraphicalY) {
+                    return false;
+                }
+            } else if (movingDown) {
+                if (this.gy + this.sy < maxGraphicalY) {
+                    return false;
+                }
+            }
+            return true;
+        }
     };
     return entity;
 }

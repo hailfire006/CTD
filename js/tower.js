@@ -9,7 +9,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     var imageCategory = 'tower';
     // TODO add tower.range fire within tower.range
     var tower = makeEntity(gx, gy, imageCategory, imageName);
-	tower.building = true;
+    tower.building = true;
     tower.coolDown = coolDown;
     tower.coolDownTimer = 0;
     // tower helper functions
@@ -84,7 +84,7 @@ function makeFireTower(gx,gy) {
     return tower;
 }
 function makeWaterTower(gx,gy) {
-    var tower = makeTower(gx,gy,"bluefire.png", 2, 1.5);
+    var tower = makeTower(gx,gy,"bluefire.png", 2, .5);
     tower.getTargetTile = function() {
         var possibleTargets = this.getAllCoordsInSquareRange(1);
         var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
@@ -96,9 +96,9 @@ function makeWaterTower(gx,gy) {
     return tower;
 }
 function makeLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"lightningbolt.png",2,1.5)
+    var tower = makeTower(gx,gy,"lightningbolt.png",2,.25)
     tower.getTargetTile = function() {
-        var possibleTargets = this.getAllCoordsInSquareRange(1);
+        var possibleTargets = this.getAllCoordsInSquareRange(2);
         var randomTarget = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
         return randomTarget;
     };
