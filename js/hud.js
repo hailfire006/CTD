@@ -9,11 +9,6 @@ var Ui = {
     // currentChoice:
 };
 
-// TODO get HUD working
-
-// TODO allow clicking on grid - don't deselect menu if click on grid
-// TODO don't collision check if not in hud area
-
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     var button = {
         x: x,
@@ -58,7 +53,15 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     return button;
 }
 
+function clearHud(ctx) {
+	var hudGraphicalX = grid.width * TILE_WIDTH;
+    var hudGraphicalY = 0;
+    ctx.fillStyle = HUD_BACKGROUND_COLOR;
+	ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
+}
+
 function drawHud(ctx) {
+	clearHud(ctx);
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
@@ -66,7 +69,7 @@ function drawHud(ctx) {
 
 function addMenuButton(hudTileX, hudTileY, imageCategory, imageName, callback) {
     var hudGraphicalX = (grid.width + hudTileX) * TILE_WIDTH;
-    var hudGraphicalY = hudTileY * TILE_WIDTH;
+    var hudGraphicalY = hudTileY * TILE_HEIGHT;
     var button = makeButton(hudGraphicalX, hudGraphicalY, imageCategory, imageName, callback);
     Ui.buttons.push(button);
 }

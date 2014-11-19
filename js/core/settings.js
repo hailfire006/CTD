@@ -13,7 +13,8 @@ var TILE_WIDTH = 50;
 var TILE_HEIGHT = 50;
 
 // AESTHETIC
-var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen
+var HUD_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons
+var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, mostly unused
 
 // DEBUGGING
 var HIGHLIGHT_ENTITY_HITBOXES = true; // entity hitboxes shown in white
