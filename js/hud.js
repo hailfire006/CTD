@@ -86,7 +86,19 @@ function addMenuButtons() {
     addMenuButton(0, 1, 'tower', 'lightningbolt.png', function() {
         Ui.currentChoice = 'lightningbolt'; 
     });
-    addMenuButton(0, 3, 'enemy', 'glarefish.png',function() {
+    addMenuButton(1, 1, 'tower', 'magicTower.png', function() {
+        Ui.currentChoice = 'magic'; 
+    });
+    addMenuButton(0, 2, 'tower', 'kingTower.png', function() {
+        Ui.currentChoice = 'king'; 
+    });
+    addMenuButton(1, 2, 'tower', 'spikyGemTower.png', function() {
+        Ui.currentChoice = 'spiky'; 
+    });
+    addMenuButton(0, 3, 'tower', 'spookyTower.png', function() {
+        Ui.currentChoice = 'spooky'; 
+    });
+    addMenuButton(1, 3, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });
     addMenuButton(0, 5, 'interface', 'axehammer.png',function() {
@@ -115,6 +127,22 @@ function clickOnGrid(mouseX, mouseY) {
                 grid.addEntity(makeWaterTower(gx, gy));
             }
         } else if (Ui.currentChoice === 'lightningbolt') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'spiky') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'spooky') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'king') {
+            if (grid.canBuildTowerAt(tileCoords)) {
+                grid.addEntity(makeLightningTower(gx, gy));     
+            }   
+        } else if (Ui.currentChoice === 'magic') {
             if (grid.canBuildTowerAt(tileCoords)) {
                 grid.addEntity(makeLightningTower(gx, gy));     
             }   
