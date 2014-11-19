@@ -99,10 +99,10 @@ function addMenuButtons() {
     addMenuButton(0, 3, 'tower', 'spookyTower.png', function() {
         Ui.currentChoice = 'spooky'; 
     });
-    addMenuButton(1, 3, 'enemy', 'glarefish.png',function() {
+    addMenuButton(0, 4, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });
-    addMenuButton(1, 3, 'enemy', 'chomper.png',function() {
+    addMenuButton(1, 4, 'enemy', 'chomper.png',function() {
         Ui.currentChoice = 'chomper';
     });
     addMenuButton(0, 5, 'interface', 'axehammer.png',function() {
