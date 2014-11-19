@@ -9,6 +9,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     var imageCategory = 'tower';
     // TODO add tower.range fire within tower.range
     var tower = makeEntity(gx, gy, imageCategory, imageName);
+	tower.building = true;
     tower.coolDown = coolDown;
     tower.coolDownTimer = 0;
     // tower helper functions

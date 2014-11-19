@@ -107,11 +107,17 @@ function clickOnGrid(mouseX, mouseY) {
     gy = graphicalCoords.gy;
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'fireball') {
-            grid.addEntity(makeFireTower(gx, gy));
+			if (grid.canBuildTowerAt(tileCoords)) {
+				grid.addEntity(makeFireTower(gx, gy));
+			}
         } else if (Ui.currentChoice === 'bluefire') {
-            grid.addEntity(makeWaterTower(gx, gy));
+			if (grid.canBuildTowerAt(tileCoords)) {
+				grid.addEntity(makeWaterTower(gx, gy));
+			}
         } else if (Ui.currentChoice === 'lightningbolt') {
-            grid.addEntity(makeLightningTower(gx, gy));        
+			if (grid.canBuildTowerAt(tileCoords)) {
+				grid.addEntity(makeLightningTower(gx, gy));     
+			}   
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'delete') {

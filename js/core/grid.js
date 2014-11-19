@@ -24,12 +24,15 @@ function makeGrid(width, height) {
             var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
             var random = Math.random();
 			var terrain = rockTerrain;
+			var buildable = true;
             if (random > 0.1) {
 				terrain = grassTerrain;
+				buildable = true;
             } else {
 				terrain = rockTerrain;
+				buildable = false;
             }
-            var tile = makeTile(true, grassTerrain);
+            var tile = makeTile(buildable, terrain);
 			// directional test
 			if (random < .25) {
 				random = Math.random();
@@ -92,6 +95,22 @@ function makeGrid(width, height) {
             }
         }
     };
+	grid.canBuildTowerAt = function(tileCoords) {
+        if (this.inBounds(tileCoords)) {
+            var tile = grid.getTileAtCoords(tileCoords);
+			if (!tile.buildable) {
+				return false;
+			}
+            var entities = tile.getEntities();
+            for (var i = 0; i < entities.length; i++) {
+                if (entities[i].building) { // is building = is tower
+                    return false;
+                }
+            }
+			return true;
+        }
+		return false;
+	};
     grid.getFirstEnemy = function(gx, gy) {
         var tileCoords = this.graphicalToTileCoords(gx, gy);
         if (this.inBounds(tileCoords)) {
