@@ -17,7 +17,6 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
         var firstEnemy = grid.getFirstEnemy(targetx,targety);
         var projectileTile = grid.graphicalToTileCoords(projectile.gx,projectile.gy);
         var targetTileCoords = grid.graphicalToTileCoords(targetx,targety);
-        //if (projectileTile.tx == targetTile.tx && projectileTile.ty == targetTile.ty) {
         if (this.fullyInsideTile(targetTileCoords, Math.cos(angle), Math.sin(angle))) {
             grid.removeEntity(projectile)
             if (firstEnemy) {
@@ -28,16 +27,15 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
     return projectile;
 }
 
-function makeTestFireProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",200, 10);
+function makeFireProjectile(tower,targetx,targety) {
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",400, 10);
     return projectile;
 }
 function makeSprayProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",200, 10);
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",400, 10);
     return projectile;
 }
 function makeLightningProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",500, 10);
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,"glarefish.png",800, 10);
     return projectile;
 }
-// TODO projectiles

@@ -111,6 +111,9 @@ function makeGrid(width, height) {
         }
         return false;
     };
+    grid.hasEnemy = function(gx, gy) {
+        return !!this.getFirstEnemy(gx, gy); // !! = cast to boolean, true if defined
+    };
     grid.getFirstEnemy = function(gx, gy) {
         var tileCoords = this.graphicalToTileCoords(gx, gy);
         if (this.inBounds(tileCoords)) {
