@@ -92,6 +92,9 @@ function addMenuButtons() {
     addMenuButton(0, 5, 'interface', 'axehammer.png',function() {
         Ui.currentChoice = 'delete';
     });
+    addMenuButton(0, 6, 'interface', 'broom.png',function() {
+        Ui.currentChoice = 'clearAll';
+    });
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -113,7 +116,8 @@ function clickOnGrid(mouseX, mouseY) {
             grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
-            // TODO delete tower
+        } else if (Ui.currentChoice === 'clearAll') {
+			grid = makeGrid(grid.width, grid.height);
         }
     }
 }
