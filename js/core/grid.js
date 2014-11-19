@@ -51,7 +51,6 @@ function makeGrid(width, height) {
 				}
 				tile.direction = direction;
 			}
-			//console.log(tile);
             grid[i][j] = tile;
         }
     }

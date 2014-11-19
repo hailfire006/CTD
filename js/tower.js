@@ -106,5 +106,3 @@ function makeLightningTower(gx,gy) {
     }
     return tower;
 }
-
-// TODO towers

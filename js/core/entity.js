@@ -7,10 +7,8 @@
  *  draw(ctx): draws image specified by setImage(String,String)
  *  update(): does nothing, 'subclasses' can override to do something every game frame
  */
-// TODO consider making entities have free motion, but able to collide with tiles
 function makeEntity(gx, gy, imageCategory, imageName) {
     var entity = {
-        // TODO x & y are position within grid, used for physics? possibly not needed here
         // gx & gy are graphical position, where to draw on screen
         //grid: undefined,
         gx: gx,
