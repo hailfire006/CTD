@@ -19,6 +19,22 @@ function makeEnemy(gx, gy, imageName) {
     };
     enemy.postUpdate = function(mod) {
     };
+    enemy.faceUp = function() {
+        this.direction.multiplierX = 0;
+        this.direction.multiplierY = -1;
+    };
+    enemy.faceDown = function() {
+        this.direction.multiplierX = 0;
+        this.direction.multiplierY = 1;
+    };
+    enemy.faceLeft = function() {
+        this.direction.multiplierX = -1;
+        this.direction.multiplierY = 0;
+    };
+    enemy.faceRight = function() {
+        this.direction.multiplierX = 1;
+        this.direction.multiplierY = 0;
+    };
     enemy.update = function (mod) {
         enemy.preUpdate(mod);
         enemy.move(mod);
