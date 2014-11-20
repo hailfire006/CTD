@@ -24,7 +24,7 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
         var firstEnemy = grid.getFirstEnemy(targetx,targety);
         grid.removeEntity(projectile)
         if (firstEnemy) {
-            firstEnemy.health -= projectile.damage;
+            firstEnemy.takeDamage(projectile.damage);
             this.additionalEffects(firstEnemy);
         }
     };
@@ -52,6 +52,12 @@ function makeLightningProjectile(tower,targetx,targety) {
 function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
         "magicTower.png", 1000, 30);
+    projectile.additionalEffects = function(enemy) {
+        enemy.armor -= 3;
+        if (enemy.armor < 0) {
+            enemy.armor *= 2;
+        }
+    };
     return projectile;
 }
 function makeKingProjectile(tower,targetx,targety) {

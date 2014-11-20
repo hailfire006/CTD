@@ -21,6 +21,10 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     };
     enemy.postUpdate = function(mod) {
     };
+    enemy.takeDamage = function (damage) {
+        var adjustedDamage = Math.max(damage - this.armor, 1);
+        this.health -= damage;
+    };
     enemy.update = function (mod) {
         enemy.preUpdate(mod);
         enemy.move(mod);
