@@ -163,11 +163,10 @@ function makeGrid(width, height) {
         }
         // draw spawn (optional)
         if (SHOW_ENEMY_SPAWN) {
-            for (var i = 0; i < this.spawnPoints.length; i++) {
-                var curPoint = this.spawnPoints[i];
+            this.spawnPoints.forEach(function(curPoint) {
                 var spawnImage = Images.getImage('interface', 'start_platform.png');      
                 ctx.drawImage(spawnImage, curPoint.tx * tileWidth, curPoint.ty * tileHeight, tileWidth, tileHeight);
-            }
+            });
         }
         // draw grid lines (optional)
         if (SHOW_GRID) {
@@ -180,6 +179,7 @@ function makeGrid(width, height) {
                 }
             }
         }
+        // draw enemy direction (optional)
         if (SHOW_ENEMY_DIRECTION) {
             for (var i = 0; i < grid.length; i++) {
                 for (var j = 0; j < grid[i].length; j++) {

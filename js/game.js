@@ -8,6 +8,9 @@
  */
 
 ///// globals
+var Game = { // TODO move all globals into Game namespace
+    //var runIntervalId // interval
+};
 var time = Date.now(); // last time run() was called
 var grid = makeGrid(14, 12);
 
@@ -17,17 +20,10 @@ var canvas = document.getElementById('gameCanvas');
 //functions
 function run() {
     // update game state, draw game state, repeat
-    if (isPaused()) {
-        time = Date.now(); // avoid queueing up update
-        return;
-    }
     var secondsElapsed = (Date.now() - time) / 1000;
     update(secondsElapsed);
     draw();
     time = Date.now();
-}
-function isPaused() {
-    return !document.hasFocus();
 }
 function update(mod) {
     grid.update(mod);
@@ -42,6 +38,32 @@ function clearScreen(ctx) {
     ctx.fillStyle = BACKGROUND_COLOR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+function addFocusListeners() {
+    if (PAUSE_ON_FOCUS_LOSS) {
+        // window focus gained
+        window.addEventListener("focus", function(event) {
+            unpauseGame();
+            if (Game.runIntervalId) {
+            }
+        }, false);
+        // window focus lost
+        window.addEventListener("blur", function(event) {
+            pauseGame();
+        }, false);
+    }
+}
+function pauseGame() {
+    if (Game.runIntervalId) {
+        clearInterval(Game.runIntervalId);
+        delete Game.runIntervalId;
+    }
+}
+function unpauseGame() {
+    if (!Game.runIntervalId) {
+        time = Date.now(); // avoid queueing up update
+        Game.runIntervalId = setInterval(run, RUN_INTERVAL);
+    }
+}
 function initGrid() {
     grid.addEntity(makeGlarefish(300,450));
     grid.addEntity(makeGlarefish(150,150));
@@ -52,8 +74,9 @@ function initGrid() {
     }
 }
 function startGame() {
-    setInterval(run, RUN_INTERVAL);
+    addFocusListeners();
     initGrid();
     initHud();
+    unpauseGame();
 }
 startGame();
