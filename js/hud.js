@@ -53,20 +53,6 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     return button;
 }
 
-function clearHud(ctx) {
-    var hudGraphicalX = grid.width * TILE_WIDTH;
-    var hudGraphicalY = 0;
-    ctx.fillStyle = HUD_BACKGROUND_COLOR;
-    ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
-}
-
-function drawHud(ctx) {
-    clearHud(ctx);
-    Ui.buttons.forEach(function(button) {
-        button.draw(ctx);
-    });
-}
-
 function addMenuButton(hudTileX, hudTileY, imageCategory, imageName, callback) {
     var hudGraphicalX = (grid.width + hudTileX) * TILE_WIDTH;
     var hudGraphicalY = hudTileY * TILE_HEIGHT;
@@ -110,6 +96,18 @@ function addMenuButtons() {
     });
     addMenuButton(0, 6, 'interface', 'broom.png',function() {
         Ui.currentChoice = 'clearAll';
+    });
+    addMenuButton(0, 8, 'terrain', 'grass.png',function() {
+        Ui.currentChoice = 'grass';
+    });
+    addMenuButton(1, 8, 'terrain', 'rock.png',function() {
+        Ui.currentChoice = 'rock';
+    });
+    addMenuButton(0, 9, 'interface', 'arrow_right.png',function() {
+        Ui.currentChoice = 'arrow';
+    });
+    addMenuButton(1, 9, 'interface', 'axehammer.png',function() {
+        Ui.currentChoice = 'deleteArrow';
     });
 }
 
@@ -158,6 +156,42 @@ function clickOnGrid(mouseX, mouseY) {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {
             grid = makeGrid(grid.width, grid.height);
+        } else if (Ui.currentChoice === 'grass') {
+            var terrain = grid.getTileAtCoords(tileCoords).terrain;
+            terrain.imageCategory = 'terrain';
+            terrain.imageName = 'grass.png';
+            terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
+        } else if (Ui.currentChoice === 'rock') {
+            var terrain = grid.getTileAtCoords(tileCoords).terrain;
+            terrain.imageCategory = 'terrain';
+            terrain.imageName = 'rock.png';
+            terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
+        } else if (Ui.currentChoice === 'arrow') {
+            var tile = grid.getTileAtCoords(tileCoords);
+            var directionNum = -1;
+            if (tile.direction) {
+                directionNum = Math.floor(Math.atan2(tile.direction.y, tile.direction.x) / Math.PI * 2 + .01);
+            }
+            directionNum++;
+            var direction;
+            switch (directionNum) {
+                case 0:
+                direction = {x: 1, y: 0};
+                break;
+                case 1:
+                direction = {x: 0, y: 1};
+                break;
+                case 2:
+                direction = {x: -1, y: 0};
+                break;
+                case 3:
+                direction = {x: 0, y: -1};
+                break;
+            }
+            tile.direction = direction;
+        } else if (Ui.currentChoice === 'deleteArrow') {
+            var tile = grid.getTileAtCoords(tileCoords);
+            delete tile.direction;
         }
     }
 }
@@ -183,6 +217,20 @@ function addEventListeners(canvas) {
             button.tryMouseOver(mouseX, mouseY);
         });
         // TODO highlight current tile in grid if tower selected
+    });
+}
+
+function clearHud(ctx) {
+    var hudGraphicalX = grid.width * TILE_WIDTH;
+    var hudGraphicalY = 0;
+    ctx.fillStyle = HUD_BACKGROUND_COLOR;
+    ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
+}
+
+function drawHud(ctx) {
+    clearHud(ctx);
+    Ui.buttons.forEach(function(button) {
+        button.draw(ctx);
     });
 }
 
