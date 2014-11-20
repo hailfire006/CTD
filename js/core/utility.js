@@ -32,5 +32,21 @@ var Utility = {
             }
         }
         return -1;
+    },
+    // Get random integer from min to max, inclusive on both ends
+    getRandomInteger: function (min, max) {
+        var scatter = max - min + 1;
+        return Math.floor(Math.random() * scatter) + min;
+    },
+    // Gets a random element from an array
+    getRandomElementFromArray: function (array) {
+        if (array && array.length > 0) {
+            var index = Utility.getRandomInteger(0, array.length - 1);
+            return array[index];
+        }
+    },
+    // Returns true with a certain percent chance
+    percentChance: function(chance) {
+        return Math.random() * 100 < chance;
     }
 }

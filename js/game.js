@@ -47,6 +47,7 @@ function initGrid() {
     grid.addEntity(makeGlarefish(150,150));
     grid.addEntity(makeGlarefish(350,50));
     grid.addEntity(makeGlarefish(350,250));
+    grid.addSpawnPoint(0, 1);
 }
 function startGame() {
     setInterval(run, RUN_INTERVAL);

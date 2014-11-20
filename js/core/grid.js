@@ -59,7 +59,8 @@ function makeGrid(width, height) {
     }
     grid.width = width;
     grid.height = height;
-    grid.entities = [], // used for drawing
+    grid.entities = []; // used for drawing
+    grid.spawnPoints = [];
     // adding functions (fake OOP)
     grid.addEntity = function(entity) {
         var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
@@ -95,6 +96,31 @@ function makeGrid(width, height) {
             }
         }
     };
+    // spawn point
+    grid.addSpawnPoint = function(tx, ty) {
+        var tileCoords = {
+            tx: tx,
+            ty: ty
+        };
+        this.spawnPoints.push(tileCoords);
+    };
+    grid.spawn = function(tileCoords) {
+        // choose a random spawner
+        var chosenSpawnPoint = Utility.getRandomElementFromArray(this.spawnPoints);
+        if (chosenSpawnPoint) {
+            var spawnGraphicalCoords = this.tileToGraphicalCoords(chosenSpawnPoint.tx, chosenSpawnPoint.ty);
+            this.spawnRandomEnemy(spawnGraphicalCoords.gx, spawnGraphicalCoords.gy);
+        }
+    };
+    grid.spawnRandomEnemy = function(gx, gy) {
+        var choice = Utility.getRandomInteger(0, 1);
+        if (choice == 0) {
+            this.addEntity(makeGlarefish(gx, gy));
+        } else if (choice == 1) {
+            this.addEntity(makeChomper(gx, gy));
+        }
+    };
+    // tower-related
     grid.canBuildTowerAt = function(tileCoords) {
         if (this.inBounds(tileCoords)) {
             var tile = grid.getTileAtCoords(tileCoords);
@@ -184,6 +210,10 @@ function makeGrid(width, height) {
                 var curTile = grid[i][j];
                 this.updateEntitiesCoordinates(curTile);
             }
+        }
+        // TODO load what enemies & when to spawn from somewhere else....
+        if (Utility.percentChance(5)) {
+            this.spawn();
         }
     };
     // move all entities in a tile
