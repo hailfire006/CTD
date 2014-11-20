@@ -296,32 +296,34 @@ function makeGrid(width, height) {
     };
     // save/load
     grid.asJsonObject = function() {
-        var gridInfo = new Array(width);
+        var gridObject = new Array(width);
         for (var i = 0; i < grid.width; i++) {
-            gridInfo[i] = new Array(height);
+            gridObject[i] = new Array(height);
             for (var j = 0; j < grid.height; j++) {
-                gridInfo[i][j] = grid[i][j].asJsonObject();
+                gridObject[i][j] = grid[i][j].asJsonObject();
+                console.log(gridObject[i][j]);
             }
         }
-        gridInfo.spawnPoints = grid.spawnPoints;
+        var gridInfo = {
+            grid: gridObject,
+            spawnPoints: this.spawnPoints
+        };
         return gridInfo;
     };
     grid.fromJsonString = function(jsonString) {
         var gridInfo = JSON.parse(jsonString);
-        console.log('loading');
-        grid.length = gridInfo.length;
-        for (var i = 0; i < gridInfo.length; i++) {
-            grid[i].length = gridInfo[i].length;
-            for (var j = 0; j < gridInfo[i].length; j++) {
+        grid.length = gridInfo.grid.length;
+        for (var i = 0; i < gridInfo.grid.length; i++) {
+            grid[i].length = gridInfo.grid[i].length;
+            for (var j = 0; j < gridInfo.grid[i].length; j++) {
                 var dummyTerrain = makeTerrain(0, 0, 'grass.png');
                 var dummyTile = makeTile(false, dummyTerrain);
-                grid[i][j] = dummyTile.fromJsonObject(gridInfo[i][j]);
+                grid[i][j] = dummyTile.fromJsonObject(gridInfo.grid[i][j]);
             }
         }
-        grid.width = gridInfo.length;
-        grid.height = gridInfo[0].length;
-        //grid.spawnPoints = gridInfo.spawnPoints;
-        console.log(gridInfo.spawnPoints);
+        grid.width = gridInfo.grid.length;
+        grid.height = gridInfo.grid[0].length;
+        grid.spawnPoints = gridInfo.spawnPoints;
     };
     return grid;
 }
