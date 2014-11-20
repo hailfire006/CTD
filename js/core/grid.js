@@ -154,11 +154,36 @@ function makeGrid(width, height) {
     };
     // draw & update just send draw & update function calls to every contained tile
     grid.draw = function(ctx) {
+        // draw terrain
         for (var i = 0; i < grid.length; i++) {
             for (var j = 0; j < grid[i].length; j++) {
                 var curTile = grid[i][j];
                 curTile.drawTerrain(ctx);
-                if (SHOW_ENEMY_DIRECTION) {
+            }
+        }
+        // draw spawn (optional)
+        if (SHOW_ENEMY_SPAWN) {
+            for (var i = 0; i < this.spawnPoints.length; i++) {
+                var curPoint = this.spawnPoints[i];
+                var spawnImage = Images.getImage('interface', 'start_platform.png');      
+                ctx.drawImage(spawnImage, curPoint.tx * tileWidth, curPoint.ty * tileHeight, tileWidth, tileHeight);
+            }
+        }
+        // draw grid lines (optional)
+        if (SHOW_GRID) {
+            for (var i = 0; i < grid.length; i++) {
+                for (var j = 0; j < grid[i].length; j++) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = "black";
+                    ctx.rect(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
+                    ctx.stroke();
+                }
+            }
+        }
+        if (SHOW_ENEMY_DIRECTION) {
+            for (var i = 0; i < grid.length; i++) {
+                for (var j = 0; j < grid[i].length; j++) {
+                    var curTile = grid[i][j];
                     if (curTile.direction) {
                         var arrowImage = Images.getImage('interface', 'arrow_right.png');                        
                         var translateX = i * tileWidth + tileWidth / 2;
@@ -172,14 +197,9 @@ function makeGrid(width, height) {
                         ctx.restore();
                     }
                 }
-                if (SHOW_GRID) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = "black";
-                    ctx.rect(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
-                    ctx.stroke();
-                }
             }
         }
+        // highlight tiles w/ entities (optional)
         if (HIGHLIGHT_TILES_WITH_ENTITIES) {
             for (var i = 0; i < grid.length; i++) {
                 for (var j = 0; j < grid[i].length; j++) {
