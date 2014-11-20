@@ -10,6 +10,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     var enemy = makeEntity(gx, gy, imageCategory, imageName);
     enemy.hostile = true;
     enemy.health = health;
+    enemy.regen = 0;
     enemy.speed = speed;
     enemy.direction = {
         multiplierX: 1,
@@ -23,6 +24,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     enemy.update = function (mod) {
         enemy.preUpdate(mod);
         enemy.move(mod);
+        enemy.health += enemy.regen;
         if (enemy.health <= 0) {
             grid.removeEntity(this);
         }

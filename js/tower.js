@@ -124,7 +124,7 @@ function makeSpikyGemTower(gx,gy) {
     return tower;
 }
 function makeSpookyTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spookyTower.png",4,1);
+    var tower = makeTower(gx,gy,"spookyTower.png",3,1);
     tower.makeProjectile = function (gx, gy) {
         return makeSpookyProjectile(tower, gx, gy)
     };
