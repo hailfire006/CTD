@@ -42,3 +42,24 @@ function makeLightningProjectile(tower,targetx,targety) {
         "lightningbolt.png", 1300, 100);
     return projectile;
 }
+function makeMagicProjectile(tower,targetx,targety) {
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "magicTower.png", 600, 100);
+    return projectile;
+}
+function makeKingProjectile(tower,targetx,targety) {
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "kingTower.png", 600, 100);
+    return projectile;
+}
+function makeSpookyProjectile(tower,targetx,targety) {
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "spookyTower.png", 600, 100);
+    return projectile;
+}
+function makeSpikyGemProjectile(tower,targetx,targety) {
+    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
+        "spikyGemTower.png", 600, 100);
+    return projectile;
+}
+
