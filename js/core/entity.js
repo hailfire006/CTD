@@ -15,6 +15,8 @@ function makeEntity(gx, gy, imageCategory, imageName) {
         gy: gy,
         sx: TILE_WIDTH,
         sy: TILE_HEIGHT,
+        imageCategory: imageCategory,
+        imageName: imageName,
         image: Images.getImage(imageCategory, imageName),
         draw: function (ctx) {
             ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);

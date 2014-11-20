@@ -5,6 +5,7 @@
  * Grids are 2D arrays of Tiles
  *  draw(ctx): calls draw(ctx) on each contained tile
  *  update(): calls update() on each contained tile
+ * Grids also contain enemy spawn locations and handle entity detection code.
  */
 function makeGrid(width, height) {
     // Avoid issues with non-positive widths & heights
@@ -104,7 +105,7 @@ function makeGrid(width, height) {
         };
         this.spawnPoints.push(tileCoords);
     };
-    grid.spawn = function(tileCoords) {
+    grid.spawn = function() {
         // choose a random spawner
         var chosenSpawnPoint = Utility.getRandomElementFromArray(this.spawnPoints);
         if (chosenSpawnPoint) {
@@ -292,6 +293,48 @@ function makeGrid(width, height) {
             var ty = tileCoords.ty;
             return grid[tx][ty];
         }
+    };
+    // save/load
+    grid.asJsonObject = function() {
+        var gridInfo = new Array(width);
+        for (var i = 0; i < grid.width; i++) {
+            gridInfo[i] = new Array(height);
+            for (var j = 0; j < grid.height; j++) {
+                gridInfo[i][j] = grid[i][j].asJsonObject();
+            }
+        }
+        gridInfo.width = grid.width;
+        gridInfo.height = grid.height;
+        gridInfo.spawnPoints = grid.spawnPoints;
+        return gridInfo;
+    };
+    // grid.asJsonString = function() {
+        // var gridInfo = new Array(width);
+        // for (var i = 0; i < grid.width; i++) {
+            // gridInfo[i] = new Array(height);
+            // for (var j = 0; j < grid.height; j++) {
+                // gridInfo[i][j] = grid[i][j].asJsonString();
+            // }
+        // }
+        // gridInfo.width = grid.width;
+        // gridInfo.height = grid.height;
+        // gridInfo.spawnPoints = grid.spawnPoints;
+        // return JSON.stringify(gridInfo);
+    // };
+    grid.fromJsonString = function(jsonString) {
+        var dummyTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
+        var gridInfo = JSON.parse(jsonString);
+        grid.length = gridInfo.width;
+        for (var i = 0; i < gridInfo.width; i++) {
+            grid[i].length = gridInfo[i].length;
+            for (var j = 0; j < gridInfo.height; j++) {
+                var dummyTile = makeTile(false, dummyTerrain);
+                grid[i][j] = dummyTile.fromJsonString(gridInfo[i][j]);
+            }
+        }
+        grid.width = gridInfo.width;
+        grid.height = gridInfo.height;
+        grid.spawnPoints = gridInfo.spawnPoints;
     };
     return grid;
 }

@@ -31,6 +31,28 @@ function makeTile(buildable, terrain) {
             if (this.terrain) {
                 this.terrain.draw(ctx);
             }
+        },
+        asJsonObject: function() {
+            var tileInfo = {
+                buildable: this.buildable,
+                terrain: this.terrain.asJsonObject(),
+                direction: this.direction
+            };
+            return tileInfo;
+        },
+        // asJsonString: function() {
+            // var tileInfo = {
+                // buildable: this.buildable,
+                // terrain: this.terrain.asJsonString(),
+                // direction: this.direction
+            // };
+            // return JSON.stringify(tileInfo);
+        // },
+        fromJsonString: function(jsonString) {
+            var tileInfo = JSON.parse(jsonString);
+            this.buildable = tileInfo.buildable;
+            this.terrain = terrain.fromJsonString(tileInfo.terrain);
+            this.direction = tileInfo.direction;
         }
     };
     return tile;

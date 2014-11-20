@@ -77,6 +77,7 @@ function initGrid() {
     for (var y = 1; y < grid.height - 1; y++) {
         grid.addSpawnPoint(0, y);
     }
+    console.log(JSON.stringify(grid.asJsonObject()));
 }
 function startGame() {
     addFocusListeners();
