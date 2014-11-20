@@ -301,7 +301,6 @@ function makeGrid(width, height) {
             gridObject[i] = new Array(height);
             for (var j = 0; j < grid.height; j++) {
                 gridObject[i][j] = grid[i][j].asJsonObject();
-                console.log(gridObject[i][j]);
             }
         }
         var gridInfo = {
