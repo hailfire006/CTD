@@ -20,6 +20,11 @@ var canvas = document.getElementById('gameCanvas');
 //functions
 function run() {
     // update game state, draw game state, repeat
+    if (PAUSE_ON_FOCUS_LOSS && !document.hasFocus()) {
+        // this check is also necessary in case focus/blur events don't fire
+        time = Date.now(); // avoid queueing up update
+        return;
+    }
     var secondsElapsed = (Date.now() - time) / 1000;
     update(secondsElapsed);
     draw();
