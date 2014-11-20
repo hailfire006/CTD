@@ -22,6 +22,7 @@ var HIGHLIGHT_TILES_WITH_ENTITIES = true; // tiles with entities colored red
 var SHOW_GRID = true; // whether to show grid lines around each tile
 var SHOW_ENEMY_DIRECTION = true; // whether to show enemy path directions on tiles
 var SHOW_ENEMY_SPAWN = true; // whether to show where enemies spawn
+var TEMP_SPAWN_RATE = 5; // out of 100, % chance for an enemy to spawn on any given frame, remove later
 
 // MULTI-TOGGLE
 var DEMO = true;

@@ -233,7 +233,7 @@ function makeGrid(width, height) {
             }
         }
         // TODO load what enemies & when to spawn from somewhere else....
-        if (Utility.percentChance(5)) {
+        if (Utility.percentChance(TEMP_SPAWN_RATE)) {
             this.spawn();
         }
     };
