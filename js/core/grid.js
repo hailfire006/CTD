@@ -307,13 +307,13 @@ function makeGrid(width, height) {
         return gridInfo;
     };
     grid.fromJsonString = function(jsonString) {
-        var dummyTerrain = makeTerrain(0, 0, 'grass.png');
         var gridInfo = JSON.parse(jsonString);
         console.log('loading');
         grid.length = gridInfo.length;
         for (var i = 0; i < gridInfo.length; i++) {
             grid[i].length = gridInfo[i].length;
             for (var j = 0; j < gridInfo[i].length; j++) {
+                var dummyTerrain = makeTerrain(0, 0, 'grass.png');
                 var dummyTile = makeTile(false, dummyTerrain);
                 grid[i][j] = dummyTile.fromJsonObject(gridInfo[i][j]);
             }
