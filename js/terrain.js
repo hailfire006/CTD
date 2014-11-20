@@ -29,19 +29,8 @@ function makeTerrain(gx, gy, imageName) {
             };
             return terrainInfo;
         },
-        // asJsonString: function() {
-            // var terrainInfo = {
-                // gx: this.gx,
-                // gy: this.gy,
-                // sx: this.sx,
-                // sy: this.sy,
-                // imageCategory: this.imageCategory,
-                // imageName: this.imageName
-            // };
-            // return JSON.stringify(terrainInfo);
-        // },
-        fromJsonString: function(jsonString) {
-            var terrainInfo = JSON.parse(jsonString);
+        fromJsonObject: function(jsonObject) {
+            var terrainInfo = jsonObject;
             this.gx = terrainInfo.gx;
             this.gy = terrainInfo.gy;
             this.sx = terrainInfo.sx;
@@ -49,6 +38,7 @@ function makeTerrain(gx, gy, imageName) {
             this.imageCategory = terrainInfo.imageCategory;
             this.imageName = terrainInfo.imageName;
             this.image = Images.getImage(this.imageCategory, this.imageName);
+            return this;
         }
     };
     return entity;

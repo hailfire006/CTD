@@ -40,19 +40,12 @@ function makeTile(buildable, terrain) {
             };
             return tileInfo;
         },
-        // asJsonString: function() {
-            // var tileInfo = {
-                // buildable: this.buildable,
-                // terrain: this.terrain.asJsonString(),
-                // direction: this.direction
-            // };
-            // return JSON.stringify(tileInfo);
-        // },
-        fromJsonString: function(jsonString) {
-            var tileInfo = JSON.parse(jsonString);
+        fromJsonObject: function(jsonObject) {
+            var tileInfo = jsonObject;
             this.buildable = tileInfo.buildable;
-            this.terrain = terrain.fromJsonString(tileInfo.terrain);
+            this.terrain = this.terrain.fromJsonObject(tileInfo.terrain);
             this.direction = tileInfo.direction;
+            return this;
         }
     };
     return tile;
