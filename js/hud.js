@@ -160,12 +160,16 @@ function clickOnGrid(mouseX, mouseY) {
         } else if (Ui.currentChoice === 'clearAll') {
             grid = makeGrid(grid.width, grid.height);
         } else if (Ui.currentChoice === 'grass') {
-            var terrain = grid.getTileAtCoords(tileCoords).terrain;
+            var tile = grid.getTileAtCoords(tileCoords);
+            tile.buildable = true;
+            var terrain = tile.terrain;
             terrain.imageCategory = 'terrain';
             terrain.imageName = 'grass.png';
             terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
         } else if (Ui.currentChoice === 'rock') {
-            var terrain = grid.getTileAtCoords(tileCoords).terrain;
+            var tile = grid.getTileAtCoords(tileCoords);
+            tile.buildable = false;
+            var terrain = tile.terrain;
             terrain.imageCategory = 'terrain';
             terrain.imageName = 'rock.png';
             terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
