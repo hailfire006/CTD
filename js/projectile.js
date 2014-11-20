@@ -36,7 +36,7 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
 
 function makeFireProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "fireball.png", 800, 50);
+        "fireball.png", 800, 100);
     return projectile;
 }
 function makeSprayProjectile(tower,targetx,targety) {
@@ -51,17 +51,17 @@ function makeLightningProjectile(tower,targetx,targety) {
 }
 function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "magicTower.png", 800, 100);
+        "magicTower.png", 800, 30);
     return projectile;
 }
 function makeKingProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "kingTower.png", 800, 100);
+        "kingTower.png", 1000, 500);
     return projectile;
 }
 function makeSpookyProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "spookyTower.png", 800, 100);
+        "spookyTower.png", 800, 70);
     return projectile;
 }
 function makeSpikyGemProjectile(tower,targetx,targety) {
