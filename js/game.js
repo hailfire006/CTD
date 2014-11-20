@@ -10,8 +10,8 @@
 ///// globals
 var Game = { // TODO move all globals into Game namespace
     //var runIntervalId // interval
+    time: Date.now() // last time run() was called
 };
-var time = Date.now(); // last time run() was called
 var grid = makeGrid(14, 12);
 
 //canvas - this might be used by other js files
@@ -22,13 +22,13 @@ function run() {
     // update game state, draw game state, repeat
     if (PAUSE_ON_FOCUS_LOSS && !document.hasFocus()) {
         // this check is also necessary in case focus/blur events don't fire
-        time = Date.now(); // avoid queueing up update
+        Game.time = Date.now(); // avoid queueing up update
         return;
     }
-    var secondsElapsed = (Date.now() - time) / 1000;
+    var secondsElapsed = (Date.now() - Game.time) / 1000;
     update(secondsElapsed);
     draw();
-    time = Date.now();
+    Game.time = Date.now();
 }
 function update(mod) {
     grid.update(mod);
@@ -65,7 +65,7 @@ function pauseGame() {
 }
 function unpauseGame() {
     if (!Game.runIntervalId) {
-        time = Date.now(); // avoid queueing up update
+        Game.time = Date.now(); // avoid queueing up update
         Game.runIntervalId = setInterval(run, RUN_INTERVAL);
     }
 }
