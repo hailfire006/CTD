@@ -103,7 +103,7 @@ function makeWaterTower(gx,gy) {
     return tower;
 }
 function makeLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"lightningbolt.png",4,1.5);
+    var tower = makeTower(gx,gy,"lightningbolt.png",6,1.5);
     tower.makeProjectile = function (gx, gy) {
         return makeLightningProjectile(tower, gx, gy)
     };

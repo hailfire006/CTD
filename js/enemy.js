@@ -53,11 +53,11 @@ function makeEnemy(gx, gy, imageName, health, speed) {
 }
 
 function makeGlarefish(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'glarefish.png', 100, 30);
+    var enemy = makeEnemy(gx, gy, 'glarefish.png', 500, 30);
     return enemy;
 }
 
 function makeChomper(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'chomper.png', 200, 100);
+    var enemy = makeEnemy(gx, gy, 'chomper.png', 1000, 100);
     return enemy;
 }
