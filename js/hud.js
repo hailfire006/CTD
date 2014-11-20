@@ -109,6 +109,9 @@ function addMenuButtons() {
     addMenuButton(1, 9, 'interface', 'axehammer.png',function() {
         Ui.currentChoice = 'deleteArrow';
     });
+    addMenuButton(0, 10, 'interface', 'start_platform.png',function() {
+        Ui.currentChoice = 'spawn';
+    });
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -192,6 +195,8 @@ function clickOnGrid(mouseX, mouseY) {
         } else if (Ui.currentChoice === 'deleteArrow') {
             var tile = grid.getTileAtCoords(tileCoords);
             delete tile.direction;
+        } else if (Ui.currentChoice === 'spawn') {
+            grid.addSpawnPoint(tileCoords.tx, tileCoords.ty);
         }
     }
 }
