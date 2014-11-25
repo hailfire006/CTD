@@ -53,10 +53,7 @@ function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
         "magicTower.png", 1000, 30);
     projectile.additionalEffects = function(enemy) {
-        enemy.armor -= 3;
-        if (enemy.armor < 0) {
-            enemy.armor *= 2;
-        }
+        enemy.armor -= 5;
     };
     return projectile;
 }

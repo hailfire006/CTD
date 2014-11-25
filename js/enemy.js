@@ -9,14 +9,15 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     var imageCategory = 'enemy';
     var enemy = makeEntity(gx, gy, imageCategory, imageName);
     enemy.hostile = true;
-    enemy.maxHealth = health;
-    enemy.health = health;
-    enemy.regen = 0;
-    enemy.speed = speed;
     enemy.direction = {
         multiplierX: 1,
         multiplierY: 0
     };
+    enemy.maxHealth = health;
+    enemy.health = health;
+    enemy.armor = 0;
+    enemy.regen = 0;
+    enemy.speed = speed;
     // pre & post update can be modified
     enemy.preUpdate = function(mod) {
     };
@@ -24,7 +25,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     };
     enemy.takeDamage = function (damage) {
         var adjustedDamage = Math.max(damage - this.armor, 1);
-        this.health -= damage;
+        this.health -= adjustedDamage;
     };
     enemy.postDraw = function (ctx) {
         // TODO draw health
