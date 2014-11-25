@@ -33,6 +33,14 @@ var Utility = {
         }
         return -1;
     },
+    // Makes a 2D array of given dimensions
+    make2DArray: function (x, y) {
+        var matrix = new Array(x);
+        for (var i = 0; i < x; i++) {
+            matrix[i] = new Array(y);
+        }
+        return matrix;
+    },
     // Get random integer from min to max, inclusive on both ends
     getRandomInteger: function (min, max) {
         var scatter = max - min + 1;

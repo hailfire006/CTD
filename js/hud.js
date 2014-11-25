@@ -133,6 +133,7 @@ function clickOnGrid(mouseX, mouseY) {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {
             grid = makeGrid(grid.width, grid.height);
+            grid.generateRandomMap();
         } else if (Ui.currentChoice === 'grass') {
             var tile = grid.getTileAtCoords(tileCoords);
             tile.buildable = true;

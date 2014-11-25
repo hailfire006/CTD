@@ -15,54 +15,72 @@ function makeGrid(width, height) {
     var tileWidth = TILE_WIDTH;
     var tileHeight = TILE_HEIGHT;
     // Initialize grid as 2d array
-    var grid = new Array(width);
+    var grid = Utility.make2DArray(width, height);
+    // initialize tiles
     for (var i = 0; i < width; i++) {
-        grid[i] = new Array(height);
-        // initialize tiles
         for (var j = 0; j < height; j++) {
-            // terrain test
             var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
-            var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
-            var random = Math.random();
-            var terrain = rockTerrain;
-            var buildable = true;
-            if (random > 0.1) {
-                terrain = grassTerrain;
-                buildable = true;
-            } else {
-                terrain = rockTerrain;
-                buildable = false;
-            }
-            var tile = makeTile(buildable, terrain);
-            // directional test
-            if (random < .25) {
-                random = Math.random();
-                var directionNum = Math.floor(random / .24);
-                var direction;
-                switch (directionNum) {
-                    case 0:
-                    direction = {x: 0, y: 1};
-                    break;
-                    case 1:
-                    direction = {x: 0, y: -1};
-                    break;
-                    case 2:
-                    direction = {x: 1, y: 0};
-                    break;
-                    case 3:
-                    direction = {x: -1, y: 0};
-                    break;
-                }
-                tile.direction = direction;
-            }
-            grid[i][j] = tile;
+            grid[i][j] = makeTile(true, grassTerrain);
         }
     }
     grid.width = width;
     grid.height = height;
     grid.entities = []; // used for drawing
     grid.spawnPoints = [];
+    grid.pathDistMap = new Array(width); // 2D array of how far each tile is from end of path
+    for (var i = 0; i < width; i++) {
+        grid.pathDistMap[i] = new Array(height);
+        for (var j = 0; j < height; j++) {
+            //grid.distMap[i][j];
+        }
+    }
     // adding functions (fake OOP)
+    grid.generateRandomMap = function() {
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < height; j++) {
+                // terrain test
+                var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
+                var rockTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'rock.png');
+                var random = Math.random();
+                var terrain = rockTerrain;
+                var buildable = true;
+                if (random > 0.1) {
+                    terrain = grassTerrain;
+                    buildable = true;
+                } else {
+                    terrain = rockTerrain;
+                    buildable = false;
+                }
+                var tile = makeTile(buildable, terrain);
+                // directional test
+                if (random < .25) {
+                    random = Math.random();
+                    var directionNum = Math.floor(random / .24);
+                    var direction;
+                    switch (directionNum) {
+                        case 0:
+                        direction = {x: 0, y: 1};
+                        break;
+                        case 1:
+                        direction = {x: 0, y: -1};
+                        break;
+                        case 2:
+                        direction = {x: 1, y: 0};
+                        break;
+                        case 3:
+                        direction = {x: -1, y: 0};
+                        break;
+                    }
+                    tile.direction = direction;
+                }
+                grid[i][j] = tile;
+            }
+        }
+        for (var y = Utility.getRandomInteger(1, 3); y < grid.height - 1; y++) {
+            grid.addSpawnPoint(0, y);
+        }
+    };
+    // entity-related
     grid.addEntity = function(entity) {
         var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
         var tile = grid.getTileAtCoords(tileCoords);
@@ -152,6 +170,12 @@ function makeGrid(width, height) {
                 }
             }
         }
+    };
+    // get distance to end of path, how close an enemy on this tile is to finishing path
+    // not completely accurate since distance isn't factored in
+    grid.getDistToEnd = function(tileCoords) {
+        // TODO implement actually
+        return 1;
     };
     // draw & update just send draw & update function calls to every contained tile
     grid.draw = function(ctx) {

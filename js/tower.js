@@ -82,12 +82,20 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     // Fire on enemy in range
     tower.getTargetCoords = function() {
         var coordsInRange = this.getAllCoordsInRange();
+        // find enemy furthest on path
+        var bestEnemyCoords;
+        var bestEnemyDist;
         for (var i = 0; i < coordsInRange.length; i++) {
             var curCoords = coordsInRange[i];
             if (grid.hasEnemy(curCoords.gx, curCoords.gy)) {
-                return curCoords;
+                var curEnemyDist = grid.getDistToEnd(curCoords);
+                if (!bestEnemyDist || curEnemyDist < bestEnemyDist) {
+                    bestEnemyCoords = curCoords;
+                    bestEnemyDist = curEnemyDist;
+                }
             }
         }
+        return bestEnemyCoords;
     };
     tower.makeProjectile = function (gx, gy) {
         return makeTestFireProjectile(this, gx, gy);

@@ -82,9 +82,7 @@ function loadGrid() {
     grid.fromJsonString(goodDemoLevel);
 }
 function initGrid() {
-    for (var y = Utility.getRandomInteger(1, 3); y < grid.height - 1; y++) {
-        grid.addSpawnPoint(0, y);
-    }
+    grid.generateRandomMap();
     // saveGrid();
     loadGrid();
 }
