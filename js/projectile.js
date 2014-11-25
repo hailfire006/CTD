@@ -36,22 +36,22 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
 
 function makeFireProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "fireball.png", 1000, 100);
+        "fireball.png", 1500, 100);
     return projectile;
 }
 function makeSprayProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "bluefire.png", 1000, 10);
+        "bluefire.png", 1500, 10);
     return projectile;
 }
 function makeLightningProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "lightningbolt.png", 2300, 300);
+        "lightningbolt.png", 3000, 300);
     return projectile;
 }
 function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "magicTower.png", 1000, 30);
+        "magicTower.png", 1500, 30);
     projectile.additionalEffects = function(enemy) {
         enemy.armor -= 5;
     };
@@ -59,12 +59,12 @@ function makeMagicProjectile(tower,targetx,targety) {
 }
 function makeKingProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "kingTower.png", 1500, 500);
+        "kingTower.png", 1900, 500);
     return projectile;
 }
 function makeSpookyProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "spookyTower.png", 1000, 70);
+        "spookyTower.png", 1500, 70);
     projectile.additionalEffects = function(enemy) {
         enemy.regen -= 10;
     };
@@ -72,7 +72,7 @@ function makeSpookyProjectile(tower,targetx,targety) {
 }
 function makeSpikyGemProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "spikyGemTower.png", 1000, 30);
+        "spikyGemTower.png", 1500, 30);
     projectile.additionalEffects = function(enemy) {
         var speedMultiplier = .8;
         var newSpeed = Math.floor(enemy.speed * speedMultiplier);
