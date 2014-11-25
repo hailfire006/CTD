@@ -210,8 +210,24 @@ function addEventListeners(canvas) {
 function clearHud(ctx) {
     var hudGraphicalX = grid.width * TILE_WIDTH;
     var hudGraphicalY = 0;
+    var hudGraphicalWidth = canvas.width - hudGraphicalX;
+    var hudGraphicalHeight = canvas.height - hudGraphicalY;
     ctx.fillStyle = HUD_BACKGROUND_COLOR;
-    ctx.fillRect(hudGraphicalX, hudGraphicalY, canvas.width, canvas.height);
+    ctx.fillRect(hudGraphicalX, hudGraphicalY, hudGraphicalWidth, hudGraphicalHeight);
+}
+
+function drawHudBorder(ctx) {
+    var hudGraphicalX = grid.width * TILE_WIDTH;
+    var hudGraphicalY = 0;
+    var hudGraphicalWidth = canvas.width - hudGraphicalX;
+    var hudGraphicalHeight = canvas.height - hudGraphicalY;
+    var oldLineWidth = ctx.lineWidth;
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "white";
+    ctx.rect(hudGraphicalX, hudGraphicalY, hudGraphicalWidth, hudGraphicalHeight);
+    ctx.stroke();
+    ctx.lineWidth = oldLineWidth;
 }
 
 function drawHud(ctx) {
@@ -219,6 +235,7 @@ function drawHud(ctx) {
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
+    drawHudBorder(ctx);
 }
 
 // Call this once when game starts to initialize hud
