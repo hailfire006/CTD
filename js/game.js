@@ -10,7 +10,11 @@
 ///// globals
 var Game = { // TODO move all globals into Game namespace
     //var runIntervalId // interval
-    time: Date.now() // last time run() was called
+    time: Date.now(), // last time run() was called
+    totalSeconds: 0, // total seconds since game start
+    getDifficulty: function() {
+        return Math.floor(Math.pow(this.totalSeconds, .5));
+    }
 };
 var grid = makeGrid(14, 12);
 
@@ -29,9 +33,15 @@ function run() {
     update(secondsElapsed);
     draw();
     Game.time = Date.now();
+    Game.totalSeconds += secondsElapsed;
 }
 function update(mod) {
     grid.update(mod);
+    var newSpawnChance = TEMP_SPAWN_RATE;
+    if (INCREASING_DIFFICULTY) {
+        newSpawnChance += Game.getDifficulty();
+    }
+    grid.spawnChance = newSpawnChance;
 }
 function draw() {
     var ctx = canvas.getContext("2d");
@@ -48,8 +58,6 @@ function addFocusListeners() {
         // window focus gained
         window.addEventListener("focus", function(event) {
             unpauseGame();
-            if (Game.runIntervalId) {
-            }
         }, false);
         // window focus lost
         window.addEventListener("blur", function(event) {

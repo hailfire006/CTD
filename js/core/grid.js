@@ -26,6 +26,7 @@ function makeGrid(width, height) {
     grid.width = width;
     grid.height = height;
     grid.entities = []; // used for drawing
+    grid.spawnChance = TEMP_SPAWN_RATE;
     grid.spawnPoints = [];
     grid.pathDistMap = Utility.make2DArray(width, height); // 2D array of how far each tile is from end of path
     // adding functions (fake OOP)
@@ -262,7 +263,7 @@ function makeGrid(width, height) {
             }
         }
         // TODO load what enemies & when to spawn from somewhere else....
-        if (Utility.percentChance(TEMP_SPAWN_RATE)) {
+        if (Utility.percentChance(this.spawnChance)) {
             this.spawn();
         }
     };
