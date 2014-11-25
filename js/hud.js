@@ -5,8 +5,9 @@
 
 // Variables inside Ui variable to avoid name collisions
 var Ui = {
-    buttons: []
+    buttons: [],
     // currentChoice:
+    callFunction: function() { }
 };
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
@@ -63,28 +64,22 @@ function addMenuButton(hudTileX, hudTileY, imageCategory, imageName, callback) {
 function addMenuButtons() {
     var hudX = grid.width * TILE_WIDTH;
     // TODO less hardcoding
-    addMenuButton(0, 0, 'tower', 'fireball.png',function() {
-        Ui.currentChoice = 'fireball';
-    });
-    addMenuButton(1, 0, 'tower', 'bluefire.png',function() {
-        Ui.currentChoice = 'bluefire';
-    });
 
-    addMenuButton(0, 1, 'tower', 'lightningbolt.png', function() {
-        Ui.currentChoice = 'lightningbolt'; 
-    });
-    addMenuButton(1, 1, 'tower', 'magicTower.png', function() {
-        Ui.currentChoice = 'magic'; 
-    });
-    addMenuButton(0, 2, 'tower', 'kingTower.png', function() {
-        Ui.currentChoice = 'king'; 
-    });
-    addMenuButton(1, 2, 'tower', 'spikyGemTower.png', function() {
-        Ui.currentChoice = 'spiky'; 
-    });
-    addMenuButton(0, 3, 'tower', 'spookyTower.png', function() {
-        Ui.currentChoice = 'spooky'; 
-    });
+    var curMenuX = 0;
+    var curMenuY = 0;
+    var HUD_WIDTH = 2;
+    
+    for (var iconName in Towers.towerListing) {
+        addMenuButton(curMenuX, curMenuY, 'tower', iconName, function() {
+            Ui.currentChoice = 'callFunction';
+            Ui.callFunction = Towers.towerListing[iconName];
+        });
+        curMenuX++;
+        if (curMenuX >= HUD_WIDTH) {
+            curMenuX = 0;
+            curMenuY++;
+        }
+    }
     addMenuButton(0, 4, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });

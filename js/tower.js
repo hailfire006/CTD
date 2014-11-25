@@ -5,9 +5,15 @@
  * Tower entities go here.
  */
 
+var Towers = { // Tower listing used to auto-generate hud buttons
+    towerListing: {}, // map: (imageCategory, imageName) -> makeTower function
+    addTowerListing: function(imageName, buildFunction) {
+        this.towerListing[imageName] = buildFunction;
+    }
+};
+
 function makeTower(gx, gy, imageName, range, coolDown) {
     var imageCategory = 'tower';
-    // TODO add tower.range fire within tower.range
     var tower = makeEntity(gx, gy, imageCategory, imageName);
     tower.building = true;
     tower.range = range;
@@ -105,35 +111,45 @@ function makeWaterTower(gx,gy) {
 function makeLightningTower(gx,gy) {
     var tower = makeTower(gx,gy,"lightningbolt.png",6,1.5);
     tower.makeProjectile = function (gx, gy) {
-        return makeLightningProjectile(tower, gx, gy)
+        return makeLightningProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeMagicTower(gx,gy) {
     var tower = makeTower(gx,gy,"magicTower.png",7,.45);
     tower.makeProjectile = function (gx, gy) {
-        return makeMagicProjectile(tower, gx, gy)
-    };
-    return tower;
-}
-function makeSpikyGemTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spikyGemTower.png",4,.75);
-    tower.makeProjectile = function (gx, gy) {
-        return makeSpikyGemProjectile(tower, gx, gy)
-    };
-    return tower;
-}
-function makeSpookyTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spookyTower.png",3,1);
-    tower.makeProjectile = function (gx, gy) {
-        return makeSpookyProjectile(tower, gx, gy)
+        return makeMagicProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeKingTower(gx,gy) {
     var tower = makeTower(gx,gy,"kingTower.png",4,3);
     tower.makeProjectile = function (gx, gy) {
-        return makeKingProjectile(tower, gx, gy)
+        return makeKingProjectile(tower, gx, gy);
     };
     return tower;
 }
+function makeSpikyGemTower(gx,gy) {
+    var tower = makeTower(gx,gy,"spikyGemTower.png",4,.75);
+    tower.makeProjectile = function (gx, gy) {
+        return makeSpikyGemProjectile(tower, gx, gy);
+    };
+    return tower;
+}
+function makeSpookyTower(gx,gy) {
+    var tower = makeTower(gx,gy,"spookyTower.png",3,1);
+    tower.makeProjectile = function (gx, gy) {
+        return makeSpookyProjectile(tower, gx, gy);
+    };
+    return tower;
+}
+function addTowerListing() { // add new towerListing in here to generate hud buttons
+    Towers.addTowerListing('fireball.png', makeFireTower);
+    Towers.addTowerListing('bluefire.png', makeWaterTower);
+    Towers.addTowerListing('lightningbolt.png', makeLightningTower);
+    Towers.addTowerListing('magicTower.png', makeMagicTower);
+    Towers.addTowerListing('kingTower.png', makeKingTower);
+    Towers.addTowerListing('spikyGemTower.png', makeSpikyGemTower);
+    Towers.addTowerListing('spookyTower.png', makeSpookyTower);
+}
+addTowerListing();
