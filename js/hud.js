@@ -7,7 +7,7 @@
 var Ui = {
     buttons: [],
     // currentChoice:
-    callFunction: function() { }
+    makeTowerFunction: function(gx, gy) { } // build tower function
 };
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
@@ -61,25 +61,28 @@ function addMenuButton(hudTileX, hudTileY, imageCategory, imageName, callback) {
     Ui.buttons.push(button);
 }
 
-function addMenuButtons() {
-    var hudX = grid.width * TILE_WIDTH;
-    // TODO less hardcoding
+// make(makeTowerFunction)Function - because local variable scoping is weird in Javascript
+function makeTowerFunctionWrapper(towerFunction) {
+    return function() {
+        Ui.currentChoice = 'callFunction';
+        Ui.makeTowerFunction = towerFunction;
+    };
+}
 
+function addMenuButtons() {
     var curMenuX = 0;
     var curMenuY = 0;
     var HUD_WIDTH = 2;
-    
     for (var iconName in Towers.towerListing) {
-        addMenuButton(curMenuX, curMenuY, 'tower', iconName, function() {
-            Ui.currentChoice = 'callFunction';
-            Ui.callFunction = Towers.towerListing[iconName];
-        });
+        var curTowerFunction = Towers.towerListing[iconName];
+        addMenuButton(curMenuX, curMenuY, 'tower', iconName, makeTowerFunctionWrapper(curTowerFunction));
         curMenuX++;
         if (curMenuX >= HUD_WIDTH) {
             curMenuX = 0;
             curMenuY++;
         }
     }
+    // TODO less hardcoding
     addMenuButton(0, 4, 'enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });
@@ -118,34 +121,10 @@ function clickOnGrid(mouseX, mouseY) {
     gx = graphicalCoords.gx;
     gy = graphicalCoords.gy;
     if (Ui.currentChoice) {
-        if (Ui.currentChoice === 'fireball') {
+        if (Ui.currentChoice === 'callFunction') {
             if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeFireTower(gx, gy));
+                grid.addEntity(Ui.makeTowerFunction(gx, gy));
             }
-        } else if (Ui.currentChoice === 'bluefire') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeWaterTower(gx, gy));
-            }
-        } else if (Ui.currentChoice === 'lightningbolt') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeLightningTower(gx, gy));     
-            }   
-        } else if (Ui.currentChoice === 'spiky') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeSpikyGemTower(gx, gy));     
-            }   
-        } else if (Ui.currentChoice === 'spooky') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeSpookyTower(gx, gy));     
-            }   
-        } else if (Ui.currentChoice === 'king') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeKingTower(gx, gy));     
-            }   
-        } else if (Ui.currentChoice === 'magic') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(makeMagicTower(gx, gy));     
-            }   
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'chomper') {
@@ -196,6 +175,8 @@ function clickOnGrid(mouseX, mouseY) {
             delete tile.direction;
         } else if (Ui.currentChoice === 'spawn') {
             grid.addSpawnPoint(tileCoords.tx, tileCoords.ty);
+        } else if (Ui.currentChoice) {
+            console.log('No handling for Ui choice: ' + Ui.currentChoice);
         }
     }
 }

@@ -95,6 +95,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
     return tower;
 }
 function makeFireTower(gx,gy) {
+    console.log('fire');
     var tower = makeTower(gx,gy,"fireball.png", 3, 1);
     tower.makeProjectile = function (gx, gy) {
         return makeFireProjectile(tower, gx, gy);
