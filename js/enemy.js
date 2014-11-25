@@ -70,10 +70,32 @@ function makeEnemy(gx, gy, imageName, health, speed) {
 
 function makeGlarefish(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'glarefish.png', 500, 30);
+    enemy.armor = 0;
     return enemy;
 }
 
 function makeChomper(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'chomper.png', 1000, 100);
+    enemy.armor = 0;
     return enemy;
 }
+
+function makeGolem(gx, gy) {
+    var enemy = makeEnemy(gx, gy, 'golem.png', 3000, 20);
+    enemy.armor = 2;
+    return enemy;
+}
+
+function makeBug(gx, gy) {
+    var enemy = makeEnemy(gx, gy, 'bug.png', 400, 300);
+    enemy.armor = 0;
+    return enemy;
+}
+
+function makeBeetle(gx, gy) {
+    var enemy = makeEnemy(gx, gy, 'beetle.png', 1500, 20);
+    enemy.armor = 3;
+    enemy.regen = 3;
+    return enemy;
+}
+
