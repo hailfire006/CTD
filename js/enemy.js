@@ -28,7 +28,6 @@ function makeEnemy(gx, gy, imageName, health, speed) {
         this.health -= adjustedDamage;
     };
     enemy.postDraw = function (ctx) {
-        // TODO draw health
         ctx.fillStyle = "green";
         ctx.fillRect(this.gx,this.gy,this.sx,5);
         ctx.fillStyle = "red";
