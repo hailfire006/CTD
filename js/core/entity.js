@@ -18,7 +18,9 @@ function makeEntity(gx, gy, imageCategory, imageName) {
         imageCategory: imageCategory,
         imageName: imageName,
         image: Images.getImage(imageCategory, imageName),
+        // Draw image
         draw: function (ctx) {
+            this.preDraw(ctx);
             ctx.drawImage(this.image, this.gx, this.gy, this.sx, this.sy);
             if (HIGHLIGHT_ENTITY_HITBOXES) {
                 ctx.beginPath();
@@ -26,6 +28,13 @@ function makeEntity(gx, gy, imageCategory, imageName) {
                 ctx.rect(this.gx, this.gy, this.sx, this.sy);
                 ctx.stroke();
             }
+            this.postDraw(ctx);
+        },
+        // Draw on bottom: no-op
+        preDraw: function (ctx) {
+        },
+        // Draw on top: no-op
+        postDraw: function (ctx) {
         },
         update: function (mod) {
             // no-op, 'subclasses' can override
