@@ -88,7 +88,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
         for (var i = 0; i < coordsInRange.length; i++) {
             var curCoords = coordsInRange[i];
             if (grid.hasEnemy(curCoords.gx, curCoords.gy)) {
-                var curEnemyDist = grid.getDistToEnd(curCoords);
+                var curEnemyDist = grid.getDistToEnd(curCoords.gx, curCoords.gy);
                 if (!bestEnemyDist || curEnemyDist < bestEnemyDist) {
                     bestEnemyCoords = curCoords;
                     bestEnemyDist = curEnemyDist;

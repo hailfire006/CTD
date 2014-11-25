@@ -27,13 +27,7 @@ function makeGrid(width, height) {
     grid.height = height;
     grid.entities = []; // used for drawing
     grid.spawnPoints = [];
-    grid.pathDistMap = new Array(width); // 2D array of how far each tile is from end of path
-    for (var i = 0; i < width; i++) {
-        grid.pathDistMap[i] = new Array(height);
-        for (var j = 0; j < height; j++) {
-            //grid.distMap[i][j];
-        }
-    }
+    grid.pathDistMap = Utility.make2DArray(width, height); // 2D array of how far each tile is from end of path
     // adding functions (fake OOP)
     grid.generateRandomMap = function() {
         for (var i = 0; i < width; i++) {
@@ -122,6 +116,7 @@ function makeGrid(width, height) {
             ty: ty
         };
         this.spawnPoints.push(tileCoords);
+        this.calculatePathDistances();
     };
     grid.spawn = function() {
         // choose a random spawner
@@ -137,6 +132,15 @@ function makeGrid(width, height) {
             this.addEntity(makeGlarefish(gx, gy));
         } else if (choice == 1) {
             this.addEntity(makeChomper(gx, gy));
+        }
+    };
+    // Calculates how far each tile is from end of path, perform whenever a spawn/direction changed
+    grid.calculatePathDistances = function() {
+        // TODO implement, set pathDistMap
+        for (var i = 0; i < this.pathDistMap.length; i++) {
+            for (var j = 0; j < this.pathDistMap[i].length; j++) {
+                this.pathDistMap[i][j] = 1;
+            }
         }
     };
     // tower-related
@@ -173,9 +177,10 @@ function makeGrid(width, height) {
     };
     // get distance to end of path, how close an enemy on this tile is to finishing path
     // not completely accurate since distance isn't factored in
-    grid.getDistToEnd = function(tileCoords) {
+    grid.getDistToEnd = function(gx, gy) {
         // TODO implement actually
-        return 1;
+        var tileCoords = this.graphicalToTileCoords(gx, gy);
+        return this.pathDistMap[tileCoords.tx][tileCoords.ty];
     };
     // draw & update just send draw & update function calls to every contained tile
     grid.draw = function(ctx) {

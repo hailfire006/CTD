@@ -171,6 +171,7 @@ function clickOnGrid(mouseX, mouseY) {
                 break;
             }
             tile.direction = direction;
+            grid.calculatePathDistances();
         } else if (Ui.currentChoice === 'deleteArrow') {
             var tile = grid.getTileAtCoords(tileCoords);
             delete tile.direction;

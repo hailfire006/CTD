@@ -4,7 +4,7 @@
 /*
  * Projectile entities go here.
  */
-
+// TODO make projectiles more visible by adding a "fade" effect before vanishing, faster = more fade
 function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
     var imageCategory = 'projectile';
     var projectile = makeEntity(gx, gy, imageCategory, imageName);
