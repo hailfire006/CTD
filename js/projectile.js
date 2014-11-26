@@ -5,13 +5,15 @@
  * Projectile entities go here.
  */
 // TODO make projectiles more visible by adding a "fade" effect before vanishing, faster = more fade
-function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
+function makeProjectile(tower, targetx, targety, imageName, damage, speed) {
     var imageCategory = 'projectile';
-    var projectile = makeEntity(gx, gy, imageCategory, imageName);
+    var projectile = makeEntity(tower.gx, tower.gy, imageCategory, imageName);
+    projectile.owner = tower;
     projectile.speed = speed;
     projectile.damage = damage;
+    // TODO get enemy ahead of time, always home towards enemy, slow down projectile speed
     projectile.update = function (mod) {
-        var angle = Math.atan2(targety - gy,targetx - gx);
+        var angle = Math.atan2(targety - this.gy,targetx - this.gx);
         this.gx += mod * Math.cos(angle) * projectile.speed;
         this.gy += mod * Math.sin(angle) * projectile.speed;
         var projectileTile = grid.graphicalToTileCoords(projectile.gx,projectile.gy);
@@ -35,23 +37,31 @@ function makeProjectile(gx, gy, targetx, targety, imageName, speed, damage) {
 }
 
 function makeFireProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "fireball.png", 1500, 100);
+    var imageName = "fireball.png";
+    var damage = 100;
+    var speed = 1500;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     return projectile;
 }
 function makeSprayProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "bluefire.png", 1500, 10);
+    var imageName = "bluefire.png";
+    var damage = 10;
+    var speed = 1500;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     return projectile;
 }
 function makeLightningProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "lightningbolt.png", 5000, 800);
+    var imageName = "lightningbolt.png";
+    var damage = 800;
+    var speed = 5000;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     return projectile;
 }
 function makeMagicProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "magicTower.png", 1500, 30);
+    var imageName = "magicTower.png";
+    var damage = 30;
+    var speed = 1500;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
         // Melt Armor
         enemy.armor -= 5;
@@ -59,8 +69,10 @@ function makeMagicProjectile(tower,targetx,targety) {
     return projectile;
 }
 function makeKingProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "kingTower.png", 3500, 500);
+    var imageName = "kingTower.png";
+    var damage = 500;
+    var speed = 3500;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
         // Bow Before The King - Reduces all stats
         if (enemy.regen > 0) {
@@ -79,22 +91,24 @@ function makeKingProjectile(tower,targetx,targety) {
     return projectile;
 }
 function makeSpookyProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "spookyTower.png", 1500, 70);
+    var imageName = "spookyTower.png";
+    var damage = 70;
+    var speed = 1500;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
         enemy.regen -= 10;
     };
     return projectile;
 }
 function makeSpikyGemProjectile(tower,targetx,targety) {
-    var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "spikyGemTower.png", 1500, 30);
+    var imageName = "spikyGemTower.png";
+    var damage = 30;
+    var speed = 1500;
+    var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
         var speedMultiplier = .8;
         var newSpeed = Math.floor(enemy.speed * speedMultiplier);
-        if (newSpeed > 0) {
-            enemy.speed = newSpeed;
-        }
+        enemy.speed = Math.max(10, newSpeed);
     };
     return projectile;
 }
