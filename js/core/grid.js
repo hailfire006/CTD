@@ -137,12 +137,35 @@ function makeGrid(width, height) {
     };
     // Calculates how far each tile is from end of path, perform whenever a spawn/direction changed
     grid.calculatePathDistances = function() {
+        // TODO optimize?
         // TODO implement, set pathDistMap
         for (var i = 0; i < this.pathDistMap.length; i++) {
             for (var j = 0; j < this.pathDistMap[i].length; j++) {
-                this.pathDistMap[i][j] = 1;
+                calculatePathDistance(i, j);
             }
         }
+    };
+    // Calculates how far a tile is from end of path
+    grid.calculatePathDistance = function(tx, ty) {
+        // just follow the path, with a small check for infinite loops
+        var distance = 0;
+        var curX = tx;
+        var curY = ty;
+        var curCoords = {
+            tx: curX,
+            ty: curY
+        };
+        var curDirection = {
+            multX: 1,
+            multY: 0
+        };
+        while (inBounds(curCoords)) {
+            curCoords = {
+                tx: curX,
+                ty: curY
+            };
+        }
+        //this.pathDistMap[tx][ty];
     };
     // tower-related
     grid.canBuildTowerAt = function(tileCoords) {
@@ -179,7 +202,6 @@ function makeGrid(width, height) {
     // get distance to end of path, how close an enemy on this tile is to finishing path
     // not completely accurate since distance isn't factored in
     grid.getDistToEnd = function(gx, gy) {
-        // TODO implement actually
         var tileCoords = this.graphicalToTileCoords(gx, gy);
         return this.pathDistMap[tileCoords.tx][tileCoords.ty];
     };
@@ -254,7 +276,7 @@ function makeGrid(width, height) {
         for (var i = 0; i < grid.entities.length; i++) {
             grid.entities[i].update(mod);
         }
-        // TODO handle multiple tiles?
+        // TODO handle multiple tile spanning entities?
         // now update which tile the entities belong to
         for (var i = 0; i < grid.length; i++) {
             for (var j = 0; j < grid[i].length; j++) {
@@ -274,9 +296,8 @@ function makeGrid(width, height) {
             this.updateEntityCoordinates(tile, entity);
         }, this);
     };
-    // change the tile an entity belongs to based on its current (gx, gy)
+    // change the tile an entity belongs to based on its current center (gx+sx/2, gy+sy/2)
     grid.updateEntityCoordinates = function(oldTile, entity) {
-        // TODO determine tile by center of entity, not top-left corner
         var entityCenterX = entity.gx + entity.sx / 2;
         var entityCenterY = entity.gy + entity.sy / 2;
         var tileCoords = this.graphicalToTileCoords(entityCenterX, entityCenterY);

@@ -13,7 +13,7 @@ var Game = { // TODO move all globals into Game namespace
     time: Date.now(), // last time run() was called
     totalSeconds: 0, // total seconds since game start
     getDifficulty: function() {
-        return Math.floor(Math.pow(this.totalSeconds, .5));
+        return Math.floor(Math.pow(this.totalSeconds, .4));
     }
 };
 var grid = makeGrid(14, 12);

@@ -1,6 +1,6 @@
 
 /*
- * Provides constants for game.js
+ * Provides constants for game.js & grid.js
  */
 
 // PERFORMANCE
