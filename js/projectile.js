@@ -46,7 +46,7 @@ function makeSprayProjectile(tower,targetx,targety) {
 }
 function makeLightningProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "lightningbolt.png", 3000, 300);
+        "lightningbolt.png", 5000, 700);
     return projectile;
 }
 function makeMagicProjectile(tower,targetx,targety) {
@@ -59,7 +59,21 @@ function makeMagicProjectile(tower,targetx,targety) {
 }
 function makeKingProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "kingTower.png", 1900, 500);
+        "kingTower.png", 3500, 500);
+    projectile.additionalEffects = function(enemy) {
+        if (enemy.regen > 0) {
+            enemy.regen -= 5;
+            enemy.regen = Math.max(0, enemy.regen);
+        }
+        if (enemy.armor > 0) {
+            enemy.armor -= 5;
+            enemy.armor = Math.max(0, enemy.armor);
+        }
+        if (enemy.speed > 0) {
+            enemy.speed -= 5;
+            enemy.speed = Math.max(0, enemy.speed);
+        }
+    };
     return projectile;
 }
 function makeSpookyProjectile(tower,targetx,targety) {

@@ -117,21 +117,21 @@ function makeWaterTower(gx,gy) {
     return tower;
 }
 function makeLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"lightningbolt.png",6,1.5);
+    var tower = makeTower(gx,gy,"lightningbolt.png",10,5);
     tower.makeProjectile = function (gx, gy) {
         return makeLightningProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeMagicTower(gx,gy) {
-    var tower = makeTower(gx,gy,"magicTower.png",7,.45);
+    var tower = makeTower(gx,gy,"magicTower.png",4,.45);
     tower.makeProjectile = function (gx, gy) {
         return makeMagicProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeKingTower(gx,gy) {
-    var tower = makeTower(gx,gy,"kingTower.png",4,3);
+    var tower = makeTower(gx,gy,"kingTower.png",7,3);
     tower.makeProjectile = function (gx, gy) {
         return makeKingProjectile(tower, gx, gy);
     };
