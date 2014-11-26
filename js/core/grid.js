@@ -224,6 +224,27 @@ function makeGrid(width, height) {
                 curTile.drawTerrain(ctx);
             }
         }
+        grid.drawDebug(ctx);
+        // ensure entities on multiple tiles are drawn ABOVE terrain
+        for (var i = 0; i < grid.entities.length; i++) {
+            grid.entities[i].draw(ctx);
+        }
+    };
+    grid.drawDebug = function(ctx) {
+        // draw distance (optional)
+        if (SHOW_PATH_DIST) {
+            for (var i = 0; i < grid.length; i++) {
+                for (var j = 0; j < grid[i].length; j++) {
+                    var distText = this.pathDistMap[i][j];
+                    if (!distText) {
+                        distText = "???";
+                    }
+                    ctx.fillStyle = "Yep";
+                    ctx.font = "20px Arial";
+                    ctx.fillText(distText, i*tileWidth, (j+.5)*tileHeight);
+                }
+            }
+        }
         // draw spawn (optional)
         if (SHOW_ENEMY_SPAWN) {
             this.spawnPoints.forEach(function(curPoint) {
@@ -275,10 +296,6 @@ function makeGrid(width, height) {
                     }
                 }
             }
-        }
-        // ensure entities on multiple tiles are drawn ABOVE terrain
-        for (var i = 0; i < grid.entities.length; i++) {
-            grid.entities[i].draw(ctx);
         }
     };
     grid.update = function(mod) {
