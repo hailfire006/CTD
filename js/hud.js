@@ -255,9 +255,10 @@ function drawHudBorder(ctx) {
 
 function drawMoney(ctx) {
     var hudGraphicalX = grid.width * TILE_WIDTH;
-    var hudGraphicalY = grid.height * TILE_HEIGHT; 
+    var hudGraphicalY = grid.height * TILE_HEIGHT - 5;     
     ctx.font = "30px Arial";
-    ctx.strokeText("$" + Math.floor(Game.money),hudGraphicalX,hudGraphicalY);
+    ctx.fillStyle = "black";
+    ctx.fillText("$" + Math.floor(Game.money),hudGraphicalX,hudGraphicalY);
 }
 
 function drawHud(ctx) {
