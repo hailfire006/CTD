@@ -149,25 +149,32 @@ function makeGrid(width, height) {
     grid.calculatePathDistance = function(tx, ty) {
         // just follow the path, with a small check for infinite loops
         var distance = 0;
-        var curX = tx;
-        var curY = ty;
         var curCoords = {
-            tx: curX,
-            ty: curY
+            tx: tx,
+            ty: ty
         };
         var curDirection = {
             dx: 1,
             dy: 0
         };
+        var maxDist = this.width * this.height; // infinite loop catcher
         while (this.inBounds(curCoords)) {
-            curCoords = {
-                tx: curX,
-                ty: curY
-            };
-            //curCoords[]
+            curCoords.tx += curDirection.dx;
+            curCoords.ty += curDirection.dy;
+            var curTile = this.getTileAtCoords(curCoords);
+            if (curTile && curTile.direction) {
+                curDirection.dx = curTile.direction.x;
+                curDirection.dy = curTile.direction.y;
+            }
             distance++;
-            return;
+            if (distance > maxDist) {
+                // console.log('loop! for ' + curCoords.tx + ',' + curCoords.ty);
+                // TODO possibly set to highest possible number
+                return;
+            }
         }
+        // TODO fix distance calc - finding infinite loops where isn't any
+        // console.log(distance);
         this.pathDistMap[tx][ty] = distance;
     };
     // tower-related
