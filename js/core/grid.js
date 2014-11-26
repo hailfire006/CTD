@@ -132,17 +132,17 @@ function makeGrid(width, height) {
         }
     };
     grid.spawnRandomEnemy = function(gx, gy) {
-        var choice = Utility.getRandomInteger(0, 1);
-        if (choice == 0) {
-            this.addEntity(makeGlarefish(gx, gy));
-        } else if (choice == 1) {
-            this.addEntity(makeChomper(gx, gy));
-        }
+        this.addEntity(makeRandomEnemy(gx, gy));
+        // var choice = Utility.getRandomInteger(0, 1);
+        // if (choice == 0) {
+            // this.addEntity(makeGlarefish(gx, gy));
+        // } else if (choice == 1) {
+            // this.addEntity(makeChomper(gx, gy));
+        // }
     };
     // Calculates how far each tile is from end of path, perform whenever a spawn/direction changed
     grid.calculatePathDistances = function() {
         // TODO optimize?
-        // TODO implement, set pathDistMap
         for (var i = 0; i < this.pathDistMap.length; i++) {
             for (var j = 0; j < this.pathDistMap[i].length; j++) {
                 this.calculatePathDistance(i, j);

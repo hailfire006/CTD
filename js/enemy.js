@@ -35,27 +35,31 @@ function makeEnemy(gx, gy, imageName, health, speed) {
         this.health -= adjustedDamage;
     };
     enemy.postDraw = function (ctx) {
+        var healthBarHeight = 5;
         ctx.fillStyle = "green";
-        ctx.fillRect(this.gx,this.gy,this.sx,5);
+        ctx.fillRect(this.gx,this.gy,this.sx,healthBarHeight);
         ctx.fillStyle = "red";
         var healthPercentage = this.health / this.maxHealth;
-        var missingHealthPercentage = 1 - healthPercentage;
-        ctx.fillRect(this.gx+(this.sx*healthPercentage),this.gy,this.sx-(this.sx*healthPercentage),5);
+        var healthWidth = this.sx * healthPercentage;
+        ctx.fillRect(this.gx+healthWidth,this.gy,this.sx-healthWidth,healthBarHeight);
     };
     enemy.update = function (mod) {
-        enemy.preUpdate(mod);
-        enemy.move(mod);
-        enemy.health += enemy.regen;
-        if (enemy.health <= 0) {
+        this.preUpdate(mod);
+        this.move(mod);
+        this.health += enemy.regen;
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+        if (this.health <= 0) {
             grid.removeEntity(this);
         }
-        enemy.postUpdate(mod);
+        this.postUpdate(mod);
     };
     enemy.move = function(mod) {
         var dx = this.speed * this.direction.multiplierX;
         var dy = this.speed * this.direction.multiplierY;
-        enemy.gx += mod * dx;
-        enemy.gy += mod * dy;
+        this.gx += mod * dx;
+        this.gy += mod * dy;
         // change direction on certain tiles
         var currentTileCoords = this.getCurrentTileCoords();
         var currentTile = grid.getTileAtCoords(currentTileCoords);
@@ -76,33 +80,39 @@ function makeEnemy(gx, gy, imageName, health, speed) {
 }
 
 function makeGlarefish(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'glarefish.png', 500, 30);
+    var enemy = makeEnemy(gx, gy, 'glarefish.png', 200, 30);
     enemy.armor = 0;
     return enemy;
 }
 
 function makeChomper(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'chomper.png', 1000, 100);
+    var enemy = makeEnemy(gx, gy, 'chomper.png', 500, 80);
     enemy.armor = 0;
     return enemy;
 }
 
 function makeGolem(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'golem.png', 3000, 20);
+    var enemy = makeEnemy(gx, gy, 'staregolem.png', 1000, 15);
     enemy.armor = 2;
     return enemy;
 }
 
 function makeBug(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'bug.png', 400, 300);
+    var enemy = makeEnemy(gx, gy, 'smugbug.png', 100, 120);
     enemy.armor = 0;
+    enemy.regen = 2;
     return enemy;
 }
 
 function makeBeetle(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'beetle.png', 1500, 20);
-    enemy.armor = 3;
-    enemy.regen = 3;
+    var enemy = makeEnemy(gx, gy, 'smilebeetle.png', 150, 50);
+    enemy.armor = 1;
+    enemy.regen = 1;
     return enemy;
 }
 
+function makeRandomEnemy(gx, gy) {
+    var possibleEnemyFunctions = [makeGlarefish, makeChomper, makeGolem, makeBug, makeBeetle];
+    var makeRandomEnemyFunction = Utility.getRandomElementFromArray(possibleEnemyFunctions);
+    return makeRandomEnemyFunction(gx, gy);
+}
