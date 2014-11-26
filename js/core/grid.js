@@ -141,7 +141,7 @@ function makeGrid(width, height) {
         // TODO implement, set pathDistMap
         for (var i = 0; i < this.pathDistMap.length; i++) {
             for (var j = 0; j < this.pathDistMap[i].length; j++) {
-                calculatePathDistance(i, j);
+                this.calculatePathDistance(i, j);
             }
         }
     };
@@ -156,16 +156,19 @@ function makeGrid(width, height) {
             ty: curY
         };
         var curDirection = {
-            multX: 1,
-            multY: 0
+            dx: 1,
+            dy: 0
         };
         while (inBounds(curCoords)) {
             curCoords = {
                 tx: curX,
                 ty: curY
             };
+            //curCoords[]
+            distance++;
+            return;
         }
-        //this.pathDistMap[tx][ty];
+        this.pathDistMap[tx][ty] = distance;
     };
     // tower-related
     grid.canBuildTowerAt = function(tileCoords) {
