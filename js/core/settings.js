@@ -11,8 +11,10 @@ var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
 // tile dimensions affect tile size in grid and entity size
 var TILE_WIDTH = 50;
 var TILE_HEIGHT = 50;
+
 var TEMP_SPAWN_RATE = 5; // out of 100, % chance for an enemy to spawn on any given frame, remove later
 var INCREASING_DIFFICULTY = true; // whether difficulty should increase over time
+var STARTING_MONEY = 500;
 
 // AESTHETIC
 var HUD_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons

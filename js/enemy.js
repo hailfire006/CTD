@@ -23,6 +23,13 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     };
     enemy.postUpdate = function(mod) {
     };
+    enemy.buffDifficulty = function (difficulty) {
+        var propertyMultiplier = 1 + difficulty / 5;
+        this.health = Math.floor(this.health * propertyMultiplier);
+        this.maxHealth = Math.floor(this.maxHealth * propertyMultiplier);
+        this.armor = Math.floor(this.armor * propertyMultiplier);
+        this.regen = Math.floor(this.regen * propertyMultiplier);
+    };
     enemy.takeDamage = function (damage) {
         var adjustedDamage = Math.max(damage - this.armor, 1);
         this.health -= adjustedDamage;

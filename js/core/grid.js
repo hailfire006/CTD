@@ -26,6 +26,7 @@ function makeGrid(width, height) {
     grid.width = width;
     grid.height = height;
     grid.entities = []; // used for drawing
+    grid.enemyPower = 0; // bonus multiplier for enemy stats
     grid.spawnChance = TEMP_SPAWN_RATE;
     grid.spawnPoints = [];
     grid.pathDistMap = Utility.make2DArray(width, height); // 2D array of how far each tile is from end of path
@@ -48,7 +49,7 @@ function makeGrid(width, height) {
                 }
                 var tile = makeTile(buildable, terrain);
                 // directional test
-                if (random < .25) {
+                if (Utility.percentChance(25)) {
                     random = Math.random();
                     var directionNum = Math.floor(random / .24);
                     var direction;
@@ -80,6 +81,9 @@ function makeGrid(width, height) {
         var tileCoords = this.graphicalToTileCoords(entity.gx, entity.gy);
         var tile = grid.getTileAtCoords(tileCoords);
         if (tile) {
+            if (entity.hostile) { // buff enemies when they are added to the grid
+                entity.buffDifficulty(this.enemyPower);
+            }
             tile.addEntity(entity);
             grid.entities.push(entity);
             entity.grid = this;
@@ -230,6 +234,7 @@ function makeGrid(width, height) {
             grid.entities[i].draw(ctx);
         }
     };
+    // Draw debug text, grid lines, squares for entities, etc.
     grid.drawDebug = function(ctx) {
         // draw distance (optional)
         if (SHOW_PATH_DIST) {

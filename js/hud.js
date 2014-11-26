@@ -135,7 +135,7 @@ function clickOnGrid(mouseX, mouseY) {
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {
-            grid = makeGrid(grid.width, grid.height);
+            resetGame();
             grid.generateRandomMap();
         } else if (Ui.currentChoice === 'grass') {
             var tile = grid.getTileAtCoords(tileCoords);
