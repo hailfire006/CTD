@@ -14,7 +14,8 @@ var Game = { // TODO move all globals into Game namespace
     totalSeconds: 0, // total seconds since game start
     money: 500, // money at start
     getDifficulty: function() {
-        return Math.floor(Math.pow(this.totalSeconds, .4));
+        // divide to make initial difficulty last for a few seconds
+        return Math.floor(Math.pow(this.totalSeconds / 10, .4));
     }
 };
 var grid = makeGrid(14, 12);
@@ -38,11 +39,7 @@ function run() {
 }
 function update(mod) {
     grid.update(mod);
-    var newSpawnChance = TEMP_SPAWN_RATE;
-    if (INCREASING_DIFFICULTY) {
-        newSpawnChance += Game.getDifficulty();
-    }
-    grid.spawnChance = newSpawnChance;
+    updateDifficulty(grid);
     Game.money += mod;
 }
 function draw() {
@@ -78,6 +75,17 @@ function unpauseGame() {
         Game.time = Date.now(); // avoid queueing up update
         Game.runIntervalId = setInterval(run, RUN_INTERVAL);
     }
+}
+function updateDifficulty() {
+    var newSpawnChance = TEMP_SPAWN_RATE;
+    var newEnemyBoost = 0;
+    // increases difficulty if set, otherwise resets multiplier & spawn rate
+    if (INCREASING_DIFFICULTY) {
+        newSpawnChance += Game.getDifficulty();
+        newEnemyBoost = Game.getDifficulty();
+    }
+    grid.enemyPower = newEnemyBoost;
+    grid.spawnChance = newSpawnChance;
 }
 function saveGrid() {
     var jsonString = JSON.stringify(grid.asJsonObject());

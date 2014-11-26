@@ -46,13 +46,14 @@ function makeSprayProjectile(tower,targetx,targety) {
 }
 function makeLightningProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
-        "lightningbolt.png", 5000, 700);
+        "lightningbolt.png", 5000, 800);
     return projectile;
 }
 function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
         "magicTower.png", 1500, 30);
     projectile.additionalEffects = function(enemy) {
+        // Melt Armor
         enemy.armor -= 5;
     };
     return projectile;
@@ -61,6 +62,7 @@ function makeKingProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower.gx,tower.gy,targetx,targety,
         "kingTower.png", 3500, 500);
     projectile.additionalEffects = function(enemy) {
+        // Bow Before The King - Reduces all stats
         if (enemy.regen > 0) {
             enemy.regen -= 5;
             enemy.regen = Math.max(0, enemy.regen);
