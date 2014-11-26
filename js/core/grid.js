@@ -159,7 +159,7 @@ function makeGrid(width, height) {
             dx: 1,
             dy: 0
         };
-        while (inBounds(curCoords)) {
+        while (this.inBounds(curCoords)) {
             curCoords = {
                 tx: curX,
                 ty: curY
