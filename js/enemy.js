@@ -40,7 +40,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
         ctx.fillRect(this.gx,this.gy,this.sx,healthBarHeight);
         ctx.fillStyle = "red";
         var healthPercentage = this.health / this.maxHealth;
-        var healthWidth = this.sx * healthPercentage;
+        var healthWidth = Math.max(this.sx * healthPercentage, 0);
         ctx.fillRect(this.gx+healthWidth,this.gy,this.sx-healthWidth,healthBarHeight);
     };
     enemy.update = function (mod) {

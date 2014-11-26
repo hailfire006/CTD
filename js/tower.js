@@ -124,28 +124,28 @@ function makeLightningTower(gx,gy) {
     return tower;
 }
 function makeMagicTower(gx,gy) {
-    var tower = makeTower(gx,gy,"magicTower.png",4,.45);
+    var tower = makeTower(gx,gy,"magicTrick.png",4,.45);
     tower.makeProjectile = function (gx, gy) {
         return makeMagicProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeKingTower(gx,gy) {
-    var tower = makeTower(gx,gy,"kingTower.png",7,3);
+    var tower = makeTower(gx,gy,"kingCrown.png",7,3);
     tower.makeProjectile = function (gx, gy) {
         return makeKingProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeSpikyGemTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spikyGemTower.png",4,.75);
+    var tower = makeTower(gx,gy,"spikyGem.png",4,.75);
     tower.makeProjectile = function (gx, gy) {
         return makeSpikyGemProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeSpookyTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spookyTower.png",3,1);
+    var tower = makeTower(gx,gy,"spookySkull.png",3,1);
     tower.makeProjectile = function (gx, gy) {
         return makeSpookyProjectile(tower, gx, gy);
     };
@@ -155,9 +155,9 @@ function addTowerListing() { // add new towerListing in here to generate hud but
     Towers.addTowerListing('fireball.png', makeFireTower);
     Towers.addTowerListing('bluefire.png', makeWaterTower);
     Towers.addTowerListing('lightningbolt.png', makeLightningTower);
-    Towers.addTowerListing('magicTower.png', makeMagicTower);
-    Towers.addTowerListing('kingTower.png', makeKingTower);
-    Towers.addTowerListing('spikyGemTower.png', makeSpikyGemTower);
-    Towers.addTowerListing('spookyTower.png', makeSpookyTower);
+    Towers.addTowerListing('magicTrick.png', makeMagicTower);
+    Towers.addTowerListing('kingCrown.png', makeKingTower);
+    Towers.addTowerListing('spikyGem.png', makeSpikyGemTower);
+    Towers.addTowerListing('spookySkull.png', makeSpookyTower);
 }
 addTowerListing();

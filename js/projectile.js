@@ -48,12 +48,26 @@ function makeFireProjectile(tower,targetx,targety) {
     var damage = 100;
     var speed = 800;
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
+    projectile.additionalEffects = function(enemy) {
+        // Mark of Fire - Every 3 hits, deals +300% damage
+        var triggerHitCount = 3;
+        var triggerDamageMultiplier = 3;
+        if (!enemy.markOfFire) {
+            enemy.markOfFire = 0;
+        }
+        enemy.markOfFire++;
+        if (enemy.markOfFire >= triggerHitCount) {
+            enemy.takeDamage(this.damage * triggerDamageMultiplier);
+            enemy.markOfFire = 0;
+        }
+    };
     return projectile;
 }
 function makeSprayProjectile(tower,targetx,targety) {
     var imageName = "bluefire.png";
     var damage = 10;
     var speed = 1000;
+    // Just Attacks Very Fast
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     return projectile;
 }
@@ -61,11 +75,12 @@ function makeLightningProjectile(tower,targetx,targety) {
     var imageName = "lightningbolt.png";
     var damage = 800;
     var speed = 3000;
+    // Long Range, High Speed, High Damage
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     return projectile;
 }
 function makeMagicProjectile(tower,targetx,targety) {
-    var imageName = "magicTower.png";
+    var imageName = "magicTrick.png";
     var damage = 30;
     var speed = 700;
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
@@ -76,7 +91,7 @@ function makeMagicProjectile(tower,targetx,targety) {
     return projectile;
 }
 function makeKingProjectile(tower,targetx,targety) {
-    var imageName = "kingTower.png";
+    var imageName = "kingCrown.png";
     var damage = 500;
     var speed = 2000;
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
@@ -98,21 +113,23 @@ function makeKingProjectile(tower,targetx,targety) {
     return projectile;
 }
 function makeSpookyProjectile(tower,targetx,targety) {
-    var imageName = "spookyTower.png";
+    var imageName = "spookySkull.png";
     var damage = 70;
     var speed = 800;
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
+        // Spooky Death - Poison damage
         enemy.regen -= 10;
     };
     return projectile;
 }
 function makeSpikyGemProjectile(tower,targetx,targety) {
-    var imageName = "spikyGemTower.png";
+    var imageName = "spikyGem.png";
     var damage = 30;
     var speed = 900;
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
+        // Crystallize - Slows enemy
         var speedMultiplier = .8;
         var newSpeed = Math.floor(enemy.speed * speedMultiplier);
         enemy.speed = Math.max(10, newSpeed);
