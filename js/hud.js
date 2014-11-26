@@ -110,6 +110,9 @@ function addMenuButtons() {
     addMenuButton(0, 10, 'interface', 'start_platform.png',function() {
         Ui.currentChoice = 'spawn';
     });
+    addMenuButton(1, 10, 'terrain', 'road_horizontal.png',function() {
+        Ui.currentChoice = 'road';
+    });
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -177,6 +180,26 @@ function clickOnGrid(mouseX, mouseY) {
             delete tile.direction;
         } else if (Ui.currentChoice === 'spawn') {
             grid.addSpawnPoint(tileCoords.tx, tileCoords.ty);
+        } else if (Ui.currentChoice === 'road'){
+            var tile = grid.getTileAtCoords(tileCoords);
+            var terrain = tile.terrain;
+            tile.buildable = false;
+            if(!tile.imageName)
+                tile.imageName = "road_vertical.png";
+            
+            terrain.imageCategory = 'terrain';
+            
+            console.log(tile.imageName);
+            
+            if (tile.imageName == "road_horizontal.png"){
+                tile.imageName = "road_vertical.png";
+            } else {
+                tile.imageName = "road_horizontal.png";
+            }
+             
+            terrain.imageName = tile.imageName;
+            terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
+             var tile = grid.getTileAtCoords(tileCoords);            
         } else if (Ui.currentChoice) {
             console.log('No handling for Ui choice: ' + Ui.currentChoice);
         }
