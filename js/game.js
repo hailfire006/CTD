@@ -12,6 +12,7 @@ var Game = { // TODO move all globals into Game namespace
     //var runIntervalId // interval
     time: Date.now(), // last time run() was called
     totalSeconds: 0, // total seconds since game start
+    money: 500, // money at start
     getDifficulty: function() {
         return Math.floor(Math.pow(this.totalSeconds, .4));
     }
@@ -42,6 +43,7 @@ function update(mod) {
         newSpawnChance += Game.getDifficulty();
     }
     grid.spawnChance = newSpawnChance;
+    Game.money += mod;
 }
 function draw() {
     var ctx = canvas.getContext("2d");

@@ -230,11 +230,19 @@ function drawHudBorder(ctx) {
     ctx.lineWidth = oldLineWidth;
 }
 
+function drawMoney(ctx) {
+    var hudGraphicalX = grid.width * TILE_WIDTH;
+    var hudGraphicalY = grid.height * TILE_HEIGHT; 
+    ctx.font = "30px Arial";
+    ctx.strokeText("$" + Math.floor(Game.money),hudGraphicalX,hudGraphicalY);
+}
+
 function drawHud(ctx) {
     clearHud(ctx);
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
+    drawMoney(ctx);
     drawHudBorder(ctx);
 }
 
