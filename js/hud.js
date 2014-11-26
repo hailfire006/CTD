@@ -7,7 +7,28 @@
 var Ui = {
     buttons: [],
     // currentChoice:
-    makeTowerFunction: function(gx, gy) { } // build tower function
+    makeTowerFunction: function(gx, gy) { }, // build tower function
+    // Button adding
+    nextFreeX: 0,
+    nextFreeY: 0,
+    addButton: function(imageCategory, imageName, onClickFunction) {
+        var hudWidth = 2; // TODO make constant
+        var hudGraphicalX = (grid.width + Ui.nextFreeX) * TILE_WIDTH;
+        var hudGraphicalY = Ui.nextFreeY * TILE_HEIGHT;
+        var button = makeButton(hudGraphicalX, hudGraphicalY, imageCategory, imageName, onClickFunction);
+        Ui.nextFreeX++;
+        if (Ui.nextFreeX >= hudWidth) {
+            Ui.nextFreeX = 0;
+            Ui.nextFreeY++;
+        }
+        Ui.buttons.push(button);
+    },
+    addButtonDivider: function() {
+        if (Ui.nextFreeX > 0) {
+            Ui.nextFreeX = 0;
+            Ui.nextFreeY++;
+        }
+    }
 };
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
@@ -70,49 +91,50 @@ function makeTowerFunctionWrapper(towerFunction) {
 }
 
 function addMenuButtons() {
-    var curMenuX = 0;
-    var curMenuY = 0;
-    var HUD_WIDTH = 2;
+    // add tower buttons
     for (var iconName in Towers.towerListing) {
-        var curTowerFunction = Towers.towerListing[iconName];
-        addMenuButton(curMenuX, curMenuY, 'tower', iconName, makeTowerFunctionWrapper(curTowerFunction));
-        curMenuX++;
-        if (curMenuX >= HUD_WIDTH) {
-            curMenuX = 0;
-            curMenuY++;
-        }
+        var curTowerFunction = makeTowerFunctionWrapper(Towers.towerListing[iconName]);
+        Ui.addButton('tower', iconName, curTowerFunction);
     }
-    // TODO less hardcoding
-    addMenuButton(0, 4, 'enemy', 'glarefish.png',function() {
+    Ui.addButtonDivider();
+    // enemy buttons
+    Ui.addButton('enemy', 'glarefish.png',function() {
         Ui.currentChoice = 'glarefish';
     });
-    addMenuButton(1, 4, 'enemy', 'chomper.png',function() {
+    Ui.addButton('enemy', 'chomper.png',function() {
         Ui.currentChoice = 'chomper';
     });
-    addMenuButton(0, 5, 'interface', 'axehammer.png',function() {
+    Ui.addButtonDivider();
+    // delete/clear buttons
+    Ui.addButton('interface', 'axehammer.png',function() {
         Ui.currentChoice = 'delete';
     });
-    addMenuButton(0, 6, 'interface', 'broom.png',function() {
+    Ui.addButton('interface', 'broom.png',function() {
         Ui.currentChoice = 'clearAll';
     });
-    addMenuButton(0, 8, 'terrain', 'grass.png',function() {
+    Ui.addButtonDivider();
+    // terrain buttons
+    Ui.addButton('terrain', 'grass.png',function() {
         Ui.currentChoice = 'grass';
     });
-    addMenuButton(1, 8, 'terrain', 'rock.png',function() {
+    Ui.addButton('terrain', 'rock.png',function() {
         Ui.currentChoice = 'rock';
     });
-    addMenuButton(0, 9, 'interface', 'arrow_right.png',function() {
-        Ui.currentChoice = 'arrow';
-    });
-    addMenuButton(1, 9, 'interface', 'axehammer.png',function() {
-        Ui.currentChoice = 'deleteArrow';
-    });
-    addMenuButton(0, 10, 'interface', 'start_platform.png',function() {
-        Ui.currentChoice = 'spawn';
-    });
-    addMenuButton(1, 10, 'terrain', 'road_horizontal.png',function() {
+    Ui.addButton('terrain', 'road_horizontal.png',function() {
         Ui.currentChoice = 'road';
     });
+    Ui.addButtonDivider();
+    // misc. buttons
+    Ui.addButton('interface', 'arrow_right.png',function() {
+        Ui.currentChoice = 'arrow';
+    });
+    Ui.addButton('interface', 'axehammer.png',function() {
+        Ui.currentChoice = 'deleteArrow';
+    });
+    Ui.addButton('interface', 'start_platform.png',function() {
+        Ui.currentChoice = 'spawn';
+    });
+    Ui.addButtonDivider();
 }
 
 function clickOnGrid(mouseX, mouseY) {
