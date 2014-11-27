@@ -1,9 +1,7 @@
 
 /*
- * HUD displays health.
+ * HUD displays health and money.
  */
-
-// TODO HUD
 
 function clearHud(ctx) {
     var sidebarGraphicalWidth = grid.width * TILE_WIDTH;
@@ -24,25 +22,31 @@ function padZeros(number, maxPadding) {
     return numberString;
 }
 
-// Display Health as "minutes:seconds:fractionofseconds", ex: 75.315 seconds becomes "01:15:31"
+// Display Health as "minutes:seconds", ex: 75.315 seconds becomes "01:15"
 function getHealthText() {
     var health = Game.lifeTimeSeconds;
     var minutesOnly = padZeros(Math.floor(health / 60), 2);
     var secondsOnly = padZeros(Math.floor(health % 60), 2);
-    var fractionalSeconds = health - Math.floor(health); // get everything after decimal point
-    fractionalSeconds = Math.floor(fractionalSeconds.toFixed(2) * Math.pow(10, 2)); // 2 digits, same as minutes & seconds
-    fractionalSeconds = padZeros(fractionalSeconds, 2);
-    return minutesOnly + ':' + secondsOnly + ':' + fractionalSeconds;
+    return minutesOnly + ':' + secondsOnly;
 }
 
 function drawHealth(ctx) {
-    var bottomY = TILE_HEIGHT - 10;
+    var endY = TILE_HEIGHT - 10;
     ctx.font = "50px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("LIFETIME: " + getHealthText(), 0, bottomY);
+    ctx.fillStyle = HEALTH_DISPLAY_COLOR;
+    ctx.fillText("♥⌛: " + getHealthText(), 0, endY);
+}
+
+function drawMoney(ctx) {
+    var startX = TILE_WIDTH * 10;
+    var endY = TILE_HEIGHT - 10;
+    ctx.font = "50px Arial";
+    ctx.fillStyle = MONEY_DISPLAY_COLOR;
+    ctx.fillText("$" + Math.floor(Game.money), startX, endY);
 }
 
 function drawHud(ctx) {
     clearHud(ctx);
     drawHealth(ctx);
+    drawMoney(ctx);
 }

@@ -1,6 +1,6 @@
 
 /*
- * Side bar displays money and provides build menu. Also shows developer tools.
+ * Side bar provides build menu. Also shows developer tools.
  */
 
 // Variables inside Ui variable to avoid name collisions
@@ -297,20 +297,11 @@ function drawSidebarBorder(ctx) {
     ctx.lineWidth = oldLineWidth;
 }
 
-function drawMoney(ctx) {
-    var sidebarGraphicalX = grid.width * TILE_WIDTH;
-    var sidebarGraphicalY = grid.height * TILE_HEIGHT - 5;
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("$" + Math.floor(Game.money),sidebarGraphicalX,sidebarGraphicalY);
-}
-
 function drawSidebar(ctx) {
     clearSidebar(ctx);
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
-    drawMoney(ctx);
     drawSidebarBorder(ctx);
 }
 
