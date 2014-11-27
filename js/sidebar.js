@@ -123,6 +123,9 @@ function addMenuButtons() {
     Ui.addButton('terrain', 'road_horizontal.png',function() {
         Ui.currentChoice = 'road';
     });
+    Ui.addButton('terrain', 'road_upright.png',function() {
+        Ui.currentChoice = 'roadAngle';
+    });
     Ui.addButtonDivider();
     // misc. buttons
     Ui.addButton('interface', 'arrow_right.png',function() {
@@ -141,10 +144,11 @@ function clickOnGrid(mouseX, mouseY) {
     // place tower at top-left corner
     var gx = mouseX;
     var gy = mouseY;
-    var tileCoords = grid.graphicalToTileCoords(gx, gy);
+    var tileCoords = grid.graphicalToTileCoords(gx, gy - grid.drawOffsetY);
     var graphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
     gx = graphicalCoords.gx;
     gy = graphicalCoords.gy;
+    console.log(gx + ', ' + gy);
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'callFunction') {
             if (grid.canBuildTowerAt(tileCoords)) {
@@ -206,7 +210,7 @@ function clickOnGrid(mouseX, mouseY) {
             var tile = grid.getTileAtCoords(tileCoords);
             var terrain = tile.terrain;
             tile.buildable = false;
-            if(!tile.imageName)
+            if (!tile.imageName)
                 tile.imageName = "road_vertical.png";
             
             terrain.imageCategory = 'terrain';
@@ -217,6 +221,28 @@ function clickOnGrid(mouseX, mouseY) {
                 tile.imageName = "road_vertical.png";
             } else {
                 tile.imageName = "road_horizontal.png";
+            }
+             
+            terrain.imageName = tile.imageName;
+            terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
+             var tile = grid.getTileAtCoords(tileCoords);            
+        } else if (Ui.currentChoice === 'roadAngle'){
+            var tile = grid.getTileAtCoords(tileCoords);
+            var terrain = tile.terrain;
+            tile.buildable = false;
+            if(!tile.imageName)
+                tile.imageName = "road_upright.png";
+            
+            terrain.imageCategory = 'terrain';
+            
+            if (tile.imageName == "road_upright.png"){
+                tile.imageName = "road_rightdown.png";
+            } else if (tile.imageName == "road_rightdown.png") {
+                tile.imageName = "road_rightup.png";
+            } else if (tile.imageName == "road_rightup.png") {
+                tile.imageName = "road_downright.png";
+            } else {
+                tile.imageName = "road_upright.png";
             }
              
             terrain.imageName = tile.imageName;

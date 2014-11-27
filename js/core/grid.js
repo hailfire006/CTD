@@ -23,6 +23,8 @@ function makeGrid(width, height) {
             grid[i][j] = makeTile(true, grassTerrain);
         }
     }
+    // offset draw for hud bar at top
+    grid.drawOffsetY = TILE_HEIGHT;
     grid.width = width;
     grid.height = height;
     grid.entities = []; // used for drawing
@@ -31,6 +33,17 @@ function makeGrid(width, height) {
     grid.spawnPoints = [];
     grid.pathDistMap = Utility.make2DArray(width, height); // 2D array of how far each tile is from end of path
     // adding functions (fake OOP)
+    grid.generateBlankMap = function() {
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < height; j++) {
+                // terrain test
+                var grassTerrain = makeTerrain(i * tileWidth, j * tileHeight, 'grass.png');
+                var terrain = grassTerrain;
+                var tile = makeTile(true, terrain);
+                grid[i][j] = tile;
+            }
+        }
+    };
     grid.generateRandomMap = function() {
         for (var i = 0; i < width; i++) {
             for (var j = 0; j < height; j++) {
@@ -133,12 +146,6 @@ function makeGrid(width, height) {
     };
     grid.spawnRandomEnemy = function(gx, gy) {
         this.addEntity(makeRandomEnemy(gx, gy));
-        // var choice = Utility.getRandomInteger(0, 1);
-        // if (choice == 0) {
-            // this.addEntity(makeGlarefish(gx, gy));
-        // } else if (choice == 1) {
-            // this.addEntity(makeChomper(gx, gy));
-        // }
     };
     // Calculates how far each tile is from end of path, perform whenever a spawn/direction changed
     grid.calculatePathDistances = function() {
@@ -221,6 +228,7 @@ function makeGrid(width, height) {
     };
     // draw & update just send draw & update function calls to every contained tile
     grid.draw = function(ctx) {
+        ctx.translate(0, this.drawOffsetY);
         // draw terrain
         for (var i = 0; i < grid.length; i++) {
             for (var j = 0; j < grid[i].length; j++) {
@@ -233,6 +241,7 @@ function makeGrid(width, height) {
         for (var i = 0; i < grid.entities.length; i++) {
             grid.entities[i].draw(ctx);
         }
+        ctx.translate(0, -this.drawOffsetY);
     };
     // Draw debug text, grid lines, squares for entities, etc.
     grid.drawDebug = function(ctx) {
@@ -244,7 +253,7 @@ function makeGrid(width, height) {
                     if (!distText) {
                         distText = "???";
                     }
-                    ctx.fillStyle = "Yep";
+                    ctx.fillStyle = "black";
                     ctx.font = "20px Arial";
                     ctx.fillText(distText, i*tileWidth, (j+.5)*tileHeight);
                 }
