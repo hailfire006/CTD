@@ -291,7 +291,7 @@ function drawSidebarBorder(ctx) {
     var oldLineWidth = ctx.lineWidth;
     ctx.beginPath();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "black";
     ctx.rect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
     ctx.stroke();
     ctx.lineWidth = oldLineWidth;

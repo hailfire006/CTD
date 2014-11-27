@@ -4,10 +4,10 @@
  */
 
 function clearHud(ctx) {
-    var sidebarGraphicalWidth = grid.width * TILE_WIDTH;
-    var sidebarGraphicalHeight = HUD_HEIGHT; // one tile tall
+    var hudGraphicalWidth = grid.width * TILE_WIDTH;
+    var hudGraphicalHeight = HUD_HEIGHT;
     ctx.fillStyle = UI_BACKGROUND_COLOR;
-    ctx.fillRect(0, 0, sidebarGraphicalWidth, sidebarGraphicalHeight);
+    ctx.fillRect(0, 0, hudGraphicalWidth, hudGraphicalHeight);
 }
 
 // Ex: padZeros(13, 5) returns '00013'
@@ -38,7 +38,7 @@ function getHealthText() {
 }
 
 function drawHealth(ctx) {
-    var endY = TILE_HEIGHT - 10;
+    var endY = TILE_HEIGHT - 8;
     ctx.font = "50px Arial";
     if (Game.lifeTimeSeconds > HEALTH_LOW_THRESHOLD) {
         ctx.fillStyle = HEALTH_DISPLAY_COLOR;
@@ -58,14 +58,27 @@ function drawHealth(ctx) {
 
 function drawMoney(ctx) {
     var startX = TILE_WIDTH * 10;
-    var endY = TILE_HEIGHT - 10;
+    var endY = TILE_HEIGHT - 8;
     ctx.font = "50px Arial";
     ctx.fillStyle = MONEY_DISPLAY_COLOR;
     ctx.fillText("$" + Math.floor(Game.money), startX, endY);
+}
+
+function drawHudBorder(ctx) {
+    var hudGraphicalWidth = grid.width * TILE_WIDTH;
+    var hudGraphicalHeight = HUD_HEIGHT;
+    var oldLineWidth = ctx.lineWidth;
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "black";
+    ctx.rect(0, 0, hudGraphicalWidth, hudGraphicalHeight);
+    ctx.stroke();
+    ctx.lineWidth = oldLineWidth;
 }
 
 function drawHud(ctx) {
     clearHud(ctx);
     drawHealth(ctx);
     drawMoney(ctx);
+    drawHudBorder(ctx);
 }
