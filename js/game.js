@@ -47,6 +47,7 @@ function draw() {
     clearScreen(ctx);
     grid.draw(ctx);
     drawHud(ctx);
+    drawSidebar(ctx);
 }
 function clearScreen(ctx) {
     ctx.fillStyle = BACKGROUND_COLOR;
@@ -111,7 +112,7 @@ function initGrid() {
 function startGame() {
     addFocusListeners();
     initGrid();
-    initHud();
+    initSidebar();
     unpauseGame();
 }
 startGame();

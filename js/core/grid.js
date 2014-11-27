@@ -24,7 +24,7 @@ function makeGrid(width, height) {
         }
     }
     // offset draw for hud bar at top
-    grid.drawOffsetY = TILE_HEIGHT;
+    grid.drawOffsetY = HUD_HEIGHT;
     grid.width = width;
     grid.height = height;
     grid.entities = []; // used for drawing

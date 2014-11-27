@@ -1,6 +1,6 @@
 
 /*
- * HUD displays score and menu options.
+ * Side bar displays money and provides build menu. Also shows developer tools.
  */
 
 // Variables inside Ui variable to avoid name collisions
@@ -12,12 +12,12 @@ var Ui = {
     nextFreeX: 0,
     nextFreeY: 0,
     addButton: function(imageCategory, imageName, onClickFunction) {
-        var hudWidth = 2; // TODO make constant
-        var hudGraphicalX = (grid.width + Ui.nextFreeX) * TILE_WIDTH;
-        var hudGraphicalY = Ui.nextFreeY * TILE_HEIGHT;
-        var button = makeButton(hudGraphicalX, hudGraphicalY, imageCategory, imageName, onClickFunction);
+        var sidebarWidth = 2; // TODO make constant
+        var sidebarGraphicalX = (grid.width + Ui.nextFreeX) * TILE_WIDTH;
+        var sidebarGraphicalY = Ui.nextFreeY * TILE_HEIGHT;
+        var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
         Ui.nextFreeX++;
-        if (Ui.nextFreeX >= hudWidth) {
+        if (Ui.nextFreeX >= sidebarWidth) {
             Ui.nextFreeX = 0;
             Ui.nextFreeY++;
         }
@@ -75,10 +75,10 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     return button;
 }
 
-function addMenuButton(hudTileX, hudTileY, imageCategory, imageName, callback) {
-    var hudGraphicalX = (grid.width + hudTileX) * TILE_WIDTH;
-    var hudGraphicalY = hudTileY * TILE_HEIGHT;
-    var button = makeButton(hudGraphicalX, hudGraphicalY, imageCategory, imageName, callback);
+function addMenuButton(sidebarTileX, sidebarTileY, imageCategory, imageName, callback) {
+    var sidebarGraphicalX = (grid.width + sidebarTileX) * TILE_WIDTH;
+    var sidebarGraphicalY = sidebarTileY * TILE_HEIGHT;
+    var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, callback);
     Ui.buttons.push(button);
 }
 
@@ -148,7 +148,7 @@ function clickOnGrid(mouseX, mouseY) {
     var graphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
     gx = graphicalCoords.gx;
     gy = graphicalCoords.gy;
-    console.log(gx + ', ' + gy);
+    // console.log('Clicked at ('gx + ',' + gy + ')');
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'callFunction') {
             if (grid.canBuildTowerAt(tileCoords)) {
@@ -215,8 +215,6 @@ function clickOnGrid(mouseX, mouseY) {
             
             terrain.imageCategory = 'terrain';
             
-            console.log(tile.imageName);
-            
             if (tile.imageName == "road_horizontal.png"){
                 tile.imageName = "road_vertical.png";
             } else {
@@ -225,7 +223,6 @@ function clickOnGrid(mouseX, mouseY) {
              
             terrain.imageName = tile.imageName;
             terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
-             var tile = grid.getTileAtCoords(tileCoords);            
         } else if (Ui.currentChoice === 'roadAngle'){
             var tile = grid.getTileAtCoords(tileCoords);
             var terrain = tile.terrain;
@@ -247,7 +244,6 @@ function clickOnGrid(mouseX, mouseY) {
              
             terrain.imageName = tile.imageName;
             terrain.image = Images.getImage(terrain.imageCategory, terrain.imageName);
-             var tile = grid.getTileAtCoords(tileCoords);            
         } else if (Ui.currentChoice) {
             console.log('No handling for Ui choice: ' + Ui.currentChoice);
         }
@@ -278,48 +274,48 @@ function addEventListeners(canvas) {
     });
 }
 
-function clearHud(ctx) {
-    var hudGraphicalX = grid.width * TILE_WIDTH;
-    var hudGraphicalY = 0;
-    var hudGraphicalWidth = canvas.width - hudGraphicalX;
-    var hudGraphicalHeight = canvas.height - hudGraphicalY;
-    ctx.fillStyle = HUD_BACKGROUND_COLOR;
-    ctx.fillRect(hudGraphicalX, hudGraphicalY, hudGraphicalWidth, hudGraphicalHeight);
+function clearSidebar(ctx) {
+    var sidebarGraphicalX = grid.width * TILE_WIDTH;
+    var sidebarGraphicalY = 0;
+    var sidebarGraphicalWidth = canvas.width - sidebarGraphicalX;
+    var sidebarGraphicalHeight = canvas.height - sidebarGraphicalY;
+    ctx.fillStyle = UI_BACKGROUND_COLOR;
+    ctx.fillRect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
 }
 
-function drawHudBorder(ctx) {
-    var hudGraphicalX = grid.width * TILE_WIDTH;
-    var hudGraphicalY = 0;
-    var hudGraphicalWidth = canvas.width - hudGraphicalX;
-    var hudGraphicalHeight = canvas.height - hudGraphicalY;
+function drawSidebarBorder(ctx) {
+    var sidebarGraphicalX = grid.width * TILE_WIDTH;
+    var sidebarGraphicalY = 0;
+    var sidebarGraphicalWidth = canvas.width - sidebarGraphicalX;
+    var sidebarGraphicalHeight = canvas.height - sidebarGraphicalY;
     var oldLineWidth = ctx.lineWidth;
     ctx.beginPath();
     ctx.lineWidth = 1;
     ctx.strokeStyle = "white";
-    ctx.rect(hudGraphicalX, hudGraphicalY, hudGraphicalWidth, hudGraphicalHeight);
+    ctx.rect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
     ctx.stroke();
     ctx.lineWidth = oldLineWidth;
 }
 
 function drawMoney(ctx) {
-    var hudGraphicalX = grid.width * TILE_WIDTH;
-    var hudGraphicalY = grid.height * TILE_HEIGHT - 5;     
+    var sidebarGraphicalX = grid.width * TILE_WIDTH;
+    var sidebarGraphicalY = grid.height * TILE_HEIGHT - 5;     
     ctx.font = "30px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("$" + Math.floor(Game.money),hudGraphicalX,hudGraphicalY);
+    ctx.fillText("$" + Math.floor(Game.money),sidebarGraphicalX,sidebarGraphicalY);
 }
 
-function drawHud(ctx) {
-    clearHud(ctx);
+function drawSidebar(ctx) {
+    clearSidebar(ctx);
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
     drawMoney(ctx);
-    drawHudBorder(ctx);
+    drawSidebarBorder(ctx);
 }
 
-// Call this once when game starts to initialize hud
-function initHud() {
+// Call this once when game starts to initialize sidebar
+function initSidebar() {
     addMenuButtons();
     addEventListeners(canvas);
 }

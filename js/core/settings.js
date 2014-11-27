@@ -17,8 +17,9 @@ var INCREASING_DIFFICULTY = true; // whether difficulty should increase over tim
 var STARTING_MONEY = 500;
 
 // AESTHETIC
-var HUD_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons
+var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
 var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless graphics code is messed up
+var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top
 
 // DEBUGGING
 var HIGHLIGHT_ENTITY_HITBOXES = true; // entity hitboxes shown in white
