@@ -9,14 +9,17 @@
 
 ///// globals
 var Game = { // TODO move all globals into Game namespace
+    // Time & Difficulty
     //var runIntervalId // interval
     time: Date.now(), // last time run() was called
     totalSeconds: 0, // total seconds since game start
-    money: STARTING_MONEY, // money at start
     getDifficulty: function() {
         // divide to make initial difficulty last for a few seconds
         return Math.floor(Math.pow(this.totalSeconds / 10, .4));
-    }
+    },
+    // Player Info
+    lifeTimeSeconds: 60, // seconds left until game over, the equivalent of life
+    money: STARTING_MONEY // money used to build towers
 };
 var grid = makeGrid(14, 11);
 
@@ -35,6 +38,7 @@ function run() {
     update(secondsElapsed);
     draw();
     Game.time = Date.now();
+    Game.lifeTimeSeconds -= secondsElapsed;
     Game.totalSeconds += secondsElapsed;
 }
 function update(mod) {

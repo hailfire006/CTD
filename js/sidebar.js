@@ -299,7 +299,7 @@ function drawSidebarBorder(ctx) {
 
 function drawMoney(ctx) {
     var sidebarGraphicalX = grid.width * TILE_WIDTH;
-    var sidebarGraphicalY = grid.height * TILE_HEIGHT - 5;     
+    var sidebarGraphicalY = grid.height * TILE_HEIGHT - 5;
     ctx.font = "30px Arial";
     ctx.fillStyle = "black";
     ctx.fillText("$" + Math.floor(Game.money),sidebarGraphicalX,sidebarGraphicalY);

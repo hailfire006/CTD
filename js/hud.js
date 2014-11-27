@@ -12,6 +12,37 @@ function clearHud(ctx) {
     ctx.fillRect(0, 0, sidebarGraphicalWidth, sidebarGraphicalHeight);
 }
 
+// Ex: padZeros(13, 5) returns '00013'
+function padZeros(number, maxPadding) {
+    var allZerosString = Array(maxPadding).join('0');
+    var numberString = number + '';
+    var paddingAmount = maxPadding - numberString.length;
+    if (paddingAmount > 0) {
+        var paddingString = allZerosString.substr(0, paddingAmount);
+        return numberString + paddingString;
+    }
+    return numberString;
+}
+
+// Display Health as "minutes:seconds:fractionofseconds", ex: 75.315 seconds becomes "01:15:31"
+function getHealthText() {
+    var health = Game.lifeTimeSeconds;
+    var minutesOnly = padZeros(Math.floor(health / 60), 2);
+    var secondsOnly = padZeros(Math.floor(health % 60), 2);
+    var fractionalSeconds = health - Math.floor(health); // get everything after decimal point
+    fractionalSeconds = Math.floor(fractionalSeconds.toFixed(2) * Math.pow(10, 2)); // 2 digits, same as minutes & seconds
+    fractionalSeconds = padZeros(fractionalSeconds, 2);
+    return minutesOnly + ':' + secondsOnly + ':' + fractionalSeconds;
+}
+
+function drawHealth(ctx) {
+    var bottomY = TILE_HEIGHT - 10;
+    ctx.font = "50px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("LIFETIME: " + getHealthText(), 0, bottomY);
+}
+
 function drawHud(ctx) {
     clearHud(ctx);
+    drawHealth(ctx);
 }
