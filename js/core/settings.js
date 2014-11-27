@@ -20,7 +20,9 @@ var STARTING_MONEY = 500;
 // AESTHETIC
 var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
 var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless graphics code is messed up
-var HEALTH_DISPLAY_COLOR = '#FF5959';
+var HEALTH_DISPLAY_COLOR = 'green';
+var HEALTH_LOW_DISPLAY_COLOR = 'red';
+var HEALTH_LOW_THRESHOLD = 15; // in seconds
 var MONEY_DISPLAY_COLOR = 'yellow';
 var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top
 var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies

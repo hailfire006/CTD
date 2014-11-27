@@ -26,16 +26,34 @@ function padZeros(number, maxPadding) {
 function getHealthText() {
     var lifetimeSymbol = '♥⌛'; // heart + hourglass unicode symbols
     var health = Game.lifeTimeSeconds;
-    var minutesOnly = padZeros(Math.floor(health / 60), 2);
-    var secondsOnly = padZeros(Math.floor(health % 60), 2);
-    return lifetimeSymbol + ' ' + minutesOnly + ':' + secondsOnly;
+    var sign = health >= 0 ? ' ' : '-';
+    var minutesOnly = health / 60;
+    if (health < 0) {
+        minutesOnly++; // Math.floor causes -1 if negative
+    }
+    minutesOnly = padZeros(Math.abs(Math.floor(minutesOnly)), 2);
+    var secondsOnly = health % 60;
+    secondsOnly = padZeros(Math.abs(Math.floor(secondsOnly)), 2);
+    return lifetimeSymbol + sign + minutesOnly + ':' + secondsOnly;
 }
 
 function drawHealth(ctx) {
     var endY = TILE_HEIGHT - 10;
     ctx.font = "50px Arial";
-    ctx.fillStyle = HEALTH_DISPLAY_COLOR;
+    if (Game.lifeTimeSeconds > HEALTH_LOW_THRESHOLD) {
+        ctx.fillStyle = HEALTH_DISPLAY_COLOR;
+    } else {
+        ctx.fillStyle = HEALTH_LOW_DISPLAY_COLOR;
+    }
     ctx.fillText(getHealthText(), 0, endY);
+    // Negative health
+    if (Game.lifeTimeSeconds < 0) {
+        var startX = TILE_WIDTH * 4;
+        endY = TILE_HEIGHT - 15;
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText('BORROWED TIME', startX, endY);
+    }
 }
 
 function drawMoney(ctx) {
