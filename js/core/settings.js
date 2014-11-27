@@ -22,15 +22,18 @@ var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless grap
 var HEALTH_DISPLAY_COLOR = '#FF5959';
 var MONEY_DISPLAY_COLOR = 'yellow';
 var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top
+var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
 
-// DEBUGGING
+// DEBUGGING - gameplay
+var ETERNAL_LIFE = true; // prevents lifetime from decrementing
+
+// DEBUGGING - code
 var HIGHLIGHT_ENTITY_HITBOXES = true; // entity hitboxes shown in white
 var HIGHLIGHT_TILES_WITH_ENTITIES = true; // tiles with entities colored red
 var SHOW_GRID = true; // whether to show grid lines around each tile
 var SHOW_PATH_DIST = false; // whether to show distance to end of path on each tile, for tower targetting
 var SHOW_ENEMY_DIRECTION = true; // whether to show enemy path directions on tiles
 var SHOW_ENEMY_SPAWN = true; // whether to show where enemies spawn
-var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
 
 // MULTI-TOGGLE
 var DEMO = true;

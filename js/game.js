@@ -38,7 +38,9 @@ function run() {
     update(secondsElapsed);
     draw();
     Game.time = Date.now();
-    Game.lifeTimeSeconds -= secondsElapsed;
+    if (!ETERNAL_LIFE) {
+        Game.lifeTimeSeconds -= secondsElapsed;
+    }
     Game.totalSeconds += secondsElapsed;
 }
 function update(mod) {
