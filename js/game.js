@@ -18,7 +18,7 @@ var Game = { // TODO move all globals into Game namespace
         return Math.floor(Math.pow(this.totalSeconds / 10, .4));
     },
     // Player Info
-    lifeTimeSeconds: 60, // seconds left until game over, the equivalent of life
+    lifeTimeSeconds: STARTING_HEALTH, // seconds left until game over, the equivalent of life
     money: STARTING_MONEY // money used to build towers
 };
 var grid = makeGrid(14, 11);
@@ -84,7 +84,7 @@ function unpauseGame() {
     }
 }
 function updateDifficulty() {
-    var newSpawnChance = TEMP_SPAWN_RATE;
+    var newSpawnChance = STARTING_SPAWN_RATE;
     var newEnemyBoost = 0;
     // increases difficulty if set, otherwise resets multiplier & spawn rate
     if (INCREASING_DIFFICULTY) {

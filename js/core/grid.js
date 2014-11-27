@@ -29,7 +29,7 @@ function makeGrid(width, height) {
     grid.height = height;
     grid.entities = []; // used for drawing
     grid.enemyPower = 0; // bonus multiplier for enemy stats
-    grid.spawnChance = TEMP_SPAWN_RATE;
+    grid.spawnChance = STARTING_SPAWN_RATE;
     grid.spawnPoints = [];
     grid.pathDistMap = Utility.make2DArray(width, height); // 2D array of how far each tile is from end of path
     // adding functions (fake OOP)
