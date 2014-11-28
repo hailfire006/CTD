@@ -137,7 +137,7 @@ function createAdminMenu() {
 }
 
 function addMenuButtons() {
-    // add tower buttons
+    // tower buttons
     for (var iconName in Towers.towerListing) {
         var curEntityFunction = makeEntityFunctionWrapper(Towers.towerListing[iconName]);
         Ui.addButton('tower', iconName, curEntityFunction);
@@ -164,10 +164,6 @@ function clickOnGrid(mouseX, mouseY) {
             } else { // add enemy
                 grid.addEntity(entity);
             }
-        } else if (Ui.currentChoice === 'glarefish') {
-            grid.addEntity(makeGlarefish(gx, gy));
-        } else if (Ui.currentChoice === 'chomper') {
-            grid.addEntity(makeChomper(gx, gy));
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {
