@@ -46,7 +46,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     enemy.update = function (mod) {
         this.preUpdate(mod);
         this.move(mod);
-        this.health += enemy.regen;
+        this.health += enemy.regen * mod;
         if (this.health > this.maxHealth) {
             this.health = this.maxHealth;
         }
@@ -100,14 +100,14 @@ function makeGolem(gx, gy) {
 function makeBug(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'smugbug.png', 100, 120);
     enemy.armor = 0;
-    enemy.regen = 2;
+    enemy.regen = 20;
     return enemy;
 }
 
 function makeBeetle(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'smilebeetle.png', 150, 50);
     enemy.armor = 1;
-    enemy.regen = 1;
+    enemy.regen = 15;
     return enemy;
 }
 
