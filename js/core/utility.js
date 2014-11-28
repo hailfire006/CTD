@@ -41,6 +41,19 @@ var Utility = {
         }
         return matrix;
     },
+    // Deep-copy clone an object, so that modifications to one do not affect the other
+    clone : function (obj) {
+        if (null == obj || "object" != typeof obj) return obj;
+        // Copy some properties via JSON
+        var copy = JSON.parse(JSON.stringify(obj));
+        // Copy remaining properties
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr) && !copy.hasOwnProperty(attr)) { // don't override
+                copy[attr] = obj[attr];
+            }
+        }
+        return copy;
+    },
     // Get random integer from min to max, inclusive on both ends
     getRandomInteger: function (min, max) {
         var scatter = max - min + 1;

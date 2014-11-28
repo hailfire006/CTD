@@ -98,15 +98,15 @@ function makeKingProjectile(tower,targetx,targety) {
     projectile.additionalEffects = function(enemy) {
         // Bow Before The King - Reduces all stats
         if (enemy.regen > 0) {
-            enemy.regen -= 5;
+            enemy.regen -= this.damage / 100;
             enemy.regen = Math.max(0, enemy.regen);
         }
         if (enemy.armor > 0) {
-            enemy.armor -= 5;
+            enemy.armor -= this.damage / 100;
             enemy.armor = Math.max(0, enemy.armor);
         }
         if (enemy.speed > 0) {
-            enemy.speed -= 5;
+            enemy.speed -= this.damage / 100;
             enemy.speed = Math.max(0, enemy.speed);
         }
     };
@@ -119,7 +119,7 @@ function makeSpookyProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
         // Spooky Death - Poison damage
-        enemy.regen -= 10;
+        enemy.regen -= this.damage / 2;
     };
     return projectile;
 }

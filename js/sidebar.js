@@ -1,6 +1,6 @@
 
 /*
- * Side bar provides build menu. Also shows developer tools.
+ * Side bar provides build menu. Switches to developer tools if SHIFT key is pressed.
  */
 
 // Variables inside Ui variable to avoid name collisions
@@ -8,28 +8,32 @@ var Ui = {
     buttons: [],
     // currentChoice:
     makeTowerFunction: function(gx, gy) { }, // build tower function
+    // highlight current moused-over tile
+    curMouseX: -1,
+    curMouseY: -1,
     // Button adding
     nextFreeX: 0,
     nextFreeY: 0,
     addButton: function(imageCategory, imageName, onClickFunction) {
         var sidebarWidth = 2; // TODO make constant
-        var sidebarGraphicalX = (grid.width + Ui.nextFreeX) * TILE_WIDTH;
-        var sidebarGraphicalY = Ui.nextFreeY * TILE_HEIGHT;
+        var sidebarGraphicalX = (grid.width + this.nextFreeX) * TILE_WIDTH;
+        var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
         var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
-        Ui.nextFreeX++;
-        if (Ui.nextFreeX >= sidebarWidth) {
-            Ui.nextFreeX = 0;
-            Ui.nextFreeY++;
+        this.nextFreeX++;
+        if (this.nextFreeX >= sidebarWidth) {
+            this.nextFreeX = 0;
+            this.nextFreeY++;
         }
-        Ui.buttons.push(button);
+        this.buttons.push(button);
     },
     addButtonDivider: function() {
-        if (Ui.nextFreeX > 0) {
-            Ui.nextFreeX = 0;
-            Ui.nextFreeY++;
+        if (this.nextFreeX > 0) {
+            this.nextFreeX = 0;
+            this.nextFreeY++;
         }
     }
 };
+var AlternateUi = Utility.clone(Ui); // can swap back and forth w/ Ui, contains admin tools
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     var button = {
@@ -90,6 +94,50 @@ function makeTowerFunctionWrapper(towerFunction) {
     };
 }
 
+function createAdminMenu() {
+    // enemy buttons
+    AlternateUi.addButton('enemy', 'glarefish.png',function() {
+        Ui.currentChoice = 'glarefish';
+    });
+    AlternateUi.addButton('enemy', 'chomper.png',function() {
+        Ui.currentChoice = 'chomper';
+    });
+    AlternateUi.addButtonDivider();
+    // delete/clear buttons
+    AlternateUi.addButton('interface', 'axehammer.png',function() {
+        Ui.currentChoice = 'delete';
+    });
+    AlternateUi.addButton('interface', 'broom.png',function() {
+        Ui.currentChoice = 'clearAll';
+    });
+    AlternateUi.addButtonDivider();
+    // terrain buttons
+    AlternateUi.addButton('terrain', 'grass.png',function() {
+        Ui.currentChoice = 'grass';
+    });
+    AlternateUi.addButton('terrain', 'rock.png',function() {
+        Ui.currentChoice = 'rock';
+    });
+    AlternateUi.addButton('terrain', 'road_horizontal.png',function() {
+        Ui.currentChoice = 'road';
+    });
+    AlternateUi.addButton('terrain', 'road_upright.png',function() {
+        Ui.currentChoice = 'roadAngle';
+    });
+    AlternateUi.addButtonDivider();
+    // misc. buttons
+    AlternateUi.addButton('interface', 'arrow_right.png',function() {
+        Ui.currentChoice = 'arrow';
+    });
+    AlternateUi.addButton('interface', 'axehammer.png',function() {
+        Ui.currentChoice = 'deleteArrow';
+    });
+    AlternateUi.addButton('interface', 'start_platform.png',function() {
+        Ui.currentChoice = 'spawn';
+    });
+    AlternateUi.addButtonDivider();
+}
+
 function addMenuButtons() {
     // add tower buttons
     for (var iconName in Towers.towerListing) {
@@ -97,47 +145,7 @@ function addMenuButtons() {
         Ui.addButton('tower', iconName, curTowerFunction);
     }
     Ui.addButtonDivider();
-    // enemy buttons
-    Ui.addButton('enemy', 'glarefish.png',function() {
-        Ui.currentChoice = 'glarefish';
-    });
-    Ui.addButton('enemy', 'chomper.png',function() {
-        Ui.currentChoice = 'chomper';
-    });
-    Ui.addButtonDivider();
-    // delete/clear buttons
-    Ui.addButton('interface', 'axehammer.png',function() {
-        Ui.currentChoice = 'delete';
-    });
-    Ui.addButton('interface', 'broom.png',function() {
-        Ui.currentChoice = 'clearAll';
-    });
-    Ui.addButtonDivider();
-    // terrain buttons
-    Ui.addButton('terrain', 'grass.png',function() {
-        Ui.currentChoice = 'grass';
-    });
-    Ui.addButton('terrain', 'rock.png',function() {
-        Ui.currentChoice = 'rock';
-    });
-    Ui.addButton('terrain', 'road_horizontal.png',function() {
-        Ui.currentChoice = 'road';
-    });
-    Ui.addButton('terrain', 'road_upright.png',function() {
-        Ui.currentChoice = 'roadAngle';
-    });
-    Ui.addButtonDivider();
-    // misc. buttons
-    Ui.addButton('interface', 'arrow_right.png',function() {
-        Ui.currentChoice = 'arrow';
-    });
-    Ui.addButton('interface', 'axehammer.png',function() {
-        Ui.currentChoice = 'deleteArrow';
-    });
-    Ui.addButton('interface', 'start_platform.png',function() {
-        Ui.currentChoice = 'spawn';
-    });
-    Ui.addButtonDivider();
+    createAdminMenu();
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -270,7 +278,8 @@ function addEventListeners(canvas) {
         Ui.buttons.forEach(function(button) {
             button.tryMouseOver(mouseX, mouseY);
         });
-        // TODO highlight current tile in grid if tower selected
+        Ui.curMouseX = mouseX;
+        Ui.curMouseY = mouseY;
     });
 }
 
@@ -281,6 +290,17 @@ function clearSidebar(ctx) {
     var sidebarGraphicalHeight = canvas.height - sidebarGraphicalY;
     ctx.fillStyle = UI_BACKGROUND_COLOR;
     ctx.fillRect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
+}
+
+function highlightSelectedTile(ctx) {
+    if (Ui.curMouseX > 0 && Ui.curMouseX < grid.width * TILE_WIDTH && Ui.curMouseY > HUD_HEIGHT) {
+        var tileCoords = grid.graphicalToTileCoords(Ui.curMouseX, Ui.curMouseY);
+        var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
+        ctx.beginPath();
+        ctx.strokeStyle = UI_SELECTED_TILE_COLOR;
+        ctx.rect(tileGraphicalCoords.gx, tileGraphicalCoords.gy, TILE_WIDTH, TILE_HEIGHT);
+        ctx.stroke();
+    }
 }
 
 function drawSidebarBorder(ctx) {
@@ -302,11 +322,33 @@ function drawSidebar(ctx) {
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
+    highlightSelectedTile(ctx);
     drawSidebarBorder(ctx);
+}
+
+function swapUi() {
+    var savedUi = AlternateUi;
+    AlternateUi = Ui;
+    Ui = savedUi;
+}
+
+function sidebarKeyUp(keyCode) {
+    switch(keyCode) {
+        case 16: // shift
+        swapUi();
+        break;
+    }
+}
+
+function addSidebarHotkeys() {
+    window.addEventListener('keyup', function(e) {
+        sidebarKeyUp(e.keyCode);
+    });
 }
 
 // Call this once when game starts to initialize sidebar
 function initSidebar() {
     addMenuButtons();
     addEventListeners(canvas);
+    addSidebarHotkeys();
 }
