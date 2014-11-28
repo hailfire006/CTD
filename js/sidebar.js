@@ -161,7 +161,7 @@ function clickOnGrid(mouseX, mouseY) {
             var entity = Ui.makeEntityFunction(gx, gy);
             if (entity.building && grid.canBuildTowerAt(tileCoords)) { // build tower
                 grid.addEntity(entity);
-            } else { // add enemy
+            } else if (!entity.building) { // add enemy
                 grid.addEntity(entity);
             }
         } else if (Ui.currentChoice === 'delete') {
