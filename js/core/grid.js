@@ -6,6 +6,8 @@
  *  draw(ctx): calls draw(ctx) on each contained tile
  *  update(): calls update() on each contained tile
  * Grids also contain enemy spawn locations and handle entity detection code.
+ * Grid coordinates involve both (gx, gy) graphical coordinates, which are mostly mapped to canvas coords, except for a yOffset
+ *                           and (tx, ty) tile coordinates, which are mapped to the 2D tile array
  */
 function makeGrid(width, height) {
     // Avoid issues with non-positive widths & heights

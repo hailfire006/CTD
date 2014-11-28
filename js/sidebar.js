@@ -294,7 +294,8 @@ function clearSidebar(ctx) {
 
 function highlightSelectedTile(ctx) {
     if (Ui.curMouseX > 0 && Ui.curMouseX < grid.width * TILE_WIDTH && Ui.curMouseY > HUD_HEIGHT) {
-        var tileCoords = grid.graphicalToTileCoords(Ui.curMouseX, Ui.curMouseY);
+        // Don't forget yOffset when converting mouse graphical coords to grid graphical coords
+        var tileCoords = grid.graphicalToTileCoords(Ui.curMouseX, Ui.curMouseY - grid.drawOffsetY);
         var actualTile = grid.getTileAtCoords(tileCoords);
         var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
         ctx.beginPath();
@@ -303,7 +304,7 @@ function highlightSelectedTile(ctx) {
         } else {
             ctx.strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
         }
-        ctx.rect(tileGraphicalCoords.gx, tileGraphicalCoords.gy, TILE_WIDTH, TILE_HEIGHT);
+        ctx.rect(tileGraphicalCoords.gx, tileGraphicalCoords.gy + grid.drawOffsetY, TILE_WIDTH, TILE_HEIGHT);
         ctx.stroke();
     }
 }
