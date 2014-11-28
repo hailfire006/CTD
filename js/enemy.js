@@ -5,6 +5,15 @@
  * Enemy entities go here.
  */
 
+var Enemies = { // Enemy listing used to auto-generate hud buttons in admin menu
+    allEnemyFunctions: [], // list: makeEnemy functions
+    enemyListing: {}, // map: (imageCategory, imageName) -> makeEnemy function
+    addEnemyListing: function(imageName, makeFunction) {
+        this.allEnemyFunctions.push(makeFunction);
+        this.enemyListing[imageName] = makeFunction;
+    }
+};
+
 function makeEnemy(gx, gy, imageName, health, speed) {
     var imageCategory = 'enemy';
     var enemy = makeEntity(gx, gy, imageCategory, imageName);
@@ -35,13 +44,12 @@ function makeEnemy(gx, gy, imageName, health, speed) {
         this.health -= adjustedDamage;
     };
     enemy.postDraw = function (ctx) {
-        var healthBarHeight = 5;
         ctx.fillStyle = "green";
-        ctx.fillRect(this.gx,this.gy,this.sx,healthBarHeight);
+        ctx.fillRect(this.gx,this.gy,this.sx,HEALTH_BAR_HEIGHT);
         ctx.fillStyle = "red";
         var healthPercentage = this.health / this.maxHealth;
         var healthWidth = Math.max(this.sx * healthPercentage, 0);
-        ctx.fillRect(this.gx+healthWidth,this.gy,this.sx-healthWidth,healthBarHeight);
+        ctx.fillRect(this.gx+healthWidth,this.gy,this.sx-healthWidth,HEALTH_BAR_HEIGHT);
     };
     enemy.update = function (mod) {
         this.preUpdate(mod);
@@ -79,7 +87,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     return enemy;
 }
 
-function makeGlarefish(gx, gy) {
+function makeGlareFish(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'glarefish.png', 200, 30);
     enemy.armor = 0;
     return enemy;
@@ -91,20 +99,20 @@ function makeChomper(gx, gy) {
     return enemy;
 }
 
-function makeGolem(gx, gy) {
+function makeStareGolem(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'staregolem.png', 1000, 15);
     enemy.armor = 2;
     return enemy;
 }
 
-function makeBug(gx, gy) {
+function makeSmugBug(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'smugbug.png', 100, 120);
     enemy.armor = 0;
     enemy.regen = 20;
     return enemy;
 }
 
-function makeBeetle(gx, gy) {
+function makeSmileBeetle(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'smilebeetle.png', 150, 50);
     enemy.armor = 1;
     enemy.regen = 15;
@@ -112,7 +120,16 @@ function makeBeetle(gx, gy) {
 }
 
 function makeRandomEnemy(gx, gy) {
-    var possibleEnemyFunctions = [makeGlarefish, makeChomper, makeGolem, makeBug, makeBeetle];
+    var possibleEnemyFunctions = Enemies.allEnemyFunctions;
     var makeRandomEnemyFunction = Utility.getRandomElementFromArray(possibleEnemyFunctions);
     return makeRandomEnemyFunction(gx, gy);
 }
+
+function addEnemyListing() { // add new enemies in here to generate hud buttons for admin menu
+    Enemies.addEnemyListing('glarefish.png', makeGlareFish);
+    Enemies.addEnemyListing('chomper.png', makeChomper);
+    Enemies.addEnemyListing('staregolem.png', makeStareGolem);
+    Enemies.addEnemyListing('smugbug.png', makeSmugBug);
+    Enemies.addEnemyListing('smilebeetle.png', makeSmileBeetle);
+}
+addEnemyListing();

@@ -151,7 +151,7 @@ function makeSpookyTower(gx,gy) {
     };
     return tower;
 }
-function addTowerListing() { // add new towerListing in here to generate hud buttons
+function addTowerListing() { // add new towers in here to generate hud buttons
     Towers.addTowerListing('fireball.png', makeFireTower);
     Towers.addTowerListing('bluefire.png', makeWaterTower);
     Towers.addTowerListing('lightningbolt.png', makeLightningTower);

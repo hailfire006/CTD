@@ -7,7 +7,7 @@
 var Ui = {
     buttons: [],
     // currentChoice:
-    makeTowerFunction: function(gx, gy) { }, // build tower function
+    makeEntityFunction: function(gx, gy) { }, // build tower/add enemy function
     // highlight current moused-over tile
     curMouseX: -1,
     curMouseY: -1,
@@ -86,22 +86,20 @@ function addMenuButton(sidebarTileX, sidebarTileY, imageCategory, imageName, cal
     Ui.buttons.push(button);
 }
 
-// make(makeTowerFunction)Function - because local variable scoping is weird in Javascript
-function makeTowerFunctionWrapper(towerFunction) {
+// make(makeEntityFunction)Function - because local variable scoping is weird in Javascript
+function makeEntityFunctionWrapper(entityFunction) {
     return function() {
         Ui.currentChoice = 'callFunction';
-        Ui.makeTowerFunction = towerFunction;
+        Ui.makeEntityFunction = entityFunction;
     };
 }
 
 function createAdminMenu() {
     // enemy buttons
-    AlternateUi.addButton('enemy', 'glarefish.png',function() {
-        Ui.currentChoice = 'glarefish';
-    });
-    AlternateUi.addButton('enemy', 'chomper.png',function() {
-        Ui.currentChoice = 'chomper';
-    });
+    for (var iconName in Enemies.enemyListing) {
+        var curEntityFunction = makeEntityFunctionWrapper(Enemies.enemyListing[iconName]);
+        AlternateUi.addButton('enemy', iconName, curEntityFunction);
+    }
     AlternateUi.addButtonDivider();
     // delete/clear buttons
     AlternateUi.addButton('interface', 'axehammer.png',function() {
@@ -141,10 +139,11 @@ function createAdminMenu() {
 function addMenuButtons() {
     // add tower buttons
     for (var iconName in Towers.towerListing) {
-        var curTowerFunction = makeTowerFunctionWrapper(Towers.towerListing[iconName]);
-        Ui.addButton('tower', iconName, curTowerFunction);
+        var curEntityFunction = makeEntityFunctionWrapper(Towers.towerListing[iconName]);
+        Ui.addButton('tower', iconName, curEntityFunction);
     }
     Ui.addButtonDivider();
+    // also create admin buttons accessible by switching UIs
     createAdminMenu();
 }
 
@@ -159,13 +158,16 @@ function clickOnGrid(mouseX, mouseY) {
     // console.log('Clicked at ('gx + ',' + gy + ')');
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'callFunction') {
-            if (grid.canBuildTowerAt(tileCoords)) {
-                grid.addEntity(Ui.makeTowerFunction(gx, gy));
+            var entity = Ui.makeEntityFunction(gx, gy);
+            if (entity.building && grid.canBuildTowerAt(tileCoords)) { // build tower
+                grid.addEntity(entity);
+            } else { // add enemy
+                grid.addEntity(entity);
             }
         } else if (Ui.currentChoice === 'glarefish') {
             grid.addEntity(makeGlarefish(gx, gy));
         } else if (Ui.currentChoice === 'chomper') {
-            grid.addEntity(makeChomper(gx, gy));    
+            grid.addEntity(makeChomper(gx, gy));
         } else if (Ui.currentChoice === 'delete') {
             grid.removeEntityAt(tileCoords);
         } else if (Ui.currentChoice === 'clearAll') {

@@ -17,17 +17,21 @@ var INCREASING_DIFFICULTY = true; // whether difficulty should increase over tim
 var STARTING_HEALTH = 60; // in seconds
 var STARTING_MONEY = 500;
 
-// AESTHETIC
+// AESTHETIC - general
 var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
 var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless graphics code is messed up
 var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
 var UI_SELECTED_UNBUILDABLE_TILE_COLOR = "red"; // color of currently moused-over tile, if tile can't be built on
+
+var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
+var HEALTH_BAR_HEIGHT = 5; // height in pixels of enemy health bars
+
+// AESTHETIC - hud
+var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top
 var HEALTH_DISPLAY_COLOR = 'green';
 var HEALTH_LOW_DISPLAY_COLOR = 'red';
 var HEALTH_LOW_THRESHOLD = 15; // in seconds
 var MONEY_DISPLAY_COLOR = 'yellow';
-var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top
-var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
 
 // DEBUGGING - gameplay
 var ETERNAL_LIFE = true; // prevents lifetime from decrementing
