@@ -20,7 +20,8 @@ var STARTING_MONEY = 500;
 // AESTHETIC
 var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
 var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless graphics code is messed up
-var UI_SELECTED_TILE_COLOR = "orange"; // color of currently moused-over tile
+var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
+var UI_SELECTED_UNBUILDABLE_TILE_COLOR = "red"; // color of currently moused-over tile, if tile can't be built on
 var HEALTH_DISPLAY_COLOR = 'green';
 var HEALTH_LOW_DISPLAY_COLOR = 'red';
 var HEALTH_LOW_THRESHOLD = 15; // in seconds

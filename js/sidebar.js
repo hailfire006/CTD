@@ -295,9 +295,14 @@ function clearSidebar(ctx) {
 function highlightSelectedTile(ctx) {
     if (Ui.curMouseX > 0 && Ui.curMouseX < grid.width * TILE_WIDTH && Ui.curMouseY > HUD_HEIGHT) {
         var tileCoords = grid.graphicalToTileCoords(Ui.curMouseX, Ui.curMouseY);
+        var actualTile = grid.getTileAtCoords(tileCoords);
         var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
         ctx.beginPath();
-        ctx.strokeStyle = UI_SELECTED_TILE_COLOR;
+        if (actualTile.buildable) {
+            ctx.strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
+        } else {
+            ctx.strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
+        }
         ctx.rect(tileGraphicalCoords.gx, tileGraphicalCoords.gy, TILE_WIDTH, TILE_HEIGHT);
         ctx.stroke();
     }
