@@ -195,9 +195,10 @@ function makeGrid(width, height) {
             curCoords.tx += curDirection.dx;
             curCoords.ty += curDirection.dy;
             distance++;
+            // if distance > maximum possible non-loop distance, it's a loop
             if (distance > maxDist) {
                 // console.log('loop! for ' + curCoords.tx + ',' + curCoords.ty);
-                // TODO possibly set to highest possible number
+                distance = Number.POSITIVE_INFINITY;
                 return;
             }
         }

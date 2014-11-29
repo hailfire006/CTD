@@ -8,9 +8,6 @@ var Ui = {
     buttons: [],
     // currentChoice:
     makeEntityFunction: function(gx, gy) { }, // build tower/add enemy function
-    // highlight current moused-over tile
-    curMouseX: -1,
-    curMouseY: -1,
     // Button adding
     nextFreeX: 0,
     nextFreeY: 0,
@@ -34,6 +31,37 @@ var Ui = {
     }
 };
 var AlternateUi = Utility.clone(Ui); // can swap back and forth w/ Ui, contains admin tools
+// Some values shared between both Ui
+var SharedUi = {
+    // When arrow/spawn is selected, override show arrow/spawn setting & save in here
+    savedSettings: {},
+    onSidebarClick: function() {
+        var arrowSelected = Ui.currentChoice === 'arrow' || Ui.currentChoice === 'deleteArrow';
+        if (arrowSelected) { // save setting & override to true
+            this.savedSettings['arrow'] = SHOW_ENEMY_DIRECTION;
+            SHOW_ENEMY_DIRECTION = true;
+        } else { // load setting, removing override
+            if ('arrow' in this.savedSettings) {
+                SHOW_ENEMY_DIRECTION = this.savedSettings['arrow'];
+                delete this.savedSettings['arrow'];
+            }
+        }
+        // also save/load setting on spawn tool selection
+        var spawnSelected = Ui.currentChoice === 'spawn' || Ui.currentChoice === 'deleteSpawn';
+        if (spawnSelected) {
+            this.savedSettings['spawn'] = SHOW_ENEMY_SPAWN;
+            SHOW_ENEMY_SPAWN = true;
+        } else {
+            if ('spawn' in this.savedSettings) {
+                SHOW_ENEMY_SPAWN = this.savedSettings['spawn'];
+                delete this.savedSettings['spawn'];
+            }
+        }
+    },
+    // highlight current moused-over tile
+    curMouseX: -1,
+    curMouseY: -1,
+};
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     var button = {
@@ -163,7 +191,6 @@ function clickOnGrid(mouseX, mouseY) {
         if (Ui.currentChoice === 'callFunction') {
             var entity = Ui.makeEntityFunction(gx, gy);
             if (entity.building && grid.canBuildTowerAt(tileCoords)) { // build tower
-                // TODO only if can afford
                 if (Game.money >= TOWER_COST) {
                     Game.money -= TOWER_COST;
                     grid.addEntity(entity);
@@ -275,6 +302,7 @@ function addEventListeners(canvas) {
             Ui.buttons.forEach(function(button) {
                 button.tryClick(mouseX, mouseY);
             });
+            SharedUi.onSidebarClick();
         } else {
             clickOnGrid(mouseX, mouseY);
         }
@@ -285,8 +313,8 @@ function addEventListeners(canvas) {
         Ui.buttons.forEach(function(button) {
             button.tryMouseOver(mouseX, mouseY);
         });
-        Ui.curMouseX = mouseX;
-        Ui.curMouseY = mouseY;
+        SharedUi.curMouseX = mouseX;
+        SharedUi.curMouseY = mouseY;
     });
 }
 
@@ -300,9 +328,9 @@ function clearSidebar(ctx) {
 }
 
 function highlightSelectedTile(ctx) {
-    if (Ui.curMouseX > 0 && Ui.curMouseX < grid.width * TILE_WIDTH && Ui.curMouseY > HUD_HEIGHT) {
+    if (SharedUi.curMouseX > 0 && SharedUi.curMouseX < grid.width * TILE_WIDTH && SharedUi.curMouseY > HUD_HEIGHT) {
         // Don't forget yOffset when converting mouse graphical coords to grid graphical coords
-        var tileCoords = grid.graphicalToTileCoords(Ui.curMouseX, Ui.curMouseY - grid.drawOffsetY);
+        var tileCoords = grid.graphicalToTileCoords(SharedUi.curMouseX, SharedUi.curMouseY - grid.drawOffsetY);
         var actualTile = grid.getTileAtCoords(tileCoords);
         var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
         ctx.beginPath();
@@ -340,9 +368,12 @@ function drawSidebar(ctx) {
 }
 
 function swapUi() {
+    // swap current and alternate ui
     var savedUi = AlternateUi;
     AlternateUi = Ui;
     Ui = savedUi;
+    // also deselect any tool
+    SharedUi.onSidebarClick();
 }
 
 function sidebarKeyUp(keyCode) {
