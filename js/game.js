@@ -17,17 +17,22 @@ var Game = { // TODO move all globals into Game namespace
         // increase difficulty every few seconds
         return Math.floor(this.totalSeconds / 30);
     },
+    // Grid canvas - this might be used by other js files
+    canvas: document.getElementById('gameCanvas'),
+    // Grid dimension calculations
+    gridTileWidth: function() {
+        return (this.canvas.width - SIDEBAR_WIDTH) / TILE_WIDTH;
+    },
+    gridTileHeight: function() {
+        return (this.canvas.height - HUD_HEIGHT) / TILE_HEIGHT;
+    },
     // Player Info
     lifeTimeSeconds: STARTING_HEALTH, // seconds left until game over, the equivalent of life
     money: STARTING_MONEY // money used to build towers
 };
 
-//canvas - this might be used by other js files
-var canvas = document.getElementById('gameCanvas');
-
-var gridWidth = (canvas.width - SIDEBAR_WIDTH) / TILE_WIDTH;
-var gridHeight = (canvas.height - HUD_HEIGHT) / TILE_HEIGHT;
-var grid = makeGrid(gridWidth, gridHeight);
+// Game grid is drawn & updated continuously, also used by other js files
+var grid = makeGrid(Game.gridTileWidth(), Game.gridTileHeight());
 
 //functions
 function run() {
@@ -41,18 +46,24 @@ function run() {
     update(secondsElapsed);
     draw();
     Game.time = Date.now();
-    if (!ETERNAL_LIFE) {
-        Game.lifeTimeSeconds -= secondsElapsed;
+    if (Game.lifeTimeSeconds > 0) {
+        if (!ETERNAL_LIFE) {
+            Game.lifeTimeSeconds -= secondsElapsed;
+        }
+        Game.totalSeconds += secondsElapsed;
+    } else {
+        Game.lifeTimeSeconds = 0;
     }
-    Game.totalSeconds += secondsElapsed;
 }
 function update(mod) {
-    grid.update(mod);
-    updateDifficulty(grid);
-    Game.money += mod * MONEY_PER_SECOND;
+    if (Game.lifeTimeSeconds > 0) {
+        grid.update(mod);
+        updateDifficulty(grid);
+        Game.money += mod * MONEY_PER_SECOND;
+    }
 }
 function draw() {
-    var ctx = canvas.getContext("2d");
+    var ctx = Game.canvas.getContext("2d");
     clearScreen(ctx);
     grid.draw(ctx);
     drawHud(ctx);
@@ -60,7 +71,7 @@ function draw() {
 }
 function clearScreen(ctx) {
     ctx.fillStyle = BACKGROUND_COLOR;
-    ctx.fillRect(0, TILE_HEIGHT, canvas.width, canvas.height);
+    ctx.fillRect(0, TILE_HEIGHT, Game.canvas.width, Game.canvas.height);
 }
 function addFocusListeners() {
     if (PAUSE_ON_FOCUS_LOSS) {

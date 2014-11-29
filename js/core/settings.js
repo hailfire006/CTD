@@ -27,7 +27,7 @@ var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, als
 var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless graphics code is messed up
 
 var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
-var HEALTH_BAR_HEIGHT = 5; // height in pixels of enemy health bars
+var HEALTH_BAR_HEIGHT = 3; // height in pixels of enemy health bars
 
 // AESTHETIC - sidebar
 var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
@@ -42,7 +42,7 @@ var HEALTH_LOW_THRESHOLD = 15; // in seconds
 var MONEY_DISPLAY_COLOR = 'yellow';
 
 // DEBUGGING - gameplay
-var ETERNAL_LIFE = true; // prevents lifetime from decrementing
+var ETERNAL_LIFE = false; // prevents lifetime from decrementing
 var FREE_TOWERS = false; // removes cost from towers
 
 // DEBUGGING - code

@@ -336,8 +336,8 @@ function addEventListeners(canvas) {
 function clearSidebar(ctx) {
     var sidebarGraphicalX = grid.width * TILE_WIDTH;
     var sidebarGraphicalY = 0;
-    var sidebarGraphicalWidth = canvas.width - sidebarGraphicalX;
-    var sidebarGraphicalHeight = canvas.height - sidebarGraphicalY;
+    var sidebarGraphicalWidth = Game.canvas.width - sidebarGraphicalX;
+    var sidebarGraphicalHeight = Game.canvas.height - sidebarGraphicalY;
     ctx.fillStyle = UI_BACKGROUND_COLOR;
     ctx.fillRect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
 }
@@ -362,8 +362,8 @@ function highlightSelectedTile(ctx) {
 function drawSidebarBorder(ctx) {
     var sidebarGraphicalX = grid.width * TILE_WIDTH;
     var sidebarGraphicalY = 0;
-    var sidebarGraphicalWidth = canvas.width - sidebarGraphicalX;
-    var sidebarGraphicalHeight = canvas.height - sidebarGraphicalY;
+    var sidebarGraphicalWidth = Game.canvas.width - sidebarGraphicalX;
+    var sidebarGraphicalHeight = Game.canvas.height - sidebarGraphicalY;
     var oldLineWidth = ctx.lineWidth;
     ctx.beginPath();
     ctx.lineWidth = 1;
@@ -409,6 +409,6 @@ function addSidebarHotkeys() {
 // Call this once when game starts to initialize sidebar
 function initSidebar() {
     addMenuButtons();
-    addEventListeners(canvas);
+    addEventListeners(Game.canvas);
     addSidebarHotkeys();
 }

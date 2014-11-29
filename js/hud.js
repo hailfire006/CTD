@@ -26,15 +26,15 @@ function padZeros(number, maxPadding) {
 function getHealthText() {
     var lifetimeSymbol = '♥⌛'; // heart + hourglass unicode symbols
     var health = Game.lifeTimeSeconds;
-    var sign = health >= 0 ? ' ' : '-';
-    var minutesOnly = health / 60;
-    if (health < 0) {
-        minutesOnly++; // Math.floor causes -1 if negative
+    if (health <= 0) {
+        health = Game.totalSeconds; // show time survived instead
+        lifetimeSymbol = '☠⌛'; // skull + hourglass unicode symbols
     }
-    minutesOnly = padZeros(Math.abs(Math.floor(minutesOnly)), 2);
+    var minutesOnly = health / 60;
     var secondsOnly = health % 60;
+    minutesOnly = padZeros(Math.abs(Math.floor(minutesOnly)), 2);
     secondsOnly = padZeros(Math.abs(Math.floor(secondsOnly)), 2);
-    return lifetimeSymbol + sign + minutesOnly + ':' + secondsOnly;
+    return lifetimeSymbol + ' ' + minutesOnly + ':' + secondsOnly;
 }
 
 function drawHealth(ctx) {
@@ -46,13 +46,13 @@ function drawHealth(ctx) {
         ctx.fillStyle = HEALTH_LOW_DISPLAY_COLOR;
     }
     ctx.fillText(getHealthText(), 0, endY);
-    // Negative health
-    if (Game.lifeTimeSeconds < 0) {
-        var startX = TILE_WIDTH * 4;
+    // No health
+    if (Game.lifeTimeSeconds <= 0) {
+        var startX = TILE_WIDTH * 5;
         endY = TILE_HEIGHT - 15;
         ctx.font = "30px Arial";
         ctx.fillStyle = "black";
-        ctx.fillText('BORROWED TIME', startX, endY);
+        ctx.fillText('OUT OF TIME', startX, endY);
     }
 }
 
