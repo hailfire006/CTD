@@ -64,6 +64,6 @@ if (DEMO) {
     HIGHLIGHT_ENTITY_HITBOXES = false;
     HIGHLIGHT_TILES_WITH_ENTITIES = false;
     SHOW_GRID = false;
-    SHOW_ENEMY_DIRECTION = true;
+    SHOW_ENEMY_DIRECTION = false;
     SHOW_ENEMY_SPAWN = false;
 }

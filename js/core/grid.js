@@ -138,6 +138,22 @@ function makeGrid(width, height) {
         this.spawnPoints.push(tileCoords);
         this.calculatePathDistances();
     };
+    grid.removeSpawnPoint = function(tx, ty) {
+        var tileCoords = {
+            tx: tx,
+            ty: ty
+        };
+        var removed = false;
+        for (var i = 0; i < this.spawnPoints.length; i++) {
+            var spawnPoint = this.spawnPoints[i];
+            if (spawnPoint.tx == tileCoords.tx && spawnPoint.ty == tileCoords.ty) {
+                this.spawnPoints.splice(i, 1);
+                removed = true;
+                this.calculatePathDistances();
+            }
+        }
+        return removed;
+    };
     grid.spawn = function() {
         // choose a random spawner
         var chosenSpawnPoint = Utility.getRandomElementFromArray(this.spawnPoints);
@@ -151,7 +167,6 @@ function makeGrid(width, height) {
     };
     // Calculates how far each tile is from end of path, perform whenever a spawn/direction changed
     grid.calculatePathDistances = function() {
-        // TODO optimize?
         for (var i = 0; i < this.pathDistMap.length; i++) {
             for (var j = 0; j < this.pathDistMap[i].length; j++) {
                 this.calculatePathDistance(i, j);
@@ -432,4 +447,3 @@ function makeGrid(width, height) {
     };
     return grid;
 }
-// TODO Sheng - flip width & height for iteration performance

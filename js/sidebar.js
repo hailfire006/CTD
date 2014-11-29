@@ -133,6 +133,9 @@ function createAdminMenu() {
     AlternateUi.addButton('interface', 'start_platform.png',function() {
         Ui.currentChoice = 'spawn';
     });
+    AlternateUi.addButton('interface', 'axehammer.png',function() {
+        Ui.currentChoice = 'deleteSpawn';
+    });
     AlternateUi.addButtonDivider();
 }
 
@@ -216,6 +219,8 @@ function clickOnGrid(mouseX, mouseY) {
             delete tile.direction;
         } else if (Ui.currentChoice === 'spawn') {
             grid.addSpawnPoint(tileCoords.tx, tileCoords.ty);
+        } else if (Ui.currentChoice === 'deleteSpawn') {
+            grid.removeSpawnPoint(tileCoords.tx, tileCoords.ty);
         } else if (Ui.currentChoice === 'road'){
             var tile = grid.getTileAtCoords(tileCoords);
             var terrain = tile.terrain;
