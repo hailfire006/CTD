@@ -46,7 +46,7 @@ function run() {
 function update(mod) {
     grid.update(mod);
     updateDifficulty(grid);
-    Game.money += mod;
+    Game.money += mod * MONEY_PER_SECOND;
 }
 function draw() {
     var ctx = canvas.getContext("2d");

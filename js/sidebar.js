@@ -160,7 +160,11 @@ function clickOnGrid(mouseX, mouseY) {
         if (Ui.currentChoice === 'callFunction') {
             var entity = Ui.makeEntityFunction(gx, gy);
             if (entity.building && grid.canBuildTowerAt(tileCoords)) { // build tower
-                grid.addEntity(entity);
+                // TODO only if can afford
+                if (Game.money >= TOWER_COST) {
+                    Game.money -= TOWER_COST;
+                    grid.addEntity(entity);
+                }
             } else if (!entity.building) { // add enemy
                 grid.addEntity(entity);
             }

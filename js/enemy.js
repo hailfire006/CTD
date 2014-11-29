@@ -59,9 +59,14 @@ function makeEnemy(gx, gy, imageName, health, speed) {
             this.health = this.maxHealth;
         }
         if (this.health <= 0) {
+            this.die();
             grid.removeEntity(this);
         }
         this.postUpdate(mod);
+    };
+    // Die & award player
+    enemy.die = function() {
+        Game.money += MONEY_FROM_ENEMY_KILLS;
     };
     enemy.move = function(mod) {
         var dx = this.speed * this.direction.multiplierX;

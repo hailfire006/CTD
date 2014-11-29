@@ -12,10 +12,15 @@ var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
 var TILE_WIDTH = 50;
 var TILE_HEIGHT = 50;
 
-var STARTING_SPAWN_RATE = 3; // out of 100, % chance for an enemy to spawn on any given frame
-var INCREASING_DIFFICULTY = true; // whether difficulty should increase over time
 var STARTING_HEALTH = 60; // in seconds
 var STARTING_MONEY = 500;
+
+var STARTING_SPAWN_RATE = 3; // out of 100, % chance for an enemy to spawn on any given frame
+var INCREASING_DIFFICULTY = true; // whether difficulty should increase over time
+
+var TOWER_COST = 100;
+var MONEY_PER_SECOND = 1; // money gained passively
+var MONEY_FROM_ENEMY_KILLS = 1; // money gained per enemy killed
 
 // AESTHETIC - general
 var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
@@ -35,6 +40,7 @@ var MONEY_DISPLAY_COLOR = 'yellow';
 
 // DEBUGGING - gameplay
 var ETERNAL_LIFE = true; // prevents lifetime from decrementing
+var FREE_TOWERS = false; // removes cost from towers
 
 // DEBUGGING - code
 var HIGHLIGHT_ENTITY_HITBOXES = true; // entity hitboxes shown in white
@@ -46,6 +52,10 @@ var SHOW_ENEMY_SPAWN = true; // whether to show where enemies spawn
 
 // MULTI-TOGGLE
 var DEMO = true;
+
+if (FREE_TOWERS) {
+    TOWER_COST = 0;
+}
 
 if (DEMO) {
     HIGHLIGHT_ENTITY_HITBOXES = false;
