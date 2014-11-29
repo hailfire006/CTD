@@ -38,8 +38,10 @@ var SharedUi = {
     onSidebarClick: function() {
         var arrowSelected = Ui.currentChoice === 'arrow' || Ui.currentChoice === 'deleteArrow';
         if (arrowSelected) { // save setting & override to true
-            this.savedSettings['arrow'] = SHOW_ENEMY_DIRECTION;
-            SHOW_ENEMY_DIRECTION = true;
+            if (!('arrow' in this.savedSettings)) {
+                this.savedSettings['arrow'] = SHOW_ENEMY_DIRECTION;
+                SHOW_ENEMY_DIRECTION = true;
+            }
         } else { // load setting, removing override
             if ('arrow' in this.savedSettings) {
                 SHOW_ENEMY_DIRECTION = this.savedSettings['arrow'];
@@ -49,10 +51,13 @@ var SharedUi = {
         // also save/load setting on spawn tool selection
         var spawnSelected = Ui.currentChoice === 'spawn' || Ui.currentChoice === 'deleteSpawn';
         if (spawnSelected) {
-            this.savedSettings['spawn'] = SHOW_ENEMY_SPAWN;
-            SHOW_ENEMY_SPAWN = true;
+            if (!('spawn' in this.savedSettings)) {
+                this.savedSettings['spawn'] = SHOW_ENEMY_SPAWN;
+                SHOW_ENEMY_SPAWN = true;
+            }
         } else {
             if ('spawn' in this.savedSettings) {
+                console.log(this.savedSettings['spawn']);
                 SHOW_ENEMY_SPAWN = this.savedSettings['spawn'];
                 delete this.savedSettings['spawn'];
             }
@@ -74,12 +79,14 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
         selected: false, // whether mouse clicked this
         tryMouseOver: function(mouseX, mouseY) {
             this.hovered = this.isInButton(mouseX, mouseY);
+            return this.hovered;
         },
         tryClick: function(mouseX, mouseY) {
             this.selected = this.isInButton(mouseX, mouseY);
             if (this.selected) {
                 onClickFunction();
             }
+            return this.selected;
         },
         isInButton: function(mouseX, mouseY) {
             return mouseX >= this.x && mouseX <= this.x + this.width
@@ -292,7 +299,7 @@ function clickOnGrid(mouseX, mouseY) {
     }
 }
 
-// TODO prevent multiselect/multiclick
+// handle mouse over & clicks, preventing multi-select & multi-click
 function addEventListeners(canvas) {
     canvas.addEventListener('click', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;
@@ -300,7 +307,11 @@ function addEventListeners(canvas) {
         if (mouseX > grid.width * TILE_WIDTH) {
             delete Ui.currentChoice;
             Ui.buttons.forEach(function(button) {
-                button.tryClick(mouseX, mouseY);
+                // after one button is clicked, don't click other buttons
+                if (button.tryClick(mouseX, mouseY)) {
+                    mouseX = -1;
+                    mouseY = -1;
+                }
             });
             SharedUi.onSidebarClick();
         } else {
@@ -311,7 +322,11 @@ function addEventListeners(canvas) {
         var mouseX = event.pageX - canvas.offsetLeft;
         var mouseY = event.pageY - canvas.offsetTop;
         Ui.buttons.forEach(function(button) {
-            button.tryMouseOver(mouseX, mouseY);
+            // after one button is moused over, don't mouse over other buttons
+            if (button.tryMouseOver(mouseX, mouseY)) {
+                mouseX = -1;
+                mouseY = -1;
+            }
         });
         SharedUi.curMouseX = mouseX;
         SharedUi.curMouseY = mouseY;
@@ -374,6 +389,7 @@ function swapUi() {
     Ui = savedUi;
     // also deselect any tool
     SharedUi.onSidebarClick();
+    // TODO add mouseover?
 }
 
 function sidebarKeyUp(keyCode) {
