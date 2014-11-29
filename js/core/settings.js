@@ -25,11 +25,14 @@ var MONEY_FROM_ENEMY_KILLS = 1; // money gained per enemy killed
 // AESTHETIC - general
 var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
 var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless graphics code is messed up
-var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
-var UI_SELECTED_UNBUILDABLE_TILE_COLOR = "red"; // color of currently moused-over tile, if tile can't be built on
 
 var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
 var HEALTH_BAR_HEIGHT = 5; // height in pixels of enemy health bars
+
+// AESTHETIC - sidebar
+var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
+var UI_SELECTED_UNBUILDABLE_TILE_COLOR = "red"; // color of currently moused-over tile, if tile can't be built on
+var SIDEBAR_WIDTH = 2 * TILE_WIDTH;
 
 // AESTHETIC - hud
 var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top

@@ -15,12 +15,12 @@ var Ui = {
     nextFreeX: 0,
     nextFreeY: 0,
     addButton: function(imageCategory, imageName, onClickFunction) {
-        var sidebarWidth = 2; // TODO make constant
+        var sidebarTileWidth = SIDEBAR_WIDTH / TILE_WIDTH;
         var sidebarGraphicalX = (grid.width + this.nextFreeX) * TILE_WIDTH;
         var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
         var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
         this.nextFreeX++;
-        if (this.nextFreeX >= sidebarWidth) {
+        if (this.nextFreeX >= sidebarTileWidth) {
             this.nextFreeX = 0;
             this.nextFreeY++;
         }

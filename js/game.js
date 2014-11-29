@@ -21,10 +21,13 @@ var Game = { // TODO move all globals into Game namespace
     lifeTimeSeconds: STARTING_HEALTH, // seconds left until game over, the equivalent of life
     money: STARTING_MONEY // money used to build towers
 };
-var grid = makeGrid(14, 11);
 
 //canvas - this might be used by other js files
 var canvas = document.getElementById('gameCanvas');
+
+var gridWidth = (canvas.width - SIDEBAR_WIDTH) / TILE_WIDTH;
+var gridHeight = (canvas.height - HUD_HEIGHT) / TILE_HEIGHT;
+var grid = makeGrid(gridWidth, gridHeight);
 
 //functions
 function run() {
