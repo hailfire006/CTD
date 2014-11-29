@@ -297,7 +297,7 @@ function highlightSelectedTile(ctx) {
         var actualTile = grid.getTileAtCoords(tileCoords);
         var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
         ctx.beginPath();
-        if (actualTile.buildable) {
+        if (actualTile && actualTile.buildable) {
             ctx.strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
         } else {
             ctx.strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
