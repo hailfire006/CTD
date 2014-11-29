@@ -49,15 +49,19 @@ function makeFireProjectile(tower,targetx,targety) {
     var speed = 800;
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
-        // Mark of Fire - Every 3 hits, deals +300% damage
+        // Mark of Fire - Every 3 hits on same target, extra attack to every enemy in tile
         var triggerHitCount = 3;
-        var triggerDamageMultiplier = 3;
         if (!enemy.markOfFire) {
             enemy.markOfFire = 0;
         }
         enemy.markOfFire++;
         if (enemy.markOfFire >= triggerHitCount) {
-            enemy.takeDamage(this.damage * triggerDamageMultiplier);
+            var enemies = grid.getAllEnemies(enemy.gx, enemy.gy);
+            if (enemies) {
+                enemies.forEach(function(enemy) {
+                    enemy.takeDamage(this.damage);
+                }, this);
+            }
             enemy.markOfFire = 0;
         }
     };
@@ -86,7 +90,7 @@ function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,damage,speed);
     projectile.additionalEffects = function(enemy) {
         // Melt Armor
-        enemy.armor -= 5;
+        enemy.armor -= this.damage / 6;
     };
     return projectile;
 }

@@ -222,6 +222,18 @@ function makeGrid(width, height) {
             }
         }
     };
+    grid.getAllEnemies = function(gx, gy) {
+        var tileCoords = this.graphicalToTileCoords(gx, gy);
+        if (this.inBounds(tileCoords)) {
+            var tile = grid.getTileAtCoords(tileCoords);
+            var entities = tile.getEntities();
+            var isEnemy = function(entity) {
+                return entity.hostile; // is hostile = is enemy
+            };
+            var enemies = entities.filter(isEnemy);
+            return enemies;
+        }
+    };
     // get distance to end of path, how close an enemy on this tile is to finishing path
     // not completely accurate since distance isn't factored in
     grid.getDistToEnd = function(gx, gy) {

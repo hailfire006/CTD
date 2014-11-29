@@ -14,8 +14,8 @@ var Game = { // TODO move all globals into Game namespace
     time: Date.now(), // last time run() was called
     totalSeconds: 0, // total seconds since game start
     getDifficulty: function() {
-        // divide to make initial difficulty last for a few seconds
-        return Math.floor(Math.pow(this.totalSeconds / 10, .4));
+        // increase difficulty every few seconds
+        return Math.floor(this.totalSeconds / 30);
     },
     // Player Info
     lifeTimeSeconds: STARTING_HEALTH, // seconds left until game over, the equivalent of life
