@@ -172,13 +172,13 @@ function makeGrid(width, height) {
         };
         var maxDist = this.width * this.height; // infinite loop catcher
         while (this.inBounds(curCoords)) {
-            curCoords.tx += curDirection.dx;
-            curCoords.ty += curDirection.dy;
             var curTile = this.getTileAtCoords(curCoords);
             if (curTile && curTile.direction) {
                 curDirection.dx = curTile.direction.x;
                 curDirection.dy = curTile.direction.y;
             }
+            curCoords.tx += curDirection.dx;
+            curCoords.ty += curDirection.dy;
             distance++;
             if (distance > maxDist) {
                 // console.log('loop! for ' + curCoords.tx + ',' + curCoords.ty);
@@ -186,7 +186,6 @@ function makeGrid(width, height) {
                 return;
             }
         }
-        // TODO fix distance calc - finding infinite loops where isn't any
         // console.log(distance);
         this.pathDistMap[tx][ty] = distance;
     };
@@ -429,6 +428,7 @@ function makeGrid(width, height) {
         grid.width = gridInfo.grid.length;
         grid.height = gridInfo.grid[0].length;
         grid.spawnPoints = gridInfo.spawnPoints;
+        grid.calculatePathDistances();
     };
     return grid;
 }
