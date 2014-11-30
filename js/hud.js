@@ -1,4 +1,6 @@
 
+// Depends on: game.js
+
 /*
  * HUD displays health and money.
  */

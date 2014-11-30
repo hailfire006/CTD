@@ -1,8 +1,11 @@
 
-// Depends on: entity.js
+// Depends on: entity.js, game.js
 
 /*
- * Enemy entities go here.
+ * Enemy entities move along a path and are targetted by towers.
+ * Give player money and health if killed, steal health if escape offscreen.
+ * Primary attributes are health, armor, regen, and speed.
+ * The first three increase as game progresses.
  */
 
 var Enemies = { // Enemy listing used to auto-generate hud buttons in admin menu
@@ -67,6 +70,13 @@ function makeEnemy(gx, gy, imageName, health, speed) {
     // Die & award player
     enemy.die = function() {
         Game.money += MONEY_FROM_ENEMY_KILLS;
+        Game.gainHealth(HEALTH_FROM_ENEMY_KILLS);
+    };
+    // Escaped offscreen - player loses health
+    enemy.escape = function() {
+        // game difficulty stats at 0, don't multiply by 0
+        var healthDamage = ENEMY_HEALTH_DAMAGE_MULTIPLIER * (Game.getDifficulty() + 1);
+        Game.loseHealth(healthDamage);
     };
     enemy.move = function(mod) {
         var dx = this.speed * this.direction.multiplierX;
@@ -100,27 +110,27 @@ function makeGlareFish(gx, gy) {
 
 function makeChomper(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'chomper.png', 500, 80);
-    enemy.armor = 0;
+    enemy.armor = -5;
     return enemy;
 }
 
 function makeStareGolem(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'staregolem.png', 1000, 15);
+    var enemy = makeEnemy(gx, gy, 'staregolem.png', 750, 15);
     enemy.armor = 2;
     return enemy;
 }
 
 function makeSmugBug(gx, gy) {
-    var enemy = makeEnemy(gx, gy, 'smugbug.png', 100, 120);
+    var enemy = makeEnemy(gx, gy, 'smugbug.png', 100, 110);
     enemy.armor = 0;
-    enemy.regen = 20;
+    enemy.regen = 15;
     return enemy;
 }
 
 function makeSmileBeetle(gx, gy) {
     var enemy = makeEnemy(gx, gy, 'smilebeetle.png', 150, 50);
     enemy.armor = 1;
-    enemy.regen = 15;
+    enemy.regen = 10;
     return enemy;
 }
 

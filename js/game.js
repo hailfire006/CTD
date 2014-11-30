@@ -8,31 +8,38 @@
  */
 
 ///// globals
-var Game = { // TODO move all globals into Game namespace
-    // Time & Difficulty
-    //var runIntervalId // interval
-    time: Date.now(), // last time run() was called
-    totalSeconds: 0, // total seconds since game start
-    getDifficulty: function() {
-        // increase difficulty every few seconds
-        return Math.floor(this.totalSeconds / 30);
-    },
+var Game = {
+    //var runIntervalId // interval used to pause/unpause game loop
     // Grid canvas - this might be used by other js files
     canvas: document.getElementById('gameCanvas'),
     // Grid dimension calculations
-    gridTileWidth: function() {
+    getGridWidthInTiles: function() {
         return (this.canvas.width - SIDEBAR_WIDTH) / TILE_WIDTH;
     },
-    gridTileHeight: function() {
+    getGridHeightInTiles: function() {
         return (this.canvas.height - HUD_HEIGHT) / TILE_HEIGHT;
     },
-    // Player Info
+    // Time & Difficulty
+    time: Date.now(), // last time run() was called
+    totalSeconds: 0, // total seconds since game start
+    getDifficulty: function() { // difficulty starts from 0
+        // increase difficulty every few seconds
+        return Math.floor(this.totalSeconds / 30);
+    },
+    // Player Stats
     lifeTimeSeconds: STARTING_HEALTH, // seconds left until game over, the equivalent of life
-    money: STARTING_MONEY // money used to build towers
+    money: STARTING_MONEY, // money used to build towers
+    gainHealth: function(healthGain) {
+        this.lifeTimeSeconds += healthGain;
+    },
+    loseHealth: function(healthDamage) {
+        this.lifeTimeSeconds -= healthDamage;
+    }
 };
 
 // Game grid is drawn & updated continuously, also used by other js files
-var grid = makeGrid(Game.gridTileWidth(), Game.gridTileHeight());
+var grid = makeGrid(Game.getGridWidthInTiles(), Game.getGridHeightInTiles());
+// TODO move grid global into Game namespace, if possible
 
 //functions
 function run() {

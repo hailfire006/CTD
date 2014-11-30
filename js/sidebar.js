@@ -1,4 +1,6 @@
 
+// Depends on: game.js, grid.js, tower.js, enemy.js
+
 /*
  * Side bar provides build menu. Switches to developer tools if SHIFT key is pressed.
  */

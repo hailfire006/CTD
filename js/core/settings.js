@@ -20,7 +20,9 @@ var INCREASING_DIFFICULTY = true; // whether difficulty should increase over tim
 
 var TOWER_COST = 100;
 var MONEY_PER_SECOND = 1; // money gained passively
-var MONEY_FROM_ENEMY_KILLS = 1; // money gained per enemy killed
+var MONEY_FROM_ENEMY_KILLS = 2; // money gained per enemy killed
+var HEALTH_FROM_ENEMY_KILLS = .2; // health gained per enemy killed, in seconds
+var ENEMY_HEALTH_DAMAGE_MULTIPLIER = 1; // health lost in seconds when enemy escapes, multiplied by difficulty level
 
 // AESTHETIC - general
 var UI_BACKGROUND_COLOR = '#55A8C9'; // color of hud background w/o buttons, also sidebar background
@@ -42,7 +44,7 @@ var HEALTH_LOW_THRESHOLD = 15; // in seconds
 var MONEY_DISPLAY_COLOR = 'yellow';
 
 // DEBUGGING - gameplay
-var ETERNAL_LIFE = false; // prevents lifetime from decrementing
+var ETERNAL_LIFE = true; // prevents lifetime from decrementing
 var FREE_TOWERS = false; // removes cost from towers
 
 // DEBUGGING - code

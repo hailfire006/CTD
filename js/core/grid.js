@@ -354,7 +354,7 @@ function makeGrid(width, height) {
                 this.updateEntitiesCoordinates(curTile);
             }
         }
-        // TODO load what enemies & when to spawn from somewhere else....
+        // spawn enemies
         if (Utility.percentChance(this.spawnChance)) {
             this.spawn();
         }
@@ -381,6 +381,9 @@ function makeGrid(width, height) {
                 }
             }
         } else { // go offscreen = delete
+            if (entity.hostile) { // enemies escape
+                entity.escape();
+            }
             oldTile.removeEntity(entity);
             Utility.removeElementFromArray(this.entities, entity);
         }
