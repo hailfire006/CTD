@@ -12,7 +12,7 @@ var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
 var TILE_WIDTH = 50;
 var TILE_HEIGHT = 50;
 
-var STARTING_HEALTH = 60; // in seconds
+var STARTING_HEALTH = 4*60 + 20 + 1; // in seconds
 var STARTING_MONEY = 500;
 
 var STARTING_SPAWN_RATE = 3; // out of 100, % chance for an enemy to spawn on any given frame

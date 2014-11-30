@@ -213,14 +213,21 @@ function makeGrid(width, height) {
                 return false;
             }
             var entities = tile.getEntities();
-            for (var i = 0; i < entities.length; i++) {
-                if (entities[i].building) { // is building = is tower
-                    return false;
-                }
-            }
-            return true;
+            var hasTower = !!this.getFirstTowerAtTile(tileCoords);
+            return !hasTower;
         }
         return false;
+    };
+    grid.getFirstTowerAtTile = function(tileCoords) {
+        if (this.inBounds(tileCoords)) {
+            var tile = grid.getTileAtCoords(tileCoords);
+            var entities = tile.getEntities();
+            for (var i = 0; i < entities.length; i++) {
+                if (entities[i].building) { // is building = is tower
+                    return entities[i];
+                }
+            }
+        }
     };
     grid.hasEnemy = function(gx, gy) {
         return !!this.getFirstEnemy(gx, gy); // !! = cast to boolean, true if defined

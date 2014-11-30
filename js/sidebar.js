@@ -59,15 +59,21 @@ var SharedUi = {
             }
         } else {
             if ('spawn' in this.savedSettings) {
-                console.log(this.savedSettings['spawn']);
                 SHOW_ENEMY_SPAWN = this.savedSettings['spawn'];
                 delete this.savedSettings['spawn'];
             }
         }
     },
+    onSwapUi: function() {
+        // turn off/on tool overlay based on current selection
+        SharedUi.onSidebarClick();
+    },
     // highlight current moused-over tile
     curMouseX: -1,
     curMouseY: -1,
+    // selected tile used to access tower info, tile selection & tool selection mutually exclusive
+    selectedTileX: -1,
+    selectedTileY: -1,
 };
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
@@ -390,7 +396,7 @@ function swapUi() {
     AlternateUi = Ui;
     Ui = savedUi;
     // also deselect any tool
-    SharedUi.onSidebarClick();
+    SharedUi.onSwapUi();
     // TODO add mouseover?
 }
 

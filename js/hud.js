@@ -48,7 +48,7 @@ function drawHealth(ctx) {
         ctx.fillStyle = HEALTH_LOW_DISPLAY_COLOR;
     }
     ctx.fillText(getHealthText(), 0, endY);
-    // No health
+    // No health - game over text
     if (Game.lifeTimeSeconds <= 0) {
         var startX = TILE_WIDTH * 5;
         endY = TILE_HEIGHT - 15;
