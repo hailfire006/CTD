@@ -1,5 +1,5 @@
 
-// Depends on: game.js, grid.js, tower.js, enemy.js
+// Depends on: uielement.js, game.js, grid.js, tower.js, enemy.js
 
 /*
  * Side bar provides build menu. Switches to developer tools if SHIFT key is pressed.
@@ -75,58 +75,39 @@ var SharedUi = {
         // turn off/on tool overlay based on current selection
         this.onSidebarClick();
     },
+    // draw text overlay
+    textComponents: [],
+    //towerInfoComponent: // name, stats, description
+    init: function() {
+        var fontSize = 20; //  TODO make constants
+        var fontName = 'Arial';
+        // tower info
+        var startX = grid.width * TILE_WIDTH + 5;
+        var endY = (grid.height / 2) * TILE_HEIGHT;
+        this.towerInfoComponent = makeTextComponent(startX, endY, '', fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR);
+        // add to list
+        this.textComponents.push(this.towerInfoComponent);
+    },
+    draw: function(ctx) {
+        if (!this.towerInfoComponent) {
+            this.init();
+        }
+        if (this.selectedTower) {
+            var towerInfoText = this.selectedTower.name + '\n'
+                + this.selectedTower.damage + ' dmg\n'
+                + 'per ' + this.selectedTower.coolDown + ' s';
+            this.towerInfoComponent.text = towerInfoText;
+        }
+        this.textComponents.forEach(function (component) {
+            component.draw(ctx);
+        });
+    },
     // highlight current moused-over tile
     curMouseX: -1,
     curMouseY: -1,
     // select a tile without a selected tool to show tower info, deselected if tool selected
     //selectedTower: 
 };
-
-function makeButton(x, y, imageCategory, imageName, onClickFunction) {
-    var button = {
-        x: x,
-        y: y,
-        width: 50,
-        height: 50,
-        image: Images.getImage(imageCategory, imageName),
-        hovered: false, // whether mouse is hovering over this
-        selected: false, // whether mouse clicked this
-        tryMouseOver: function(mouseX, mouseY) {
-            this.hovered = this.isInButton(mouseX, mouseY);
-            return this.hovered;
-        },
-        tryClick: function(mouseX, mouseY) {
-            this.selected = this.isInButton(mouseX, mouseY);
-            if (this.selected) {
-                onClickFunction();
-            }
-            return this.selected;
-        },
-        isInButton: function(mouseX, mouseY) {
-            return mouseX >= this.x && mouseX <= this.x + this.width
-                && mouseY >= this.y && mouseY <= this.y + this.height;
-        },
-        draw: function(ctx) {
-            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            if (this.selected) {
-                var oldLineWidth = ctx.lineWidth;
-                ctx.beginPath();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "orange";
-                var off = ctx.lineWidth / 2;
-                ctx.rect(this.x + off, this.y + off, this.width - off*2, this.height - off*2);
-                ctx.stroke();
-                ctx.lineWidth = oldLineWidth;
-            } else if (this.hovered) {
-                ctx.beginPath();
-                ctx.strokeStyle = "yellow";
-                ctx.rect(this.x, this.y, this.width, this.height);
-                ctx.stroke();
-            }
-        }
-    };
-    return button;
-}
 
 function addMenuButton(sidebarTileX, sidebarTileY, imageCategory, imageName, callback) {
     var sidebarGraphicalX = (grid.width + sidebarTileX) * TILE_WIDTH;
@@ -207,7 +188,7 @@ function clickOnGrid(mouseX, mouseY) {
     var graphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
     gx = graphicalCoords.gx;
     gy = graphicalCoords.gy;
-    // console.log('Clicked at ('gx + ',' + gy + ')');
+    // console.log('Clicked at (' +gx + ',' + gy + ')');
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'callFunction') {
             var entity = Ui.makeEntityFunction(gx, gy);
@@ -340,7 +321,7 @@ function addEventListeners(canvas) {
         var mouseY = event.pageY - canvas.offsetTop;
         Ui.buttons.forEach(function(button) {
             // after one button is moused over, don't mouse over other buttons
-            if (button.tryMouseOver(mouseX, mouseY)) {
+            if (button.tryHover(mouseX, mouseY)) {
                 mouseX = -1;
                 mouseY = -1;
             }
@@ -365,29 +346,29 @@ function drawSelectedTowerInfo(ctx) {
         var fontSize = 20;
         var font = fontSize + "px Arial";
         // draw name
-        var startX = grid.width * TILE_WIDTH + 5;
-        var endY = (grid.height / 2) * TILE_HEIGHT;
-        ctx.font = font;
-        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        ctx.fillText(SharedUi.selectedTower.name, startX, endY);
+        // var startX = grid.width * TILE_WIDTH + 5;
+        // var endY = (grid.height / 2) * TILE_HEIGHT;
+        // ctx.font = font;
+        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        // ctx.fillText(SharedUi.selectedTower.name, startX, endY);
         // draw damage stat
-        startX = grid.width * TILE_WIDTH + 5;
-        endY = (grid.height / 2) * TILE_HEIGHT + fontSize*1;
-        ctx.font = font;
-        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        ctx.fillText(SharedUi.selectedTower.damage + ' dmg', startX, endY);
+        // startX = grid.width * TILE_WIDTH + 5;
+        // endY = (grid.height / 2) * TILE_HEIGHT + fontSize*1;
+        // ctx.font = font;
+        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        // ctx.fillText(SharedUi.selectedTower.damage + ' dmg', startX, endY);
         // draw cooldown stat
-        startX = grid.width * TILE_WIDTH + 5;
-        endY = (grid.height / 2) * TILE_HEIGHT + fontSize*2;
-        ctx.font = font;
-        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        ctx.fillText('per ' + SharedUi.selectedTower.coolDown + ' s', startX, endY);
+        // startX = grid.width * TILE_WIDTH + 5;
+        // endY = (grid.height / 2) * TILE_HEIGHT + fontSize*2;
+        // ctx.font = font;
+        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        // ctx.fillText('per ' + SharedUi.selectedTower.coolDown + ' s', startX, endY);
         // draw range stat
-        startX = grid.width * TILE_WIDTH + 5;
-        endY = (grid.height / 2) * TILE_HEIGHT + fontSize*3;
-        ctx.font = font;
-        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        ctx.fillText('range: ' + SharedUi.selectedTower.range, startX, endY);
+        // startX = grid.width * TILE_WIDTH + 5;
+        // endY = (grid.height / 2) * TILE_HEIGHT + fontSize*3;
+        // ctx.font = font;
+        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        // ctx.fillText('range: ' + SharedUi.selectedTower.range, startX, endY);
    }
 }
 
@@ -407,7 +388,7 @@ function highlightSelectedTowerTile(ctx) {
     }
 }
 
-function highlightMouseoverTile(ctx) {
+function highlightHoveredTile(ctx) {
     if (SharedUi.curMouseX > 0 && SharedUi.curMouseX < grid.width * TILE_WIDTH && SharedUi.curMouseY > HUD_HEIGHT) {
         // Don't forget yOffset when converting mouse graphical coords to grid graphical coords
         var tileCoords = grid.graphicalToTileCoords(SharedUi.curMouseX, SharedUi.curMouseY - grid.drawOffsetY);
@@ -444,8 +425,9 @@ function drawSidebar(ctx) {
     });
     highlightSelectedTowerTile(ctx);
     drawSelectedTowerInfo(ctx);
-    highlightMouseoverTile(ctx);
+    highlightHoveredTile(ctx);
     drawSidebarBorder(ctx);
+    SharedUi.draw(ctx);
 }
 
 function swapUi() {
@@ -477,4 +459,5 @@ function initSidebar() {
     addMenuButtons();
     addEventListeners(Game.canvas);
     addSidebarHotkeys();
+    SharedUi.init();
 }
