@@ -388,7 +388,7 @@ function makeGrid(width, height) {
                 }
             }
         } else { // go offscreen = delete
-            if (entity.hostile) { // enemies escape
+            if (entity.hostile) { // enemies escape, dealing damage
                 entity.escape();
             }
             oldTile.removeEntity(entity);

@@ -12,13 +12,14 @@ var Towers = { // Tower listing used to auto-generate hud buttons
     }
 };
 
-function makeTower(gx, gy, imageName, range, coolDown) {
+function makeTower(gx, gy, imageName, range, coolDown, damage) {
     var imageCategory = 'tower';
     var tower = makeEntity(gx, gy, imageCategory, imageName);
     tower.building = true;
     tower.range = range;
     tower.coolDown = coolDown;
     tower.coolDownTimer = 0;
+    tower.damage = damage; // sets projectile damage
     // tower helper functions
     // Returns (gx, gy) for the tile offset relative to tower's tile
     tower.getRelativeTileCoords = function(tileOffsetX, tileOffsetY) {
@@ -69,6 +70,7 @@ function makeTower(gx, gy, imageName, range, coolDown) {
         var targetCoords = this.getTargetCoords();
         if (targetCoords) {
             var projectile = this.makeProjectile(targetCoords.gx, targetCoords.gy);
+            projectile.damage = this.damage;
             grid.addEntity(projectile);
         }
     };
@@ -97,55 +99,59 @@ function makeTower(gx, gy, imageName, range, coolDown) {
         }
         return bestEnemyCoords;
     };
-    tower.makeProjectile = function (gx, gy) {
-        return makeTestFireProjectile(this, gx, gy);
-    };
     return tower;
 }
 function makeFireTower(gx,gy) {
-    var tower = makeTower(gx,gy,"fireball.png", 3, 1);
+    var tower = makeTower(gx,gy,"fireball.png", 3, 1, 100);
+    tower.name = "Fire";
     tower.makeProjectile = function (gx, gy) {
         return makeFireProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeWaterTower(gx,gy) {
-    var tower = makeTower(gx,gy,"bluefire.png", 1, .1);
+    var tower = makeTower(gx,gy,"bluefire.png", 1, .1, 10);
+    tower.name = "Water";
     tower.makeProjectile = function (gx, gy) {
         return makeSprayProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"lightningbolt.png",10,5);
+    var tower = makeTower(gx,gy,"lightningbolt.png",10,5, 800);
+    tower.name = "Lightning";
     tower.makeProjectile = function (gx, gy) {
         return makeLightningProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeMagicTower(gx,gy) {
-    var tower = makeTower(gx,gy,"magicTrick.png",4,.45);
+    var tower = makeTower(gx,gy,"magicTrick.png",4,.45, 30);
+    tower.name = "Magic";
     tower.makeProjectile = function (gx, gy) {
         return makeMagicProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeKingTower(gx,gy) {
-    var tower = makeTower(gx,gy,"kingCrown.png",7,3);
+    var tower = makeTower(gx,gy,"kingCrown.png",7,3, 500);
+    tower.name = "King";
     tower.makeProjectile = function (gx, gy) {
         return makeKingProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeSpikyGemTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spikyGem.png",4,.75);
+    var tower = makeTower(gx,gy,"spikyGem.png",4,.75, 30);
+    tower.name = "Gem";
     tower.makeProjectile = function (gx, gy) {
         return makeSpikyGemProjectile(tower, gx, gy);
     };
     return tower;
 }
 function makeSpookyTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spookySkull.png",3,1);
+    var tower = makeTower(gx,gy,"spookySkull.png",3,1,70);
+    tower.name = "Spooky";
     tower.makeProjectile = function (gx, gy) {
         return makeSpookyProjectile(tower, gx, gy);
     };

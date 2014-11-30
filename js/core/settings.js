@@ -34,6 +34,8 @@ var HEALTH_BAR_HEIGHT = 3; // height in pixels of enemy health bars
 // AESTHETIC - sidebar
 var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
 var UI_SELECTED_UNBUILDABLE_TILE_COLOR = "red"; // color of currently moused-over tile, if tile can't be built on
+var UI_SELECTED_TOWER_COLOR = "black"; // color of currently selected tower
+var UI_TOWER_INFO_TEXT_COLOR = "white"; // color of tower information text
 var SIDEBAR_WIDTH = 2 * TILE_WIDTH;
 
 // AESTHETIC - hud

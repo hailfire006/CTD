@@ -37,7 +37,7 @@ var AlternateUi = Utility.clone(Ui); // can swap back and forth w/ Ui, contains 
 var SharedUi = {
     // When arrow/spawn is selected, override show arrow/spawn setting & save in here
     savedSettings: {},
-    onSidebarClick: function() {
+    showToolOverlay: function() {
         var arrowSelected = Ui.currentChoice === 'arrow' || Ui.currentChoice === 'deleteArrow';
         if (arrowSelected) { // save setting & override to true
             if (!('arrow' in this.savedSettings)) {
@@ -64,16 +64,22 @@ var SharedUi = {
             }
         }
     },
+    onSidebarClick: function() {
+        this.showToolOverlay();
+        // deselect current tower if tool selected
+        if (Ui.currentChoice && this.selectedTower) {
+            delete this.selectedTower;
+        }
+    },
     onSwapUi: function() {
         // turn off/on tool overlay based on current selection
-        SharedUi.onSidebarClick();
+        this.onSidebarClick();
     },
     // highlight current moused-over tile
     curMouseX: -1,
     curMouseY: -1,
-    // selected tile used to access tower info, tile selection & tool selection mutually exclusive
-    selectedTileX: -1,
-    selectedTileY: -1,
+    // select a tile without a selected tool to show tower info, deselected if tool selected
+    //selectedTower: 
 };
 
 function makeButton(x, y, imageCategory, imageName, onClickFunction) {
@@ -304,6 +310,9 @@ function clickOnGrid(mouseX, mouseY) {
         } else if (Ui.currentChoice) {
             console.log('No handling for Ui choice: ' + Ui.currentChoice);
         }
+    } else { // select tower in tile
+        var curTower = grid.getFirstTowerAtTile(tileCoords);
+        SharedUi.selectedTower = curTower;
     }
 }
 
@@ -322,7 +331,7 @@ function addEventListeners(canvas) {
                 }
             });
             SharedUi.onSidebarClick();
-        } else {
+        } else if (mouseY > HUD_HEIGHT) {
             clickOnGrid(mouseX, mouseY);
         }
     });
@@ -350,20 +359,67 @@ function clearSidebar(ctx) {
     ctx.fillRect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
 }
 
-function highlightSelectedTile(ctx) {
+function drawSelectedTowerInfo(ctx) {
+    // TODO show tower info
+    if (SharedUi.selectedTower) {
+        var fontSize = 20;
+        var font = fontSize + "px Arial";
+        // draw name
+        var startX = grid.width * TILE_WIDTH + 5;
+        var endY = (grid.height / 2) * TILE_HEIGHT;
+        ctx.font = font;
+        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        ctx.fillText(SharedUi.selectedTower.name, startX, endY);
+        // draw damage stat
+        startX = grid.width * TILE_WIDTH + 5;
+        endY = (grid.height / 2) * TILE_HEIGHT + fontSize*1;
+        ctx.font = font;
+        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        ctx.fillText(SharedUi.selectedTower.damage + ' dmg', startX, endY);
+        // draw cooldown stat
+        startX = grid.width * TILE_WIDTH + 5;
+        endY = (grid.height / 2) * TILE_HEIGHT + fontSize*2;
+        ctx.font = font;
+        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        ctx.fillText('per ' + SharedUi.selectedTower.coolDown + ' s', startX, endY);
+        // draw range stat
+        startX = grid.width * TILE_WIDTH + 5;
+        endY = (grid.height / 2) * TILE_HEIGHT + fontSize*3;
+        ctx.font = font;
+        ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
+        ctx.fillText('range: ' + SharedUi.selectedTower.range, startX, endY);
+   }
+}
+
+// draw a colored rectangle around a tile
+function highlightTile(ctx, tileCoords, strokeStyle) {
+    var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
+    ctx.beginPath();
+    ctx.strokeStyle = strokeStyle;
+    ctx.rect(tileGraphicalCoords.gx, tileGraphicalCoords.gy + grid.drawOffsetY, TILE_WIDTH, TILE_HEIGHT);
+    ctx.stroke();
+}
+
+function highlightSelectedTowerTile(ctx) {
+    if (SharedUi.selectedTower) {
+        var towerTileCoords = SharedUi.selectedTower.getCurrentTileCoords();
+        highlightTile(ctx, towerTileCoords, UI_SELECTED_TOWER_COLOR);
+    }
+}
+
+function highlightMouseoverTile(ctx) {
     if (SharedUi.curMouseX > 0 && SharedUi.curMouseX < grid.width * TILE_WIDTH && SharedUi.curMouseY > HUD_HEIGHT) {
         // Don't forget yOffset when converting mouse graphical coords to grid graphical coords
         var tileCoords = grid.graphicalToTileCoords(SharedUi.curMouseX, SharedUi.curMouseY - grid.drawOffsetY);
         var actualTile = grid.getTileAtCoords(tileCoords);
         var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
-        ctx.beginPath();
+        var strokeStyle;
         if (actualTile && actualTile.buildable) {
-            ctx.strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
+            strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
         } else {
-            ctx.strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
+            strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
         }
-        ctx.rect(tileGraphicalCoords.gx, tileGraphicalCoords.gy + grid.drawOffsetY, TILE_WIDTH, TILE_HEIGHT);
-        ctx.stroke();
+        highlightTile(ctx, tileCoords, strokeStyle);
     }
 }
 
@@ -386,7 +442,9 @@ function drawSidebar(ctx) {
     Ui.buttons.forEach(function(button) {
         button.draw(ctx);
     });
-    highlightSelectedTile(ctx);
+    highlightSelectedTowerTile(ctx);
+    drawSelectedTowerInfo(ctx);
+    highlightMouseoverTile(ctx);
     drawSidebarBorder(ctx);
 }
 
