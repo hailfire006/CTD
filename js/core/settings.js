@@ -44,7 +44,7 @@ var HEALTH_LOW_THRESHOLD = 15; // in seconds
 var MONEY_DISPLAY_COLOR = 'yellow';
 
 // DEBUGGING - gameplay
-var ETERNAL_LIFE = true; // prevents lifetime from decrementing
+var ETERNAL_LIFE = false; // prevents lifetime from decrementing
 var FREE_TOWERS = false; // removes cost from towers
 
 // DEBUGGING - code

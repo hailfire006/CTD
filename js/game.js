@@ -33,7 +33,9 @@ var Game = {
         this.lifeTimeSeconds += healthGain;
     },
     loseHealth: function(healthDamage) {
-        this.lifeTimeSeconds -= healthDamage;
+        if (!ETERNAL_LIFE) {
+            this.lifeTimeSeconds -= healthDamage;
+        }
     }
 };
 
@@ -54,9 +56,7 @@ function run() {
     draw();
     Game.time = Date.now();
     if (Game.lifeTimeSeconds > 0) {
-        if (!ETERNAL_LIFE) {
-            Game.lifeTimeSeconds -= secondsElapsed;
-        }
+        Game.loseHealth(secondsElapsed);
         Game.totalSeconds += secondsElapsed;
     } else {
         Game.lifeTimeSeconds = 0;
