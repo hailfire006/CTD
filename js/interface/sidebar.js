@@ -97,6 +97,8 @@ var SharedUi = {
                 + this.selectedTower.damage + ' dmg\n'
                 + 'per ' + this.selectedTower.coolDown + ' s';
             this.towerInfoComponent.text = towerInfoText;
+        } else {
+            this.towerInfoComponent.text = '';
         }
         this.textComponents.forEach(function (component) {
             component.draw(ctx);
