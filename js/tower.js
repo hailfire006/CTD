@@ -43,7 +43,7 @@ function makeTower(gx, gy, imageName, range, coolDown, damage) {
             // bottom-right corner = (towerTileX + range, towerTileY + range)
             var endTileX = Math.min(grid.width, towerTileX + range);
             var endTileY = Math.min(grid.height, towerTileY + range);
-            // TODO add each tile in range ONLY if in grid bounds
+            // add each tile in range ONLY if in grid bounds
             for (var tileX = startTileX; tileX <= endTileX; tileX++) {
                 for (var tileY = startTileY; tileY <= endTileY; tileY++) {
                     var curTileCoords = {
@@ -75,10 +75,10 @@ function makeTower(gx, gy, imageName, range, coolDown, damage) {
         }
     };
     tower.update = function (mod) {
-        tower.coolDownTimer -= mod;
-        if (tower.coolDownTimer <= 0) {
-            tower.fire();
-            tower.coolDownTimer += tower.coolDown;
+        this.coolDownTimer -= mod;
+        if (this.coolDownTimer <= 0) {
+            this.fire();
+            this.coolDownTimer += this.coolDown;
         }
     };
     // Fire on enemy in range
