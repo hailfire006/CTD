@@ -20,8 +20,8 @@ var INCREASING_DIFFICULTY = true; // whether difficulty should increase over tim
 
 var TOWER_COST = 100;
 var MONEY_PER_SECOND = 1; // money gained passively
-var MONEY_FROM_ENEMY_KILLS = 2; // money gained per enemy killed
-var HEALTH_FROM_ENEMY_KILLS = .2; // health gained per enemy killed, in seconds
+var MONEY_FROM_ENEMY_KILLS = 3; // money gained per enemy killed
+var HEALTH_FROM_ENEMY_KILLS = .4; // health gained per enemy killed, in seconds
 var ENEMY_HEALTH_DAMAGE_MULTIPLIER = 1; // health lost in seconds when enemy escapes, multiplied by difficulty level
 
 // AESTHETIC - general
