@@ -96,17 +96,20 @@ function makeKingProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,speed);
     projectile.additionalEffects = function(enemy) {
         // Bow Before The King - Reduces all stats
-        if (enemy.regen > 0) {
+        var minRegen = -10;
+        var minArmor = -10;
+        var minSpeed = 0;
+        if (enemy.regen > minRegen) {
             enemy.regen -= this.damage / 100;
-            enemy.regen = Math.max(0, enemy.regen);
+            enemy.regen = Math.max(minRegen, enemy.regen);
         }
-        if (enemy.armor > 0) {
+        if (enemy.armor > minArmor) {
             enemy.armor -= this.damage / 100;
-            enemy.armor = Math.max(0, enemy.armor);
+            enemy.armor = Math.max(minArmor, enemy.armor);
         }
-        if (enemy.speed > 0) {
+        if (enemy.speed > minSpeed) {
             enemy.speed -= this.damage / 100;
-            enemy.speed = Math.max(0, enemy.speed);
+            enemy.speed = Math.max(minSpeed, enemy.speed);
         }
     };
     return projectile;
