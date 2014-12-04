@@ -121,8 +121,11 @@ function makeSpikyGemProjectile(tower,targetx,targety) {
     projectile.additionalEffects = function(enemy) {
         // Crystallize - Slows enemy
         var speedMultiplier = .8;
+        var minSpeed = 10;
         var newSpeed = Math.floor(enemy.speed * speedMultiplier);
-        enemy.speed = Math.max(10, newSpeed);
+        if (enemy.speed > minSpeed) {
+            enemy.speed = Math.max(minSpeed, newSpeed);
+        }
     };
     return projectile;
 }
