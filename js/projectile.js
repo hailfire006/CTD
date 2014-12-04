@@ -93,24 +93,24 @@ function makeMagicProjectile(tower,targetx,targety) {
 function makeKingProjectile(tower,targetx,targety) {
     var imageName = "kingCrown.png";
     var speed = 2000;
+    var reduceToMinimum = function(base, reduction, minimum) {
+        var newVal = base;
+        if (newVal > minimum) {
+            newVal -= reduction;
+            newVal = Math.max(newVal, minimum);
+        }
+        return newVal;
+    }
     var projectile = makeProjectile(tower,targetx,targety,imageName,speed);
     projectile.additionalEffects = function(enemy) {
         // Bow Before The King - Reduces all stats
-        var minRegen = -10;
-        var minArmor = -10;
-        var minSpeed = 0;
-        if (enemy.regen > minRegen) {
-            enemy.regen -= this.damage / 100;
-            enemy.regen = Math.max(minRegen, enemy.regen);
-        }
-        if (enemy.armor > minArmor) {
-            enemy.armor -= this.damage / 100;
-            enemy.armor = Math.max(minArmor, enemy.armor);
-        }
-        if (enemy.speed > minSpeed) {
-            enemy.speed -= this.damage / 100;
-            enemy.speed = Math.max(minSpeed, enemy.speed);
-        }
+        var minRegen = -100;
+        var minArmor = -100;
+        var minSpeed = 1;
+        var statReduction = this.damage / 20;
+        enemy.regen = reduceToMinimum(enemy.regen, statReduction, minRegen);
+        enemy.armor = reduceToMinimum(enemy.armor, statReduction, minArmor);
+        enemy.speed = reduceToMinimum(enemy.speed, statReduction, minSpeed);
     };
     return projectile;
 }

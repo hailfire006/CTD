@@ -95,7 +95,10 @@ var SharedUi = {
         if (this.selectedTower) {
             var towerInfoText = this.selectedTower.name + '\n'
                 + this.selectedTower.damage + ' dmg\n'
-                + 'per ' + this.selectedTower.coolDown + ' s';
+                + 'per ' + this.selectedTower.coolDown + ' s\n'
+                + 'range ' + this.selectedTower.range + '\n'
+                + '\n'
+                + this.selectedTower.desc;
             this.towerInfoComponent.text = towerInfoText;
         } else {
             this.towerInfoComponent.text = '';
