@@ -194,12 +194,17 @@ function clickOnGrid(mouseX, mouseY) {
     if (Ui.currentChoice) {
         if (Ui.currentChoice === 'callFunction') {
             var entity = Ui.makeEntityFunction(gx, gy);
-            if (entity.building && grid.canBuildTowerAt(tileCoords)) { // build tower
-                if (Game.money >= TOWER_COST) {
-                    Game.money -= TOWER_COST;
-                    grid.addEntity(entity);
+            if (entity.building) { // build tower
+                if (grid.canBuildTowerAt(tileCoords)) {
+                    if (Game.money >= TOWER_COST) {
+                        Game.money -= TOWER_COST;
+                        grid.addEntity(entity);
+                    }
+                } else { // select existing tower
+                    selectTowerInTile(tileCoords);
+                    delete Ui.currentChoice;
                 }
-            } else if (!entity.building) { // add enemy
+            } else { // add enemy
                 grid.addEntity(entity);
             }
         } else if (Ui.currentChoice === 'delete') {
@@ -294,9 +299,13 @@ function clickOnGrid(mouseX, mouseY) {
             console.log('No handling for Ui choice: ' + Ui.currentChoice);
         }
     } else { // select tower in tile
-        var curTower = grid.getFirstTowerAtTile(tileCoords);
-        SharedUi.selectedTower = curTower;
+        selectTowerInTile(tileCoords);
     }
+}
+
+function selectTowerInTile(tileCoords) {
+    var curTower = grid.getFirstTowerAtTile(tileCoords);
+    SharedUi.selectedTower = curTower;
 }
 
 // handle mouse over & clicks, preventing multi-select & multi-click
