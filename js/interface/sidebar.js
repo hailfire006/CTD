@@ -206,6 +206,7 @@ function clickOnGrid(mouseX, mouseY) {
                 } else { // select existing tower
                     selectTowerInTile(tileCoords);
                     delete Ui.currentChoice;
+                    unclickButtons(); // also show deselect choice on gui
                 }
             } else { // add enemy
                 grid.addEntity(entity);
@@ -342,6 +343,14 @@ function addEventListeners(canvas) {
         });
         SharedUi.curMouseX = mouseX;
         SharedUi.curMouseY = mouseY;
+    });
+}
+
+function unclickButtons() {
+    var mouseX = -1;
+    var mouseY = -1;
+    Ui.buttons.forEach(function(button) {
+        button.tryClick(mouseX, mouseY);
     });
 }
 
