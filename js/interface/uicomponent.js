@@ -70,12 +70,12 @@ function makeTextComponent(x, y, text, fontSize, fontName, style) {
     var textComponent = makeUiComponent(x, y); // width & height irrelevant, doesn't handle click/mouseover
     textComponent.text = text;
     textComponent.style = style;
-    var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
     textComponent.draw = function(ctx) {
         // draw name
         var maxWidth = SIDEBAR_WIDTH; // TODO constant?
+        var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
         ctx.font = font;
-        ctx.fillStyle = style;
+        ctx.fillStyle = this.style;
         fillMultilineText(ctx, this.text, this.x, this.y, maxWidth, fontSize);
     };
     return textComponent;

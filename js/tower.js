@@ -122,7 +122,7 @@ function makeWaterTower(gx,gy) {
 function makeLightningTower(gx,gy) {
     var tower = makeTower(gx,gy,"lightningbolt.png",10,5, 1000);
     tower.name = "Lightning";
-    tower.desc = 'Long-ranged, slow but powerful';
+    tower.desc = 'Long ranged, slow but powerful';
     tower.makeProjectile = function (gx, gy) {
         return makeLightningProjectile(tower, gx, gy);
     };

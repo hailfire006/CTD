@@ -70,6 +70,14 @@ var SharedUi = {
         if (Ui.currentChoice && this.selectedTower) {
             delete this.selectedTower;
         }
+        // show preview of tower information if build tower tool selected
+        if (Ui.currentChoice) {
+            var entity = Ui.makeEntityFunction(-1, -1);
+            var isBuildingTool = entity.building;
+            if (isBuildingTool) {
+                this.previewTower = entity;
+            }
+        }
     },
     onSwapUi: function() {
         // turn off/on tool overlay based on current selection
@@ -92,14 +100,26 @@ var SharedUi = {
         if (!this.towerInfoComponent) {
             this.init();
         }
+        var style = 'black';
+        var towerInfoPrefix = '';
+        var towerToDisplay;
         if (this.selectedTower) {
-            var towerInfoText = this.selectedTower.name + '\n'
-                + this.selectedTower.damage + ' dmg\n'
-                + 'per ' + this.selectedTower.coolDown + ' s\n'
-                + 'range ' + this.selectedTower.range + '\n'
+            towerToDisplay = this.selectedTower;
+        } else if (this.previewTower) {
+            style = 'white';
+            towerInfoPrefix = '($' + TOWER_COST + ')';
+            towerToDisplay = this.previewTower;
+        }
+        if (towerToDisplay) {
+            var towerInfoText = towerInfoPrefix + '\n'
+                + towerToDisplay.name + '\n'
+                + towerToDisplay.damage + ' dmg\n'
+                + 'per ' + towerToDisplay.coolDown + ' s\n'
+                + 'range ' + towerToDisplay.range + '\n'
                 + '\n'
-                + this.selectedTower.desc;
+                + towerToDisplay.desc;
             this.towerInfoComponent.text = towerInfoText;
+            this.towerInfoComponent.style = style;
         } else {
             this.towerInfoComponent.text = '';
         }
@@ -112,6 +132,8 @@ var SharedUi = {
     curMouseY: -1,
     // select a tile without a selected tool to show tower info, deselected if tool selected
     //selectedTower: 
+    // tower about to be built, also show tower info
+    //previewTower:
 };
 
 function addMenuButton(sidebarTileX, sidebarTileY, imageCategory, imageName, callback) {
@@ -460,7 +482,7 @@ function swapUi() {
     Ui = savedUi;
     // also deselect any tool
     SharedUi.onSwapUi();
-    // TODO add mouseover?
+    // TODO add mouseover event?
 }
 
 function sidebarKeyUp(keyCode) {
@@ -472,6 +494,7 @@ function sidebarKeyUp(keyCode) {
 }
 
 function addSidebarHotkeys() {
+    // key up will only trigger once per keypress, not responding to holding key down
     window.addEventListener('keyup', function(e) {
         sidebarKeyUp(e.keyCode);
     });
