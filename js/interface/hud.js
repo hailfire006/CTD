@@ -44,8 +44,10 @@ function drawHealth(ctx) {
     ctx.font = "50px Arial";
     if (Game.lifeTimeSeconds > HEALTH_LOW_THRESHOLD) {
         ctx.fillStyle = HEALTH_DISPLAY_COLOR;
-    } else {
+    } else if (Game.lifeTimeSeconds > 0) {
         ctx.fillStyle = HEALTH_LOW_DISPLAY_COLOR;
+    } else {
+        ctx.fillStyle = HEALTH_EMPTY_DISPLAY_COLOR;
     }
     ctx.fillText(getHealthText(), 0, endY);
     // No health - game over text

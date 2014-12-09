@@ -42,6 +42,7 @@ var SIDEBAR_WIDTH = 2 * TILE_WIDTH;
 var HUD_HEIGHT = TILE_HEIGHT; // height of hud at top
 var HEALTH_DISPLAY_COLOR = 'green';
 var HEALTH_LOW_DISPLAY_COLOR = 'red';
+var HEALTH_EMPTY_DISPLAY_COLOR = 'black';
 var HEALTH_LOW_THRESHOLD = 15; // in seconds
 var MONEY_DISPLAY_COLOR = 'yellow';
 
