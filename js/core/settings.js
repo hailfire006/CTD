@@ -17,6 +17,7 @@ var STARTING_MONEY = 500;
 
 var STARTING_SPAWN_RATE = 3; // out of 100, % chance for an enemy to spawn on any given frame
 var INCREASING_DIFFICULTY = true; // whether difficulty should increase over time
+var BOSS_CHANCE = 2; // chance for an enemy spawn to spawn a more powerful version instead
 
 var TOWER_COST = 100;
 var MONEY_PER_SECOND = 1; // money gained passively

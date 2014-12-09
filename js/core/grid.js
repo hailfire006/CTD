@@ -97,7 +97,11 @@ function makeGrid(width, height) {
         var tile = grid.getTileAtCoords(tileCoords);
         if (tile) {
             if (entity.hostile) { // buff enemies when they are added to the grid
-                entity.buffDifficulty(this.enemyPower);
+                if (Utility.percentChance(BOSS_CHANCE)) {
+                    entity.makeBoss(this.enemyPower);
+                } else {
+                    entity.buffDifficulty(this.enemyPower);
+                }
             }
             tile.addEntity(entity);
             grid.entities.push(entity);
