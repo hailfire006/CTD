@@ -42,11 +42,11 @@ function makeEnemy(gx, gy, imageName, health, speed) {
         this.armor = Math.floor(this.armor * propertyMultiplier);
         this.regen = Math.floor(this.regen * propertyMultiplier);
     };
-    enemy.makeBoss = function (difficulty) {
+    enemy.makeBoss = function (difficulty) { // bosses are larger & stronger
         var bossBonusDifficulty = 5;
         enemy.buffDifficulty(difficulty + bossBonusDifficulty);
-        this.sx = Math.min(this.sx*1.1);
-        this.sy = Math.min(this.sy*1.1);
+        this.sx = Math.min(this.sx * BOSS_SIZE_MULTIPLIER);
+        this.sy = Math.min(this.sy * BOSS_SIZE_MULTIPLIER);
     };
     enemy.takeDamage = function (damage) {
         var adjustedDamage = Math.max(damage - this.armor, 1);

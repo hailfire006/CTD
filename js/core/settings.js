@@ -32,6 +32,8 @@ var BACKGROUND_COLOR = '#55A85B'; // color of a blank screen, unused unless grap
 var SHOW_ENEMY_HEALTH = true; // whether to show a health bar for enemies
 var HEALTH_BAR_HEIGHT = 3; // height in pixels of enemy health bars
 
+var BOSS_SIZE_MULTIPLIER = 1.2; // scale of boss enemy images
+
 // AESTHETIC - sidebar
 var UI_SELECTED_BUILDABLE_TILE_COLOR = "orange"; // color of currently moused-over tile, if tile can be built on
 var UI_SELECTED_UNBUILDABLE_TILE_COLOR = "red"; // color of currently moused-over tile, if tile can't be built on
