@@ -227,7 +227,7 @@ function clickOnGrid(mouseX, mouseY) {
                     }
                 } else { // select existing tower
                     selectTowerInTile(tileCoords);
-                    delete Ui.currentChoice;
+                    deselectTool();
                     unclickButtons(); // also show deselect choice on gui
                 }
             } else { // add enemy
@@ -340,7 +340,7 @@ function addEventListeners(canvas) {
         var mouseX = event.pageX - canvas.offsetLeft;
         var mouseY = event.pageY - canvas.offsetTop;
         if (mouseX > grid.width * TILE_WIDTH) {
-            delete Ui.currentChoice;
+            deselectTool();
             Ui.buttons.forEach(function(button) {
                 // after one button is clicked, don't click other buttons
                 if (button.tryClick(mouseX, mouseY)) {
@@ -366,6 +366,11 @@ function addEventListeners(canvas) {
         SharedUi.curMouseX = mouseX;
         SharedUi.curMouseY = mouseY;
     });
+}
+
+function deselectTool() {
+    delete Ui.currentChoice;
+    delete SharedUi.previewTower;
 }
 
 function unclickButtons() {
