@@ -52,12 +52,20 @@ function drawHealth(ctx) {
     ctx.fillText(getHealthText(), 0, endY);
     // No health - game over text
     if (Game.lifeTimeSeconds <= 0) {
-        var startX = TILE_WIDTH * 5;
+        var startX = TILE_WIDTH * 4.5;
         endY = TILE_HEIGHT - 15;
-        ctx.font = "30px Arial";
+        ctx.font = "25px Arial";
         ctx.fillStyle = "black";
         ctx.fillText('OUT OF TIME', startX, endY);
     }
+}
+
+function drawDifficulty(ctx) {
+    var startX = TILE_WIDTH * 8;
+    var endY = TILE_HEIGHT - 8;
+    ctx.font = "50px Arial";
+    ctx.fillStyle = DIFFICULTY_DISPLAY_COLOR;
+    ctx.fillText("☢" + Math.floor(Game.getDifficulty()), startX, endY);
 }
 
 function drawMoney(ctx) {
@@ -83,6 +91,7 @@ function drawHudBorder(ctx) {
 function drawHud(ctx) {
     clearHud(ctx);
     drawHealth(ctx);
+    drawDifficulty(ctx);
     drawMoney(ctx);
     drawHudBorder(ctx);
 }
