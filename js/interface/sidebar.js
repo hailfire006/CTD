@@ -390,38 +390,6 @@ function clearSidebar(ctx) {
     ctx.fillRect(sidebarGraphicalX, sidebarGraphicalY, sidebarGraphicalWidth, sidebarGraphicalHeight);
 }
 
-function drawSelectedTowerInfo(ctx) {
-    // TODO show tower info
-    if (SharedUi.selectedTower) {
-        var fontSize = 20;
-        var font = fontSize + "px Arial";
-        // draw name
-        // var startX = grid.width * TILE_WIDTH + 5;
-        // var endY = (grid.height / 2) * TILE_HEIGHT;
-        // ctx.font = font;
-        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        // ctx.fillText(SharedUi.selectedTower.name, startX, endY);
-        // draw damage stat
-        // startX = grid.width * TILE_WIDTH + 5;
-        // endY = (grid.height / 2) * TILE_HEIGHT + fontSize*1;
-        // ctx.font = font;
-        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        // ctx.fillText(SharedUi.selectedTower.damage + ' dmg', startX, endY);
-        // draw cooldown stat
-        // startX = grid.width * TILE_WIDTH + 5;
-        // endY = (grid.height / 2) * TILE_HEIGHT + fontSize*2;
-        // ctx.font = font;
-        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        // ctx.fillText('per ' + SharedUi.selectedTower.coolDown + ' s', startX, endY);
-        // draw range stat
-        // startX = grid.width * TILE_WIDTH + 5;
-        // endY = (grid.height / 2) * TILE_HEIGHT + fontSize*3;
-        // ctx.font = font;
-        // ctx.fillStyle = UI_TOWER_INFO_TEXT_COLOR;
-        // ctx.fillText('range: ' + SharedUi.selectedTower.range, startX, endY);
-   }
-}
-
 // draw a colored rectangle around a tile
 function highlightTile(ctx, tileCoords, strokeStyle) {
     var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
@@ -474,7 +442,6 @@ function drawSidebar(ctx) {
         button.draw(ctx);
     });
     highlightSelectedTowerTile(ctx);
-    drawSelectedTowerInfo(ctx);
     highlightHoveredTile(ctx);
     drawSidebarBorder(ctx);
     SharedUi.draw(ctx);
