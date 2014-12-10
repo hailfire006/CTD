@@ -89,7 +89,7 @@ function makeTower(gx, gy, imageName, damage, coolDown, range) {
             ctx.font = font;
             ctx.fillStyle = "blue";
             ctx.fillText(this.level, this.gx + TILE_WIDTH * .2, this.gy + TILE_HEIGHT * .4);
-            ctx.fillStyle = "white";
+            ctx.strokeStyle = "white";
             ctx.strokeText(this.level, this.gx + TILE_WIDTH * .2, this.gy + TILE_HEIGHT * .4);
         }
     };
@@ -162,7 +162,7 @@ function makeLightningTower(gx,gy) {
     tower.boostPerLevel = {
         damage: tower.damage / 2,
         range: 2.5,
-        coolDownMult: .7
+        coolDownMult: .6
     };
     tower.name = "Lightning";
     tower.desc = 'Long ranged, slow but powerful';
@@ -203,7 +203,7 @@ function makeSpikyGemTower(gx,gy) {
     tower.boostPerLevel = {
         damage: tower.damage,
         coolDownMult: .75,
-        range: .75
+        range: .7
     };
     tower.name = "Gem";
     tower.desc = 'Slows enemy';
