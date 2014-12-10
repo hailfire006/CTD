@@ -21,6 +21,7 @@ var Game = {
     },
     // Time & Difficulty
     time: Date.now(), // last time run() was called
+    timestepOverflow: 0, // how many seconds should be added to the next game step
     startingPauseSeconds: STARTING_PAUSE, // seconds of pause remaining before game starts
     totalSeconds: 0, // total seconds since game start
     getDifficulty: function() { // difficulty starts from 0
@@ -71,6 +72,13 @@ function run() {
         } else {
             secondsElapsed = 0;
         }
+    }
+    // prevent timestep from being too high, can cause path bugs
+    secondsElapsed += Game.timestepOverflow;
+    Game.timestepOverflow = 0;
+    if (secondsElapsed > MAX_FRAME_TIMESTEP) {
+        Game.timestepOverflow += secondsElapsed - (secondsElapsed % MAX_FRAME_TIMESTEP);
+        secondsElapsed %= MAX_FRAME_TIMESTEP;
     }
     // main game loop
     update(secondsElapsed);
@@ -161,6 +169,6 @@ function startGame() {
     initGrid();
     initSidebar();
     unpauseGame();
-    console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause. Beware of changing tabs with pause off, you will lose!');
+    console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause.');
 }
 startGame();

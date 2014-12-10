@@ -7,6 +7,8 @@
 var RUN_INTERVAL = 50; // # ms between game frames
 var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
 
+var MAX_FRAME_TIMESTEP = .2; // in seconds, used to prevent jumping off path & other bugs w/ large timesteps
+
 // GAMEPLAY
 // tile dimensions affect tile size in grid and entity size
 var TILE_WIDTH = 50;
