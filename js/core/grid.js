@@ -215,25 +215,9 @@ function makeGrid(width, height) {
     grid.canBuildTowerAt = function(tileCoords) {
         if (this.inBounds(tileCoords)) {
             var tile = grid.getTileAtCoords(tileCoords);
-            if (!tile.buildable) {
-                return false;
-            }
-            var entities = tile.getEntities();
-            var hasTower = !!this.getFirstTowerAtTile(tileCoords);
-            return !hasTower;
+            return tile.canBuildTower();
         }
         return false;
-    };
-    grid.getFirstTowerAtTile = function(tileCoords) {
-        if (this.inBounds(tileCoords)) {
-            var tile = grid.getTileAtCoords(tileCoords);
-            var entities = tile.getEntities();
-            for (var i = 0; i < entities.length; i++) {
-                if (entities[i].building) { // is building = is tower
-                    return entities[i];
-                }
-            }
-        }
     };
     grid.hasEnemy = function(gx, gy) {
         return !!this.getFirstEnemy(gx, gy); // !! = cast to boolean, true if defined
