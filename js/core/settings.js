@@ -65,10 +65,6 @@ var SHOW_ENEMY_SPAWN = true; // whether to show where enemies spawn
 // MULTI-TOGGLE
 var DEMO = true;
 
-if (FREE_TOWERS) {
-    TOWER_COST = 0;
-}
-
 if (DEMO) {
     HIGHLIGHT_ENTITY_HITBOXES = false;
     HIGHLIGHT_TILES_WITH_ENTITIES = false;

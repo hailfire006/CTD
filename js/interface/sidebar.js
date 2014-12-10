@@ -136,7 +136,7 @@ var SharedUi = {
                 + towerInfoPrefix + '\n'
                 + towerToDisplay.damage + ' dmg\n'
                 + 'per ' + towerToDisplay.coolDown + ' s\n'
-                + 'range ' + towerToDisplay.range + '\n'
+                + 'range ' + Math.floor(towerToDisplay.range) + '\n'
                 + '\n'
                 + towerToDisplay.desc;
             this.towerInfoComponent.text = towerInfoText;
