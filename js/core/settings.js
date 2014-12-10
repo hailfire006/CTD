@@ -20,6 +20,7 @@ var INCREASING_DIFFICULTY = true; // whether difficulty should increase over tim
 var BOSS_CHANCE = 2; // chance for an enemy spawn to spawn a more powerful version instead
 
 var TOWER_COST = 100;
+var TOWER_UPGRADE_EXPONENT = 1.5;
 var MONEY_PER_SECOND = 1; // money gained passively
 var MONEY_FROM_ENEMY_KILLS = 3.5; // money gained per enemy killed
 var HEALTH_FROM_ENEMY_KILLS = .4; // health gained per enemy killed, in seconds

@@ -20,7 +20,7 @@ function makeTower(gx, gy, imageName, damage, coolDown, range) {
     tower.coolDown = coolDown;
     tower.coolDownTimer = 0;
     tower.damage = damage; // sets projectile damage
-    tower.level = 1; // TODO draw level if > 1
+    tower.level = 1;
     // tower helper functions
     // Returns (gx, gy) for the tile offset relative to tower's tile
     tower.getRelativeTileCoords = function(tileOffsetX, tileOffsetY) {
@@ -81,7 +81,15 @@ function makeTower(gx, gy, imageName, damage, coolDown, range) {
         }
     };
     tower.getUpgradeCost = function() {
-        return Math.floor(Math.pow(tower.level, 2)) * TOWER_COST;
+        return Math.floor(Math.pow(tower.level, TOWER_UPGRADE_EXPONENT)) * TOWER_COST;
+    };
+    tower.postDraw = function(ctx) {
+        if (this.level > 1) {
+            var font = '20px Arial';
+            ctx.font = font;
+            ctx.fillStyle = "blue";
+            ctx.fillText(this.level, this.gx + TILE_WIDTH * .2, this.gy + TILE_HEIGHT * .4);
+        }
     };
     // tower attack
     tower.fire = function () {
