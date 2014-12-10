@@ -13,17 +13,33 @@ var Ui = {
     // Button adding
     nextFreeX: 0,
     nextFreeY: 0,
-    addButton: function(imageCategory, imageName, onClickFunction) {
+    updateFreeSlots: function() {
         var sidebarTileWidth = SIDEBAR_WIDTH / TILE_WIDTH;
-        var sidebarGraphicalX = (grid.width + this.nextFreeX) * TILE_WIDTH;
-        var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
-        var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
         this.nextFreeX++;
         if (this.nextFreeX >= sidebarTileWidth) {
             this.nextFreeX = 0;
             this.nextFreeY++;
         }
+    },
+    addButton: function(imageCategory, imageName, onClickFunction) {
+        var sidebarGraphicalX = (grid.width + this.nextFreeX) * TILE_WIDTH;
+        var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
+        var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
+        this.updateFreeSlots();
         this.buttons.push(button);
+        return button;
+    },
+    addTextButton: function(text, onClickFunction) {
+        var sidebarGraphicalX = (grid.width + this.nextFreeX) * TILE_WIDTH;
+        var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
+        
+        var fontSize = 20; //  TODO make constants
+        var fontName = 'Arial';
+        var button = makeTextButton(sidebarGraphicalX, sidebarGraphicalY, text, fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR, onClickFunction);
+        
+        this.updateFreeSlots();
+        this.buttons.push(button);
+        return button;
     },
     addButtonDivider: function() {
         if (this.nextFreeX > 0) {
@@ -69,13 +85,16 @@ var SharedUi = {
         // deselect current tower if tool selected
         if (Ui.currentChoice && this.selectedTower) {
             delete this.selectedTower;
+            this.towerUpgradeButton.text = '';
         }
         // show preview of tower information if build tower tool selected
         if (Ui.currentChoice) {
             var entity = Ui.makeEntityFunction(-1, -1);
-            var isBuildingTool = entity.building;
-            if (isBuildingTool) {
-                this.previewTower = entity;
+            if (entity) {
+                var isBuildingTool = entity.building;
+                if (isBuildingTool) {
+                    this.previewTower = entity;
+                }
             }
         }
     },
@@ -86,6 +105,7 @@ var SharedUi = {
     // draw text overlay
     textComponents: [],
     //towerInfoComponent: // name, stats, description
+    //towerUpgradeButton:
     init: function() {
         var fontSize = 20; //  TODO make constants
         var fontName = 'Arial';
@@ -205,6 +225,27 @@ function addMenuButtons() {
     Ui.addButtonDivider();
     // also create admin buttons accessible by switching UIs
     createAdminMenu();
+    // add tower upgrade button at bottom
+    addTowerUpgradeButton();
+}
+
+function addTowerUpgradeButton() {
+    // show at bottom
+    Ui.nextFreeX = 0;
+    Ui.nextFreeY = grid.height;
+    SharedUi.towerUpgradeButton = Ui.addTextButton('', function() {
+        this.selected = false; // not a tool, instant deselect
+        if (SharedUi.selectedTower) {
+            var upgradeCost = SharedUi.selectedTower.getUpgradeCost();
+            if (Game.money >= upgradeCost) {
+                Game.money -= upgradeCost;
+                SharedUi.selectedTower.upgrade();
+                this.text = "Upgrade:\n$" + SharedUi.selectedTower.getUpgradeCost();
+            }
+        }
+    });
+    // double tile width
+    SharedUi.towerUpgradeButton.width *= 2;
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -332,6 +373,11 @@ function clickOnGrid(mouseX, mouseY) {
 function selectTowerInTile(tileCoords) {
     var curTower = grid.getFirstTowerAtTile(tileCoords);
     SharedUi.selectedTower = curTower;
+    if (curTower) {
+        SharedUi.towerUpgradeButton.text = 'Upgrade:\n$' + curTower.getUpgradeCost();
+    } else {
+        SharedUi.towerUpgradeButton.text = '';
+    }
 }
 
 // handle mouse over & clicks, preventing multi-select & multi-click

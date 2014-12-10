@@ -20,6 +20,7 @@ function makeTower(gx, gy, imageName, range, coolDown, damage, damagePerLevel) {
     tower.coolDown = coolDown;
     tower.coolDownTimer = 0;
     tower.damage = damage; // sets projectile damage
+    tower.level = 1; // TODO draw level if > 1
     tower.damagePerLevel = damagePerLevel;
     // tower helper functions
     // Returns (gx, gy) for the tile offset relative to tower's tile
@@ -63,10 +64,15 @@ function makeTower(gx, gy, imageName, range, coolDown, damage, damagePerLevel) {
     tower.getAllCoordsInRange = function() {
         return this.getAllCoordsInSquareRange(this.range);
     };
-    // tower functions
+    // tower upgrade
     tower.upgrade = function () {
+        tower.level++;
         tower.damage += tower.damagePerLevel;
     };
+    tower.getUpgradeCost = function() {
+        return Math.floor(Math.pow(tower.level, 1.5)) * 100;
+    };
+    // tower attack
     tower.fire = function () {
         var targetCoords = this.getTargetCoords();
         if (targetCoords) {

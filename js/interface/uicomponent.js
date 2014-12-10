@@ -3,9 +3,6 @@
  * A UI component is a button or text displayed by the HUD or Sidebar.
  */
 
-// TODO implement
-// TODO make sidebar & HUD both use these objects
-
 function makeUiComponent(x, y, width, height) {
     var component = {
         x: x,
@@ -86,6 +83,39 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
     button.image = Images.getImage(imageCategory, imageName);
     button.draw = function(ctx) {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        if (this.selected) {
+            var oldLineWidth = ctx.lineWidth;
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "orange";
+            var off = ctx.lineWidth / 2;
+            ctx.rect(this.x + off, this.y + off, this.width - off*2, this.height - off*2);
+            ctx.stroke();
+            ctx.lineWidth = oldLineWidth;
+        } else if (this.hovered) {
+            ctx.beginPath();
+            ctx.strokeStyle = "yellow";
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    };
+    button.onClickFunction = onClickFunction;
+    return button;
+}
+
+function makeTextButton(x, y, text, fontSize, fontName, style, onClickFunction) {
+    var button = makeUiComponent(x, y, TILE_WIDTH, TILE_HEIGHT);
+    button.text = text;
+    button.style = style;
+    button.draw = function(ctx) {
+        // draw name
+        var maxWidth = SIDEBAR_WIDTH; // TODO constant?
+        var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
+        ctx.font = font;
+        ctx.fillStyle = this.style;
+        //ctx.fillText(this.text, x + 5, y + TILE_HEIGHT * .6); // match clickbox
+        fillMultilineText(ctx, this.text, this.x + 5, this.y + TILE_HEIGHT * .5, maxWidth, fontSize);
+        // draw border
         if (this.selected) {
             var oldLineWidth = ctx.lineWidth;
             ctx.beginPath();
