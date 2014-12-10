@@ -370,7 +370,7 @@ function clickOnGrid(mouseX, mouseY) {
 }
 
 function selectTowerInTile(tileCoords) {
-    var curTower = grid.getFirstTowerAtTile(tileCoords);
+    var curTower = grid.getTileAtCoords(tileCoords).getFirstTower();
     SharedUi.selectedTower = curTower;
     if (curTower) {
         SharedUi.towerUpgradeButton.text = 'Upgrade:\n$' + curTower.getUpgradeCost();
@@ -458,12 +458,27 @@ function highlightHoveredTile(ctx) {
         var actualTile = grid.getTileAtCoords(tileCoords);
         var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
         var strokeStyle;
-        if (actualTile && actualTile.buildable) {
+        if (actualTile.canBuildTower()) {
             strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
         } else {
             strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
         }
         highlightTile(ctx, tileCoords, strokeStyle);
+    }
+}
+
+function drawTowerBuildPreview(ctx) {
+    if (SharedUi.previewTower) {
+        if (SharedUi.curMouseX > 0 && SharedUi.curMouseX < grid.width * TILE_WIDTH && SharedUi.curMouseY > HUD_HEIGHT) {
+            var tileCoords = grid.graphicalToTileCoords(SharedUi.curMouseX, SharedUi.curMouseY);
+            var actualTile = grid.getTileAtCoords(tileCoords);
+            var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
+            SharedUi.previewTower.gx = tileGraphicalCoords.gx;
+            SharedUi.previewTower.gy = tileGraphicalCoords.gy;
+            ctx.globalAlpha = .5;
+            SharedUi.previewTower.draw(ctx);
+            ctx.globalAlpha = 1;
+        }
     }
 }
 
@@ -488,6 +503,7 @@ function drawSidebar(ctx) {
     });
     highlightSelectedTowerTile(ctx);
     highlightHoveredTile(ctx);
+    drawTowerBuildPreview(ctx);
     drawSidebarBorder(ctx);
     SharedUi.draw(ctx);
 }

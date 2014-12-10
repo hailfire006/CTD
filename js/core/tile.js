@@ -21,6 +21,20 @@ function makeTile(buildable, terrain) {
         removeEntity: function(targetEntity) {
             return Utility.removeElementFromArray(this.occupants, targetEntity);
         },
+        // helper functions for grid
+        canBuildTower: function() {
+            return this.buildable && !this.hasTower();
+        },
+        getFirstTower: function() {
+            for (var i = 0; i < this.occupants.length; i++) {
+                if (this.occupants[i].building) { // is building = is tower
+                    return this.occupants[i];
+                }
+            }
+        },
+        hasTower: function() {
+            return !!this.getFirstTower();
+        },
         // drawEntities just delegate draw to contained entity
         drawEntities: function(ctx) {
             this.occupants.forEach(function(entity) {
