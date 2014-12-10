@@ -83,6 +83,7 @@ function makeEnemy(gx, gy, imageName, health, speed) {
         // game difficulty stats at 0, don't multiply by 0
         var healthDamage = ENEMY_HEALTH_DAMAGE_MULTIPLIER * (Game.getDifficulty() + 1);
         Game.loseHealth(healthDamage);
+        Game.enemiesEscaped++;
     };
     enemy.move = function(mod) {
         var dx = this.speed * this.direction.multiplierX;

@@ -45,7 +45,9 @@ var Game = {
         if (!ETERNAL_LIFE) {
             this.lifeTimeSeconds -= healthDamage;
         }
-    }
+    },
+    // Player Session Stats
+    enemiesEscaped: 0
 };
 
 // Game grid is drawn & updated continuously, also used by other js files
