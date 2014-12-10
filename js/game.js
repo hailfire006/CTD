@@ -92,16 +92,16 @@ function clearScreen(ctx) {
     ctx.fillRect(0, TILE_HEIGHT, Game.canvas.width, Game.canvas.height);
 }
 function addFocusListeners() {
-    if (PAUSE_ON_FOCUS_LOSS) {
-        // window focus gained
-        window.addEventListener("focus", function(event) {
-            unpauseGame();
-        }, false);
-        // window focus lost
-        window.addEventListener("blur", function(event) {
+    // window focus gained
+    window.addEventListener("focus", function(event) {
+        unpauseGame();
+    }, false);
+    // window focus lost
+    window.addEventListener("blur", function(event) {
+        if (PAUSE_ON_FOCUS_LOSS) {
             pauseGame();
-        }, false);
-    }
+        }
+    }, false);
 }
 function pauseGame() {
     if (Game.runIntervalId) {
@@ -151,5 +151,6 @@ function startGame() {
     initGrid();
     initSidebar();
     unpauseGame();
+    console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause. Beware of changing tabs with pause off, you will lose!');
 }
 startGame();

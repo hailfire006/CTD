@@ -89,6 +89,8 @@ function makeTower(gx, gy, imageName, damage, coolDown, range) {
             ctx.font = font;
             ctx.fillStyle = "blue";
             ctx.fillText(this.level, this.gx + TILE_WIDTH * .2, this.gy + TILE_HEIGHT * .4);
+            ctx.fillStyle = "white";
+            ctx.strokeText(this.level, this.gx + TILE_WIDTH * .2, this.gy + TILE_HEIGHT * .4);
         }
     };
     // tower attack
@@ -173,7 +175,7 @@ function makeMagicTower(gx,gy) {
     var tower = makeTower(gx,gy,"magicTrick.png", 40, .45, 4, 10);
     tower.boostPerLevel = {
         damage: tower.damage / 8,
-        coolDownMult: .9
+        coolDownMult: .8
     };
     tower.name = "Magic";
     tower.desc = 'Reduces enemy armor';
@@ -200,7 +202,7 @@ function makeSpikyGemTower(gx,gy) {
     var tower = makeTower(gx,gy,"spikyGem.png", 30, .75, 4, 10);
     tower.boostPerLevel = {
         damage: tower.damage,
-        coolDownMult: .85,
+        coolDownMult: .75,
         range: .75
     };
     tower.name = "Gem";
@@ -211,7 +213,7 @@ function makeSpikyGemTower(gx,gy) {
     return tower;
 }
 function makeSpookyTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spookySkull.png", 80, 1, 3);
+    var tower = makeTower(gx,gy,"spookySkull.png", 60, 1, 3);
     tower.boostPerLevel = {
         damage: tower.damage,
         coolDownMult: .75,

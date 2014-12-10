@@ -135,7 +135,7 @@ function makeSpookyProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,speed);
     projectile.additionalEffects = function(enemy) {
         // Spooky Death - Poison damage
-        enemy.regen -= this.damage / 2;
+        enemy.regen -= this.damage;
     };
     return projectile;
 }
