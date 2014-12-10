@@ -158,12 +158,14 @@ function makeGrid(width, height) {
         }
         return removed;
     };
-    grid.spawn = function() {
-        // choose a random spawner
-        var chosenSpawnPoint = Utility.getRandomElementFromArray(this.spawnPoints);
-        if (chosenSpawnPoint) {
-            var spawnGraphicalCoords = this.tileToGraphicalCoords(chosenSpawnPoint.tx, chosenSpawnPoint.ty);
-            this.spawnRandomEnemy(spawnGraphicalCoords.gx, spawnGraphicalCoords.gy);
+    grid.spawn = function(numTimes) {
+        for (var i = 0; i < numTimes; i++) {
+            // choose a random spawner
+            var chosenSpawnPoint = Utility.getRandomElementFromArray(this.spawnPoints);
+            if (chosenSpawnPoint) {
+                var spawnGraphicalCoords = this.tileToGraphicalCoords(chosenSpawnPoint.tx, chosenSpawnPoint.ty);
+                this.spawnRandomEnemy(spawnGraphicalCoords.gx, spawnGraphicalCoords.gy);
+            }
         }
     };
     grid.spawnRandomEnemy = function(gx, gy) {
@@ -366,9 +368,14 @@ function makeGrid(width, height) {
             }
         }
         // spawn enemies
-        if (Utility.percentChance(this.spawnChance)) {
-            this.spawn();
+        // TODO is this the correct way to modify chance? 50% per second split into 5 frames = 10% per frame?
+        var modifiedChance = mod * this.spawnChance;
+        var numSpawns = Math.floor(modifiedChance / 100); // if chance >= 100, can cause multiple spawns
+        modifiedChance %= 100;
+        if (Utility.percentChance(modifiedChance)) {
+            numSpawns++;
         }
+        this.spawn(numSpawns);
     };
     // move all entities in a tile
     grid.updateEntitiesCoordinates = function(tile) {
