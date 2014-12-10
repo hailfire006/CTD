@@ -29,6 +29,15 @@ var Game = {
     // Player Stats
     lifeTimeSeconds: STARTING_HEALTH, // seconds left until game over, the equivalent of life
     money: STARTING_MONEY, // money used to build towers
+    tryToPay: function(cost) {
+        if (this.money >= cost || FREE_TOWERS) {
+            if (!FREE_TOWERS) {
+                this.money -= cost;
+            }
+            return true;
+        }
+        return false;
+    },
     gainHealth: function(healthGain) {
         this.lifeTimeSeconds += healthGain;
     },

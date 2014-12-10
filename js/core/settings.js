@@ -52,7 +52,7 @@ var MONEY_DISPLAY_COLOR = 'yellow';
 
 // DEBUGGING - gameplay
 var ETERNAL_LIFE = false; // prevents lifetime from decrementing
-var FREE_TOWERS = false; // removes cost from towers
+var FREE_TOWERS = false; // removes cost from towers & tower upgrades
 
 // DEBUGGING - code
 var HIGHLIGHT_ENTITY_HITBOXES = true; // entity hitboxes shown in white

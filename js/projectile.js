@@ -86,7 +86,7 @@ function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,speed);
     projectile.additionalEffects = function(enemy) {
         // Melt Armor
-        enemy.armor -= this.damage / 6;
+        enemy.armor -= this.damage / 8;
     };
     return projectile;
 }

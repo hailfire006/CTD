@@ -125,14 +125,15 @@ var SharedUi = {
         var towerToDisplay;
         if (this.selectedTower) {
             towerToDisplay = this.selectedTower;
+            towerInfoPrefix = 'Lv. ' + towerToDisplay.level;
         } else if (this.previewTower) {
             style = 'white';
-            towerInfoPrefix = '($' + TOWER_COST + ')';
             towerToDisplay = this.previewTower;
+            towerInfoPrefix = '($' + TOWER_COST + ')';
         }
         if (towerToDisplay) {
-            var towerInfoText = towerInfoPrefix + '\n'
-                + towerToDisplay.name + '\n'
+            var towerInfoText = towerToDisplay.name + '\n'
+                + towerInfoPrefix + '\n'
                 + towerToDisplay.damage + ' dmg\n'
                 + 'per ' + towerToDisplay.coolDown + ' s\n'
                 + 'range ' + towerToDisplay.range + '\n'
@@ -237,8 +238,7 @@ function addTowerUpgradeButton() {
         this.selected = false; // not a tool, instant deselect
         if (SharedUi.selectedTower) {
             var upgradeCost = SharedUi.selectedTower.getUpgradeCost();
-            if (Game.money >= upgradeCost) {
-                Game.money -= upgradeCost;
+            if (Game.tryToPay(upgradeCost)) {
                 SharedUi.selectedTower.upgrade();
                 this.text = "Upgrade:\n$" + SharedUi.selectedTower.getUpgradeCost();
             }
@@ -262,8 +262,7 @@ function clickOnGrid(mouseX, mouseY) {
             var entity = Ui.makeEntityFunction(gx, gy);
             if (entity.building) { // build tower
                 if (grid.canBuildTowerAt(tileCoords)) {
-                    if (Game.money >= TOWER_COST) {
-                        Game.money -= TOWER_COST;
+                    if (Game.tryToPay(TOWER_COST)) {
                         grid.addEntity(entity);
                     }
                 } else { // select existing tower

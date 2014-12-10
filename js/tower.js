@@ -12,7 +12,7 @@ var Towers = { // Tower listing used to auto-generate hud buttons
     }
 };
 
-function makeTower(gx, gy, imageName, range, coolDown, damage, damagePerLevel) {
+function makeTower(gx, gy, imageName, damage, coolDown, range) {
     var imageCategory = 'tower';
     var tower = makeEntity(gx, gy, imageCategory, imageName);
     tower.building = true;
@@ -21,7 +21,6 @@ function makeTower(gx, gy, imageName, range, coolDown, damage, damagePerLevel) {
     tower.coolDownTimer = 0;
     tower.damage = damage; // sets projectile damage
     tower.level = 1; // TODO draw level if > 1
-    tower.damagePerLevel = damagePerLevel;
     // tower helper functions
     // Returns (gx, gy) for the tile offset relative to tower's tile
     tower.getRelativeTileCoords = function(tileOffsetX, tileOffsetY) {
@@ -67,7 +66,18 @@ function makeTower(gx, gy, imageName, range, coolDown, damage, damagePerLevel) {
     // tower upgrade
     tower.upgrade = function () {
         tower.level++;
-        tower.damage += tower.damagePerLevel;
+        if (this.boostPerLevel.damage) {
+            tower.damage += this.boostPerLevel.damage;
+            tower.damage = Math.round(tower.damage * 100) / 100;
+        }
+        if (this.boostPerLevel.coolDown) {
+            tower.coolDown -= this.boostPerLevel.coolDown;
+            tower.coolDown = Math.round(tower.coolDown * 100) / 100;
+        }
+        if (this.boostPerLevel.range) {
+            tower.range += this.boostPerLevel.range;
+            tower.range = Math.round(tower.range * 100) / 100;
+        }
     };
     tower.getUpgradeCost = function() {
         return Math.floor(Math.pow(tower.level, 1.5)) * 100;
@@ -109,7 +119,11 @@ function makeTower(gx, gy, imageName, range, coolDown, damage, damagePerLevel) {
     return tower;
 }
 function makeFireTower(gx,gy) {
-    var tower = makeTower(gx,gy,"fireball.png", 3, 1, 100, 50);
+    var tower = makeTower(gx,gy,"fireball.png", 100, 1, 3);
+    tower.boostPerLevel = {
+        damage: tower.damage,
+        range: 1
+    };
     tower.name = "Fire";
     tower.desc = '3rd hit on same enemy is aoe';
     tower.makeProjectile = function (gx, gy) {
@@ -118,7 +132,10 @@ function makeFireTower(gx,gy) {
     return tower;
 }
 function makeWaterTower(gx,gy) {
-    var tower = makeTower(gx,gy,"bluefire.png", 1, .1, 10, 10);
+    var tower = makeTower(gx,gy,"bluefire.png", 10, .1, 1);
+    tower.boostPerLevel = {
+        damage: tower.damage
+    };
     tower.name = "Water";
     tower.desc = 'Short ranged, fast firing';
     tower.makeProjectile = function (gx, gy) {
@@ -127,7 +144,12 @@ function makeWaterTower(gx,gy) {
     return tower;
 }
 function makeLightningTower(gx,gy) {
-    var tower = makeTower(gx,gy,"lightningbolt.png",10,5, 1000, 100);
+    var tower = makeTower(gx,gy,"lightningbolt.png",1000,5,10);
+    tower.boostPerLevel = {
+        damage: tower.damage / 2,
+        range: 2,
+        coolDown: .25
+    };
     tower.name = "Lightning";
     tower.desc = 'Long ranged, slow but powerful';
     tower.makeProjectile = function (gx, gy) {
@@ -136,7 +158,10 @@ function makeLightningTower(gx,gy) {
     return tower;
 }
 function makeMagicTower(gx,gy) {
-    var tower = makeTower(gx,gy,"magicTrick.png",4,.45, 30, 10);
+    var tower = makeTower(gx,gy,"magicTrick.png", 40, .45, 4, 10);
+    tower.boostPerLevel = {
+        damage: tower.damage / 8
+    };
     tower.name = "Magic";
     tower.desc = 'Reduces enemy armor';
     tower.makeProjectile = function (gx, gy) {
@@ -145,7 +170,11 @@ function makeMagicTower(gx,gy) {
     return tower;
 }
 function makeKingTower(gx,gy) {
-    var tower = makeTower(gx,gy,"kingCrown.png",7,3, 500, 100);
+    var tower = makeTower(gx,gy,"kingCrown.png", 500, 3, 7);
+    tower.boostPerLevel = {
+        damage: tower.damage / 2,
+        coolDown: .25
+    };
     tower.name = "King";
     tower.desc = 'Poisons, slows, reduces armor';
     tower.makeProjectile = function (gx, gy) {
@@ -154,7 +183,11 @@ function makeKingTower(gx,gy) {
     return tower;
 }
 function makeSpikyGemTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spikyGem.png",4,.75, 30, 10);
+    var tower = makeTower(gx,gy,"spikyGem.png", 30, .75, 4, 10);
+    tower.boostPerLevel = {
+        damage: tower.damage,
+        coolDown: .05
+    };
     tower.name = "Gem";
     tower.desc = 'Slows enemy';
     tower.makeProjectile = function (gx, gy) {
