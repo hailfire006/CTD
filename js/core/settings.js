@@ -7,15 +7,20 @@
 var RUN_INTERVAL = 50; // # ms between game frames
 var PAUSE_ON_FOCUS_LOSS = true; // pause game when in another window/tab?
 
+var MAX_FRAME_TIMESTEP = .2; // in seconds, used to prevent jumping off path & other bugs w/ large timesteps
+
 // GAMEPLAY
 // tile dimensions affect tile size in grid and entity size
 var TILE_WIDTH = 50;
 var TILE_HEIGHT = 50;
 
-var STARTING_HEALTH = 4*60 + 20 + 1; // in seconds
+var STARTING_HEALTH = 4*60 + 20 + .5; // in seconds
 var STARTING_MONEY = 500;
 
-var STARTING_SPAWN_RATE = 3; // out of 100, % chance for an enemy to spawn on any given frame
+var STARTING_PAUSE = 3; // in seconds, how long before game actually starts
+
+var STARTING_SPAWN_RATE = 60; // % chance for an enemy to spawn per second, if >100, can spawn multiple enemies
+var SPAWN_RATE_DELTA = 20; // how much starting spawn rate should change per difficulty
 var INCREASING_DIFFICULTY = true; // whether difficulty should increase over time
 var BOSS_CHANCE = 2; // chance for an enemy spawn to spawn a more powerful version instead
 
