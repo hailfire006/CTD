@@ -97,10 +97,11 @@ var SharedUi = {
             }
         }
     },
-    onSwapUi: function() {
+    afterSwapUi: function() {
         // turn off/on tool overlay based on current selection
         this.onSidebarClick();
         // TODO double swapping should keep all tools & selected towers
+        handleSidebarMouseMove(this.curMouseX, this.curMouseY); // generate mouseover
     },
     // draw text overlay
     textComponents: [],
@@ -404,15 +405,19 @@ function addEventListeners(canvas) {
     canvas.addEventListener('mousemove', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;
         var mouseY = event.pageY - canvas.offsetTop;
-        Ui.buttons.forEach(function(button) {
-            // after one button is moused over, don't mouse over other buttons
-            if (button.tryHover(mouseX, mouseY)) {
-                mouseX = -1;
-                mouseY = -1;
-            }
-        });
-        SharedUi.curMouseX = mouseX;
-        SharedUi.curMouseY = mouseY;
+        handleSidebarMouseMove(mouseX, mouseY);
+    });
+}
+
+function handleSidebarMouseMove(mouseX, mouseY) {
+    SharedUi.curMouseX = mouseX;
+    SharedUi.curMouseY = mouseY;
+    Ui.buttons.forEach(function(button) {
+        // after one button is moused over, don't mouse over other buttons
+        if (button.tryHover(mouseX, mouseY)) {
+            mouseX = -1;
+            mouseY = -1;
+        }
     });
 }
 
@@ -527,8 +532,7 @@ function swapUi() {
     AlternateUi = Ui;
     Ui = savedUi;
     // also deselect any tool
-    SharedUi.onSwapUi();
-    // TODO add mouseover event?
+    SharedUi.afterSwapUi();
 }
 
 function sidebarKeyUp(keyCode) {
