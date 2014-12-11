@@ -108,13 +108,16 @@ function makeTextButton(x, y, text, fontSize, fontName, style, onClickFunction) 
     button.text = text;
     button.style = style;
     button.draw = function(ctx) {
-        // draw name
+        var text = this.text;
+        if (typeof(this.text) === 'function') {
+            text = this.text();
+        }
+        // draw text
         var maxWidth = SIDEBAR_WIDTH; // TODO constant?
         var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
         ctx.font = font;
         ctx.fillStyle = this.style;
-        //ctx.fillText(this.text, x + 5, y + TILE_HEIGHT * .6); // match clickbox
-        fillMultilineText(ctx, this.text, this.x + 5, this.y + TILE_HEIGHT * .5, maxWidth, fontSize);
+        fillMultilineText(ctx, text, this.x + 5, this.y + TILE_HEIGHT * .5, maxWidth, fontSize);
         // draw border
         if (this.selected) {
             var oldLineWidth = ctx.lineWidth;

@@ -85,7 +85,6 @@ var SharedUi = {
         // deselect current tower if tool selected
         if (Ui.currentChoice && this.selectedTower) {
             delete this.selectedTower;
-            this.towerUpgradeButton.text = '';
         }
         // show preview of tower information if build tower tool selected
         if (Ui.currentChoice) {
@@ -101,11 +100,11 @@ var SharedUi = {
     onSwapUi: function() {
         // turn off/on tool overlay based on current selection
         this.onSidebarClick();
+        // TODO double swapping should keep all tools & selected towers
     },
     // draw text overlay
     textComponents: [],
     //towerInfoComponent: // name, stats, description
-    //towerUpgradeButton:
     init: function() {
         var fontSize = 20; //  TODO make constants
         var fontName = 'Arial';
@@ -234,18 +233,24 @@ function addTowerUpgradeButton() {
     // show at bottom
     Ui.nextFreeX = 0;
     Ui.nextFreeY = grid.height;
-    SharedUi.towerUpgradeButton = Ui.addTextButton('', function() {
+    var towerUpgradeText = function() {
+        if (SharedUi.selectedTower) {
+            return "Upgrade:\n$" + SharedUi.selectedTower.getUpgradeCost();
+        } else {
+            return '';
+        }
+    };
+    var towerUpgradeButton = Ui.addTextButton(towerUpgradeText, function() {
         this.selected = false; // not a tool, instant deselect
         if (SharedUi.selectedTower) {
             var upgradeCost = SharedUi.selectedTower.getUpgradeCost();
             if (Game.tryToPay(upgradeCost)) {
                 SharedUi.selectedTower.upgrade();
-                this.text = "Upgrade:\n$" + SharedUi.selectedTower.getUpgradeCost();
             }
         }
     });
     // double tile width
-    SharedUi.towerUpgradeButton.width *= 2;
+    towerUpgradeButton.width *= 2;
 }
 
 function clickOnGrid(mouseX, mouseY) {
@@ -372,11 +377,6 @@ function clickOnGrid(mouseX, mouseY) {
 function selectTowerInTile(tileCoords) {
     var curTower = grid.getTileAtCoords(tileCoords).getFirstTower();
     SharedUi.selectedTower = curTower;
-    if (curTower) {
-        SharedUi.towerUpgradeButton.text = 'Upgrade:\n$' + curTower.getUpgradeCost();
-    } else {
-        SharedUi.towerUpgradeButton.text = '';
-    }
 }
 
 // handle mouse over & clicks, preventing multi-select & multi-click
