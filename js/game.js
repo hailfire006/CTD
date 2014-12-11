@@ -179,7 +179,7 @@ function startGame() {
     initGrid();
     initSidebar();
     draw(); // avoid blank screen if game starts w/o focus
-    playMusic();
+    //playMusic();
     unpauseGame();
     console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause.');
 }
