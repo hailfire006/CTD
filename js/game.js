@@ -23,7 +23,7 @@ var Game = {
     time: Date.now(), // last time run() was called
     timestepOverflow: 0, // how many seconds should be added to the next game step
     startingPauseSeconds: STARTING_PAUSE, // seconds of pause remaining before game starts
-    totalSeconds: 0, // total seconds since game start
+    totalSeconds: 60, // total seconds since game start
     getDifficulty: function() { // difficulty starts from 0
         // increase difficulty every few seconds
         return Math.floor(this.totalSeconds / 30);
@@ -179,7 +179,7 @@ function startGame() {
     initGrid();
     initSidebar();
     draw(); // avoid blank screen if game starts w/o focus
-    playMusic();
+    //playMusic();
     unpauseGame();
     console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause.');
 }
