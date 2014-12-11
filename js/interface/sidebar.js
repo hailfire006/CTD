@@ -416,9 +416,19 @@ function addEventListeners(canvas) {
     });
 }
 
+function deselect() {
+    deselectTower();
+    deselectTool();
+}
+
+function deselectTower() {
+    delete SharedUi.selectedTower;
+}
+
 function deselectTool() {
     delete Ui.currentChoice;
     delete SharedUi.previewTower;
+    unclickButtons();
 }
 
 function unclickButtons() {
@@ -525,6 +535,9 @@ function sidebarKeyUp(keyCode) {
     switch(keyCode) {
         case 16: // shift
         swapUi();
+        break;
+        case 27: // esc
+        deselect();
         break;
     }
 }
