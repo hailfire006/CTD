@@ -23,7 +23,7 @@ var Game = {
     time: Date.now(), // last time run() was called
     timestepOverflow: 0, // how many seconds should be added to the next game step
     startingPauseSeconds: STARTING_PAUSE, // seconds of pause remaining before game starts
-    totalSeconds: 60, // total seconds since game start
+    totalSeconds: 0, // total seconds since game start
     getDifficulty: function() { // difficulty starts from 0
         // increase difficulty every few seconds
         return Math.floor(this.totalSeconds / 30);
