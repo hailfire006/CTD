@@ -249,6 +249,9 @@ function addTowerUpgradeButton() {
             }
         }
     });
+    towerUpgradeButton.isEnabled = function() {
+        return !!SharedUi.selectedTower;
+    };
     // double tile width
     towerUpgradeButton.width *= 2;
 }

@@ -25,11 +25,20 @@ function makeUiComponent(x, y, width, height) {
         onClickFunction: function() {
             // called when clicked
         },
+        isEnabled: function() { // disabled = can't hover/click
+            return true;
+        },
         tryHover: function(mouseX, mouseY) {
+            if (!this.isEnabled()) {
+                return false;
+            }
             this.hovered = this.containsPoint(mouseX, mouseY);
             return this.hovered;
         },
         tryClick: function(mouseX, mouseY) {
+            if (!this.isEnabled()) {
+                return false;
+            }
             this.selected = this.containsPoint(mouseX, mouseY);
             if (this.selected) {
                 this.onClickFunction();
