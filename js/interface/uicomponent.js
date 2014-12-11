@@ -72,17 +72,26 @@ function fillMultilineText(ctx, text, x, y, maxWidth, lineHeight) {
     }
 }
 
-function makeTextComponent(x, y, text, fontSize, fontName, style) {
-    var textComponent = makeUiComponent(x, y); // width & height irrelevant, doesn't handle click/mouseover
+function makeTextComponent(x, y, width, text, fontSize, fontName, style) {
+    // width determines word wrap, height irrelevant, doesn't handle click/mouseover
+    var textComponent = makeUiComponent(x, y, width);
     textComponent.text = text;
     textComponent.style = style;
-    textComponent.draw = function(ctx) {
-        // draw name
-        var maxWidth = SIDEBAR_WIDTH; // TODO constant?
-        var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
-        ctx.font = font;
+    textComponent.getText = function() {
+        if (typeof(this.text) === 'function') {
+            return this.text();
+        }
+        return this.text;
+    };
+    textComponent.drawText = function(ctx, text) {
+        var maxWidth = this.width;
+        ctx.font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
         ctx.fillStyle = this.style;
-        fillMultilineText(ctx, this.text, this.x, this.y, maxWidth, fontSize);
+        fillMultilineText(ctx, text, this.x, this.y, maxWidth, fontSize);
+    };
+    textComponent.draw = function(ctx) {
+        var text = this.getText();
+        this.drawText(ctx, text);
     };
     return textComponent;
 }
@@ -137,9 +146,8 @@ function makeTextButton(x, y, text, fontSize, fontName, style, onClickFunction) 
         return this.text;
     };
     button.drawText = function(ctx, text) {
-        var maxWidth = SIDEBAR_WIDTH; // TODO constant?
-        var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
-        ctx.font = font;
+        var maxWidth = this.width;
+        ctx.font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
         ctx.fillStyle = this.style;
         fillMultilineText(ctx, text, this.x + 5, this.y + TILE_HEIGHT * .5, maxWidth, fontSize);
     };

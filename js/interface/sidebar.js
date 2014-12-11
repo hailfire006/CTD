@@ -32,7 +32,7 @@ var Ui = {
         var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
         var button = makeImageButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
         this.updateFreeSlots();
-        this.components.push(button);
+        this.addComponent(button);
         return button;
     },
     addTextButton: function(text, onClickFunction) {
@@ -44,8 +44,11 @@ var Ui = {
         var button = makeTextButton(sidebarGraphicalX, sidebarGraphicalY, text, fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR, onClickFunction);
         
         this.updateFreeSlots();
-        this.components.push(button);
+        this.addComponent(button);
         return button;
+    },
+    addComponent: function(component) {
+        this.components.push(component);
     },
     addButtonDivider: function() {
         if (this.nextFreeX > 0) {
@@ -106,53 +109,8 @@ var SharedUi = {
     afterSwapUi: function() {
         // turn off/on tool overlay based on current selection
         this.onSidebarClick();
-        // TODO double swapping should keep all tools & selected towers
+        // TODO double swapping shouldn't deselect towers/tools
         handleSidebarMouseMove(this.curMouseX, this.curMouseY); // generate mouseover
-    },
-    // draw text overlay
-    textComponents: [],
-    //towerInfoComponent: // name, stats, description
-    init: function() {
-        var fontSize = 20; //  TODO make constants
-        var fontName = 'Arial';
-        // tower info
-        var startX = grid.width * TILE_WIDTH + 5;
-        var endY = (grid.height / 2) * TILE_HEIGHT;
-        this.towerInfoComponent = makeTextComponent(startX, endY, '', fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR);
-        // add to list
-        this.textComponents.push(this.towerInfoComponent);
-    },
-    draw: function(ctx) {
-        if (!this.towerInfoComponent) {
-            this.init();
-        }
-        var style = 'black';
-        var towerInfoPrefix = '';
-        var towerToDisplay;
-        if (this.selectedTower) {
-            towerToDisplay = this.selectedTower;
-            towerInfoPrefix = 'Lv. ' + towerToDisplay.level;
-        } else if (this.previewTower) {
-            style = 'white';
-            towerToDisplay = this.previewTower;
-            towerInfoPrefix = '($' + TOWER_COST + ')';
-        }
-        if (towerToDisplay) {
-            var towerInfoText = towerToDisplay.name + '\n'
-                + towerInfoPrefix + '\n'
-                + towerToDisplay.damage + ' dmg\n'
-                + 'per ' + towerToDisplay.coolDown + ' s\n'
-                + 'range ' + Math.floor(towerToDisplay.range) + '\n'
-                + '\n'
-                + towerToDisplay.desc;
-            this.towerInfoComponent.text = towerInfoText;
-            this.towerInfoComponent.style = style;
-        } else {
-            this.towerInfoComponent.text = '';
-        }
-        this.textComponents.forEach(function (component) {
-            component.draw(ctx);
-        });
     },
     // highlight current moused-over tile
     curMouseX: -1,
@@ -230,10 +188,56 @@ function addMenuButtons() {
         Ui.addButton('tower', iconName, curEntityFunction);
     }
     Ui.addButtonDivider();
-    // also create admin buttons accessible by switching UIs
-    createAdminMenu();
+    // show tower info when tower selected
+    addTowerInfoDisplay();
     // add tower upgrade button at bottom
     addTowerUpgradeButton();
+    // also create admin buttons accessible by switching UIs
+    createAdminMenu();
+}
+
+
+function addTowerInfoDisplay() {
+    var fontSize = 20; //  TODO make constants
+    var fontName = 'Arial';
+    // tower info
+    var startX = grid.width * TILE_WIDTH + 5;
+    var endY = (grid.height / 2) * TILE_HEIGHT;
+    var width = SIDEBAR_WIDTH;
+    var towerInfoComponent = makeTextComponent(startX, endY, width, '', fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR);
+    // draw function
+    towerInfoComponent.drawButton = function(ctx) {
+        if (this.selectedTower) {
+            this.style = 'black';
+        } else if (this.previewTower) {
+            this.style = 'white';
+        }
+        var text = this.getText();
+        this.drawText(ctx, text);
+    };
+    towerInfoComponent.getText = function() {
+        var towerInfoPrefix = '';
+        var towerToDisplay;
+        if (SharedUi.selectedTower) {
+            towerToDisplay = SharedUi.selectedTower;
+            towerInfoPrefix = 'Lv. ' + towerToDisplay.level;
+        } else if (SharedUi.previewTower) {
+            towerToDisplay = SharedUi.previewTower;
+            towerInfoPrefix = '($' + TOWER_COST + ')';
+        }
+        if (towerToDisplay) {
+            return towerToDisplay.name + '\n'
+                + towerInfoPrefix + '\n'
+                + towerToDisplay.damage + ' dmg\n'
+                + 'per ' + towerToDisplay.coolDown + ' s\n'
+                + 'range ' + Math.floor(towerToDisplay.range) + '\n'
+                + '\n'
+                + towerToDisplay.desc;
+        }
+        return '';
+    };
+    // finally add text display to ui
+    Ui.addComponent(towerInfoComponent);
 }
 
 function addTowerUpgradeButton() {
@@ -537,7 +541,6 @@ function drawSidebar(ctx) {
     clearSidebar(ctx);
     // draw on side bar
     Ui.draw(ctx);
-    SharedUi.draw(ctx);
     drawSidebarBorder(ctx);
     // draw on grid tile
     drawSidebarGridOverlay(ctx);
@@ -581,5 +584,4 @@ function initSidebar() {
     addMenuButtons();
     addEventListeners(Game.canvas);
     addSidebarHotkeys();
-    SharedUi.init();
 }
