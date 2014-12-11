@@ -500,14 +500,15 @@ function highlightHoveredTile(ctx) {
         // Don't forget yOffset when converting mouse graphical coords to grid graphical coords
         var tileCoords = grid.graphicalToTileCoords(SharedUi.curMouseX, SharedUi.curMouseY - grid.drawOffsetY);
         var actualTile = grid.getTileAtCoords(tileCoords);
-        var tileGraphicalCoords = grid.tileToGraphicalCoords(tileCoords.tx, tileCoords.ty);
-        var strokeStyle;
-        if (actualTile.canBuildTower()) {
-            strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
-        } else {
-            strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
+        if (actualTile) {
+            var strokeStyle;
+            if (actualTile.canBuildTower()) {
+                strokeStyle = UI_SELECTED_BUILDABLE_TILE_COLOR;
+            } else {
+                strokeStyle = UI_SELECTED_UNBUILDABLE_TILE_COLOR;
+            }
+            highlightTile(ctx, tileCoords, strokeStyle);
         }
-        highlightTile(ctx, tileCoords, strokeStyle);
     }
 }
 
