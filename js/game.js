@@ -56,6 +56,8 @@ var Game = {
 var grid = makeGrid(Game.getGridWidthInTiles(), Game.getGridHeightInTiles());
 // TODO move grid global into Game namespace, if possible
 
+var audio = new Audio('audio/watching.ogg');
+
 //functions
 function run() {
     // update game state, draw game state, repeat
@@ -125,12 +127,14 @@ function pauseGame() {
     if (Game.runIntervalId) {
         clearInterval(Game.runIntervalId);
         delete Game.runIntervalId;
+        pauseMusic();
     }
 }
 function unpauseGame() {
     if (!Game.runIntervalId) {
         Game.time = Date.now(); // avoid queueing up update
         Game.runIntervalId = setInterval(run, RUN_INTERVAL);
+        playMusic();
     }
 }
 function updateDifficulty() {
@@ -164,11 +168,18 @@ function loadGrid() {
 function initGrid() {
     resetGame();
 }
+function playMusic() {
+    audio.play();
+}
+function pauseMusic() {
+    audio.pause();
+}
 function startGame() {
     addFocusListeners();
     initGrid();
     initSidebar();
     draw(); // avoid blank screen if game starts w/o focus
+    playMusic();
     unpauseGame();
     console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause.');
 }
