@@ -96,20 +96,23 @@ var SharedUi = {
             delete this.selectedTower;
         }
         // show preview of tower information if build tower tool selected
+        var isBuildingTool = false;
         if (Ui.currentChoice) {
             var entity = Ui.makeEntityFunction(-1, -1);
             if (entity) {
-                var isBuildingTool = entity.building;
+                isBuildingTool = entity.building;
                 if (isBuildingTool) {
                     this.previewTower = entity;
                 }
-            }
+            } // TODO preview enemy?
+        }
+        if (!isBuildingTool) {
+            delete this.previewTower;
         }
     },
     afterSwapUi: function() {
         // turn off/on tool overlay based on current selection
         this.onSidebarClick();
-        // TODO double swapping shouldn't deselect towers/tools
         handleSidebarMouseMove(this.curMouseX, this.curMouseY); // generate mouseover
     },
     // highlight current moused-over tile
