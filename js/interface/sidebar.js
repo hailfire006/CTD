@@ -7,9 +7,15 @@
 
 // Variables inside Ui variable to avoid name collisions
 var Ui = {
-    buttons: [],
+    components: [],
     // currentChoice:
     makeEntityFunction: function(gx, gy) { }, // build tower/add enemy function
+    // handle components
+    draw: function(ctx) {
+        Ui.components.forEach(function(component) {
+            component.draw(ctx);
+        });
+    },
     // Button adding
     nextFreeX: 0,
     nextFreeY: 0,
@@ -24,9 +30,9 @@ var Ui = {
     addButton: function(imageCategory, imageName, onClickFunction) {
         var sidebarGraphicalX = (grid.width + this.nextFreeX) * TILE_WIDTH;
         var sidebarGraphicalY = this.nextFreeY * TILE_HEIGHT;
-        var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
+        var button = makeImageButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, onClickFunction);
         this.updateFreeSlots();
-        this.buttons.push(button);
+        this.components.push(button);
         return button;
     },
     addTextButton: function(text, onClickFunction) {
@@ -38,7 +44,7 @@ var Ui = {
         var button = makeTextButton(sidebarGraphicalX, sidebarGraphicalY, text, fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR, onClickFunction);
         
         this.updateFreeSlots();
-        this.buttons.push(button);
+        this.components.push(button);
         return button;
     },
     addButtonDivider: function() {
@@ -160,8 +166,8 @@ var SharedUi = {
 function addMenuButton(sidebarTileX, sidebarTileY, imageCategory, imageName, callback) {
     var sidebarGraphicalX = (grid.width + sidebarTileX) * TILE_WIDTH;
     var sidebarGraphicalY = sidebarTileY * TILE_HEIGHT;
-    var button = makeButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, callback);
-    Ui.buttons.push(button);
+    var button = makeImageButton(sidebarGraphicalX, sidebarGraphicalY, imageCategory, imageName, callback);
+    Ui.components.push(button);
 }
 
 // make(makeEntityFunction)Function - because local variable scoping is weird in Javascript
@@ -388,19 +394,7 @@ function addEventListeners(canvas) {
     canvas.addEventListener('click', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;
         var mouseY = event.pageY - canvas.offsetTop;
-        if (mouseX > grid.width * TILE_WIDTH) {
-            deselectTool();
-            Ui.buttons.forEach(function(button) {
-                // after one button is clicked, don't click other buttons
-                if (button.tryClick(mouseX, mouseY)) {
-                    mouseX = -1;
-                    mouseY = -1;
-                }
-            });
-            SharedUi.onSidebarClick();
-        } else if (mouseY > HUD_HEIGHT) {
-            clickOnGrid(mouseX, mouseY);
-        }
+        handleSidebarMouseClick(mouseX, mouseY);
     });
     canvas.addEventListener('mousemove', function(event) {
         var mouseX = event.pageX - canvas.offsetLeft;
@@ -409,14 +403,36 @@ function addEventListeners(canvas) {
     });
 }
 
+function handleSidebarMouseClick(mouseX, mouseY) {
+    if (mouseX > grid.width * TILE_WIDTH) {
+        deselectTool();
+        Ui.components.forEach(function(button) {
+            var isClickable = !!button.tryClick;
+            if (isClickable) {
+                // after one button is clicked, don't click other buttons
+                if (button.tryClick(mouseX, mouseY)) {
+                    mouseX = -1;
+                    mouseY = -1;
+                }
+            }
+        });
+        SharedUi.onSidebarClick();
+    } else if (mouseY > HUD_HEIGHT) {
+        clickOnGrid(mouseX, mouseY);
+    }
+}
+
 function handleSidebarMouseMove(mouseX, mouseY) {
     SharedUi.curMouseX = mouseX;
     SharedUi.curMouseY = mouseY;
-    Ui.buttons.forEach(function(button) {
-        // after one button is moused over, don't mouse over other buttons
-        if (button.tryHover(mouseX, mouseY)) {
-            mouseX = -1;
-            mouseY = -1;
+    Ui.components.forEach(function(button) {
+        var isHoverable = !!button.tryHover;
+        if (isHoverable) {
+            // after one button is moused over, don't mouse over other buttons
+            if (button.tryHover(mouseX, mouseY)) {
+                mouseX = -1;
+                mouseY = -1;
+            }
         }
     });
 }
@@ -439,8 +455,11 @@ function deselectTool() {
 function unclickButtons() {
     var mouseX = -1;
     var mouseY = -1;
-    Ui.buttons.forEach(function(button) {
-        button.tryClick(mouseX, mouseY);
+    Ui.components.forEach(function(button) {
+        var isClickable = !!button.tryClick;
+        if (isClickable) {
+            button.tryClick(mouseX, mouseY);
+        }
     });
 }
 
@@ -516,14 +535,18 @@ function drawSidebarBorder(ctx) {
 
 function drawSidebar(ctx) {
     clearSidebar(ctx);
-    Ui.buttons.forEach(function(button) {
-        button.draw(ctx);
-    });
+    // draw on side bar
+    Ui.draw(ctx);
+    SharedUi.draw(ctx);
+    drawSidebarBorder(ctx);
+    // draw on grid tile
+    drawSidebarGridOverlay(ctx);
+}
+
+function drawSidebarGridOverlay(ctx) {
     highlightSelectedTowerTile(ctx);
     highlightHoveredTile(ctx);
     drawTowerBuildPreview(ctx);
-    drawSidebarBorder(ctx);
-    SharedUi.draw(ctx);
 }
 
 function swapUi() {

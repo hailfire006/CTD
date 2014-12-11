@@ -87,11 +87,11 @@ function makeTextComponent(x, y, text, fontSize, fontName, style) {
     return textComponent;
 }
 
-function makeButton(x, y, imageCategory, imageName, onClickFunction) {
+function makeButton(x, y, onClickFunction) {
     var button = makeUiComponent(x, y, TILE_WIDTH, TILE_HEIGHT);
-    button.image = Images.getImage(imageCategory, imageName);
-    button.draw = function(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    button.drawButton = function() {
+    };
+    button.drawBorder = function(ctx) {
         if (this.selected) {
             var oldLineWidth = ctx.lineWidth;
             ctx.beginPath();
@@ -108,41 +108,44 @@ function makeButton(x, y, imageCategory, imageName, onClickFunction) {
             ctx.stroke();
         }
     };
+    button.draw = function(ctx) {
+        this.drawButton(ctx);
+        this.drawBorder(ctx);
+    };
+    button.onClickFunction = onClickFunction;
+    return button;
+}
+
+function makeImageButton(x, y, imageCategory, imageName, onClickFunction) {
+    var button = makeButton(x, y, onClickFunction);
+    button.image = Images.getImage(imageCategory, imageName);
+    button.drawButton = function(ctx) {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    };
     button.onClickFunction = onClickFunction;
     return button;
 }
 
 function makeTextButton(x, y, text, fontSize, fontName, style, onClickFunction) {
-    var button = makeUiComponent(x, y, TILE_WIDTH, TILE_HEIGHT);
+    var button = makeButton(x, y, onClickFunction);
     button.text = text;
     button.style = style;
-    button.draw = function(ctx) {
-        var text = this.text;
+    button.getText = function() {
         if (typeof(this.text) === 'function') {
-            text = this.text();
+            return this.text();
         }
-        // draw text
+        return this.text;
+    };
+    button.drawText = function(ctx, text) {
         var maxWidth = SIDEBAR_WIDTH; // TODO constant?
         var font = fontSize + 'px ' + fontName; // Ex: (20, 'Arial') -> '20px Arial'
         ctx.font = font;
         ctx.fillStyle = this.style;
         fillMultilineText(ctx, text, this.x + 5, this.y + TILE_HEIGHT * .5, maxWidth, fontSize);
-        // draw border
-        if (this.selected) {
-            var oldLineWidth = ctx.lineWidth;
-            ctx.beginPath();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "orange";
-            var off = ctx.lineWidth / 2;
-            ctx.rect(this.x + off, this.y + off, this.width - off*2, this.height - off*2);
-            ctx.stroke();
-            ctx.lineWidth = oldLineWidth;
-        } else if (this.hovered) {
-            ctx.beginPath();
-            ctx.strokeStyle = "yellow";
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
+    };
+    button.drawButton = function(ctx) {
+        var text = this.getText();
+        this.drawText(ctx, text);
     };
     button.onClickFunction = onClickFunction;
     return button;
