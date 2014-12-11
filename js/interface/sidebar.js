@@ -209,16 +209,16 @@ function addTowerInfoDisplay() {
     var width = SIDEBAR_WIDTH;
     var towerInfoComponent = makeTextComponent(startX, endY, width, '', fontSize, fontName, UI_TOWER_INFO_TEXT_COLOR);
     // draw function
-    towerInfoComponent.drawButton = function(ctx) {
-        if (this.selectedTower) {
-            this.style = 'black';
-        } else if (this.previewTower) {
-            this.style = 'white';
+    towerInfoComponent.draw = function(ctx) {
+        if (SharedUi.selectedTower) {
+            this.style = UI_TOWER_INFO_TEXT_COLOR;
+        } else if (SharedUi.previewTower) {
+            this.style = UI_TOWER_PREVIEW_TEXT_COLOR;
         }
         var text = this.getText();
         this.drawText(ctx, text);
     };
-    towerInfoComponent.getText = function() {
+    towerInfoComponent.text = function() {
         var towerInfoPrefix = '';
         var towerToDisplay;
         if (SharedUi.selectedTower) {
@@ -263,6 +263,7 @@ function addTowerUpgradeButton() {
             }
         }
     });
+    towerUpgradeButton.style = UI_TOWER_INFO_TEXT_COLOR;
     towerUpgradeButton.isEnabled = function() {
         return !!SharedUi.selectedTower;
     };
@@ -491,7 +492,7 @@ function highlightTile(ctx, tileCoords, strokeStyle) {
 function highlightSelectedTowerTile(ctx) {
     if (SharedUi.selectedTower) {
         var towerTileCoords = SharedUi.selectedTower.getCurrentTileCoords();
-        highlightTile(ctx, towerTileCoords, UI_SELECTED_TOWER_COLOR);
+        highlightTile(ctx, towerTileCoords, UI_SELECTED_TOWER_TILE_COLOR);
     }
 }
 
