@@ -169,10 +169,14 @@ function initGrid() {
     resetGame();
 }
 function playMusic() {
-    audio.play();
+    if (audio) {
+        audio.play();
+    }
 }
 function pauseMusic() {
-    audio.pause();
+    if (audio) {
+        audio.pause();
+    }
 }
 function startGame() {
     addFocusListeners();
