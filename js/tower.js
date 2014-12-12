@@ -134,7 +134,7 @@ function makeFireTower(gx,gy) {
     tower.boostPerLevel = {
         damage: tower.damage,
         coolDownMult: .75,
-        range: 1
+        range: .75
     };
     tower.name = "Fire";
     tower.desc = '3rd hit on same enemy is aoe';
@@ -144,10 +144,10 @@ function makeFireTower(gx,gy) {
     return tower;
 }
 function makeWaterTower(gx,gy) {
-    var tower = makeTower(gx,gy,"bluefire.png", 10, .1, 1);
+    var tower = makeTower(gx,gy,"bluefire.png", 15, .1, 1);
     tower.boostPerLevel = {
         damage: tower.damage,
-        coolDownMult: .9,
+        coolDownMult: .7,
         range: .25
     };
     tower.name = "Water";
@@ -172,10 +172,11 @@ function makeLightningTower(gx,gy) {
     return tower;
 }
 function makeMagicTower(gx,gy) {
-    var tower = makeTower(gx,gy,"magicTrick.png", 40, .45, 4, 10);
+    var tower = makeTower(gx,gy,"magicTrick.png", 40, .45, 3);
     tower.boostPerLevel = {
         damage: tower.damage / 8,
-        coolDownMult: .8
+        coolDownMult: .8,
+        range: .5
     };
     tower.name = "Magic";
     tower.desc = 'Reduces enemy armor';
@@ -188,7 +189,7 @@ function makeKingTower(gx,gy) {
     var tower = makeTower(gx,gy,"kingCrown.png", 500, 3, 7);
     tower.boostPerLevel = {
         damage: tower.damage / 2,
-        coolDownMult: .7,
+        coolDownMult: .65,
         range: 1.5
     };
     tower.name = "King";
@@ -199,11 +200,11 @@ function makeKingTower(gx,gy) {
     return tower;
 }
 function makeSpikyGemTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spikyGem.png", 30, .75, 4, 10);
+    var tower = makeTower(gx,gy,"spikyGem.png", 30, .75, 2);
     tower.boostPerLevel = {
         damage: tower.damage,
-        coolDownMult: .75,
-        range: .7
+        coolDownMult: .7,
+        range: .5
     };
     tower.name = "Gem";
     tower.desc = 'Slows enemy';
@@ -213,10 +214,10 @@ function makeSpikyGemTower(gx,gy) {
     return tower;
 }
 function makeSpookyTower(gx,gy) {
-    var tower = makeTower(gx,gy,"spookySkull.png", 60, 1, 3);
+    var tower = makeTower(gx,gy,"spookySkull.png", 75, .75, 3);
     tower.boostPerLevel = {
         damage: tower.damage,
-        coolDownMult: .75,
+        coolDownMult: .7,
         range: .75
     };
     tower.name = "Spooky";
