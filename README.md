@@ -91,3 +91,8 @@ The game contains a grid, which contain tiles with terrain. Each tile is at a pa
 ![Image of a 800x600 green rectangle, with grass tiles and grid outline](/readme-images/enemy.png?raw=true)
 The tiles also contain entities, such as this glarefish enemy. Entities have their own coordinates (gx, gy) representing their top-left corner.  
 An entity's (gx, gy) coordinates are mapped to a (tx, ty) by the grid, in this case, the red border indicates the tile the entity belongs to.
+
+Game Screenshots
+======================
+![Screenshot of game with a few towers placed and enemies spawned, showcasing basic interface.](/readme-images/countdown-td_1.png?raw=true)
+![Screenshot of game with maximum towers placed and all towers upgraded several levels, and enemies filling up all paths.](/readme-images/countdown-td_2.png?raw=true)
