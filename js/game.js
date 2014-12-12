@@ -56,7 +56,7 @@ var Game = {
 var grid = makeGrid(Game.getGridWidthInTiles(), Game.getGridHeightInTiles());
 // TODO move grid global into Game namespace, if possible
 
-var audio = new Audio('audio/watching.ogg');
+var audio;
 
 //functions
 function run() {
@@ -179,7 +179,7 @@ function startGame() {
     initGrid();
     initSidebar();
     draw(); // avoid blank screen if game starts w/o focus
-    //playMusic();
+    //audio = new Audio('audio/watching.ogg');
     unpauseGame();
     console.log('Type \"PAUSE_ON_FOCUS_LOSS = false\" without quotes to disable auto-pause.');
 }
