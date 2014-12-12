@@ -86,7 +86,7 @@ function makeMagicProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,speed);
     projectile.additionalEffects = function(enemy) {
         // Melt Armor
-        enemy.armor -= this.damage / 8;
+        enemy.armor -= this.damage / 5;
     };
     return projectile;
 }
@@ -120,7 +120,7 @@ function makeSpikyGemProjectile(tower,targetx,targety) {
     var projectile = makeProjectile(tower,targetx,targety,imageName,speed);
     projectile.additionalEffects = function(enemy) {
         // Crystallize - Slows enemy
-        var speedMultiplier = .8;
+        var speedMultiplier = 1 - Math.min(this.damage, .9);
         var minSpeed = 10;
         var newSpeed = Math.floor(enemy.speed * speedMultiplier);
         if (enemy.speed > minSpeed) {
