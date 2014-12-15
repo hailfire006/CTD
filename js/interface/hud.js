@@ -69,7 +69,7 @@ function drawDifficulty(ctx) {
 }
 
 function drawMoney(ctx) {
-    var startX = TILE_WIDTH * 10;
+    var startX = TILE_WIDTH * 11;
     var endY = TILE_HEIGHT - 8;
     ctx.font = "50px Arial";
     ctx.fillStyle = MONEY_DISPLAY_COLOR;
